@@ -2,26 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer components {
+  .nav-items {
+    @apply rounded-md p-1 w-10 ml-3 mr-2 flex justify-center text-2xl	 
+    hover:shadow-md hover:scale-125 hover:bg-[#C0272D] 
+    transition-all ease-in-out duration-300;
   }
-}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  .search-button {
+    @apply rounded-md w-8 ml-2 mr-2 flex 
+     justify-center text-3xl text-[#C0272D]
+      transition-all ease-out duration-150;
+  }
+
+  /* .search-input-container {
+    @apply flex justify-start items-center ;
+  }
+
+  .search-input {
+    @apply w-24 text-black ease-in-out duration-500;
+  } */
 }

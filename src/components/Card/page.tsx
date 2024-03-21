@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const Card = () => {
+const Card: React.FC = () => {
   return (
     <div className="h-72 w-56 border-black border-2 rounded-md">
       {/* <Image

@@ -1,11 +1,12 @@
 "use client";
 
 import { BiSearchAlt, BiHomeAlt2 } from "react-icons/bi";
+import { FaPlus } from "react-icons/fa6";
 
 import Link from "next/link";
 import { useState } from "react";
 
-const NavBar = () => {
+const NavBar: React.FC  = () => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const searchClick = () => {
     setIsClicked(!isClicked);
@@ -41,6 +42,10 @@ const NavBar = () => {
           <BiSearchAlt />
         </button>
       </div>
+
+      <Link href={"/create-recipe"} className="nav-items">
+        <FaPlus />
+      </Link>
     </nav>
   );
 };

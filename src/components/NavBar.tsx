@@ -34,7 +34,9 @@ const NavBar = () => {
         />
         <button
           className={`${!isClicked ? "nav-items" : "search-button"}`}
-          onClick={() => searchClick()}
+          onClick={() => {
+            searchClick();
+          }}
         >
           <BiSearchAlt />
         </button>

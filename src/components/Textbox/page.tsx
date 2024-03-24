@@ -57,18 +57,10 @@ const Textbox: React.FC<TextboxProps> = (props) => {
           className={`h-full w-full rounded-md border-2 px-3 py-2 focus:outline-none
           ${
             errorMode
-              ? "border-duoRed-default bg-duoRed-lighter text-duoRed-darker"
-              : "textarea-dark-placeholder bg-duoGray-lighter dark:border-duoGrayDark-light dark:bg-duoGrayDark-dark"
-            // : 'bg-duoGray-lighter dark:border-duoGrayDark-light dark:bg-duoGrayDark-dark'
+              ? "border-red-700 bg-red-300 text-red-600"
+              : "textarea-dark-placeholder border-recipeGray-darker text-recipeGray-dark"
           }
           `}
-          //   ${
-          //     isEditMode
-          //       ? prevData !== propsVal
-          //         ? 'max-h-32 min-h-[2.5rem] border-duoRed-light text-duoRed-default'
-          //         : 'max-h-32 min-h-[2.5rem]'
-          //       : 'h-[6rem] 3xl:h-[10rem]'
-          //   }
           placeholder={placeHolder}
         />
       </div>

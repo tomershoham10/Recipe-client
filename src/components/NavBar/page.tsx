@@ -6,14 +6,14 @@ import { FaPlus } from "react-icons/fa6";
 import Link from "next/link";
 import { useState } from "react";
 
-const NavBar: React.FC  = () => {
+const NavBar: React.FC = () => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const searchClick = () => {
     setIsClicked(!isClicked);
     console.log(isClicked);
   };
   return (
-    <nav className="bg-[#98AB85] pl-2 pr-2 flex justify-start items-center text-white h-16 max-h-16">
+    <nav className="bg-recipeGreen-default pl-2 pr-2 flex justify-start items-center text-recipeGray-lightest h-16 max-h-16">
       <Link href={"/"} className="nav-items">
         <BiHomeAlt2 />
       </Link>
@@ -30,7 +30,7 @@ const NavBar: React.FC  = () => {
           className={`${
             !isClicked
               ? "invisible bg-transparent max-w-none w-0 transition-all ease-in duration-700 outline-none"
-              : "w-24 bg-transparent text-[#5A4A42] transition-all ease-in-out duration-700 outline-none"
+              : "w-24 bg-transparent text-recipeGray-dark transition-all ease-in-out duration-700 outline-none"
           }`}
         />
         <button

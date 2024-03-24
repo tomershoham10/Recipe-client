@@ -1,5 +1,10 @@
 {
-    "Index": {
-      "title": "שלום!"
-    }
+  "createRecipe": {
+    "createRecipe": "צור מתכון",
+    "addRecipeName": "הוסף שם מתכון",
+    "addRecipeDescription": "הוסף תיאור",
+    "chooseRecipeCategory": "בחר קטגוריה",
+    "uploadRecipePictue": "העלה תמונה",
+    "addRecipeIngredients": "הוסף מצרכים"
   }
+}

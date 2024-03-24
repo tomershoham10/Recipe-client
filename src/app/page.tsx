@@ -1,7 +1,6 @@
 import Card from "@/components/Card/page";
 
-export default function Home() {
-  
+function Home() {
   return (
     <div>
       <h1>home</h1>
@@ -9,3 +8,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;

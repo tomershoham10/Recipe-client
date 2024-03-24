@@ -1,4 +1,8 @@
+const createNextIntlPlugin = require('next-intl/plugin');
+const withNextIntl = createNextIntlPlugin();
+
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
     typescript: {
         // !! WARN !!
@@ -7,10 +11,10 @@ const nextConfig = {
         // !! WARN !!
         ignoreBuildErrors: true,
     },
-    i18n: {
-        locales: ['he'],
-        defaultLocale: 'he',
-    },
+    // i18n: {
+    //     locales: ['he'],
+    //     defaultLocale: 'he',
+    // },
     async headers() {
         return [
             {
@@ -40,4 +44,4 @@ const nextConfig = {
     }
 }
 
-module.exports = nextConfig
+module.exports = withNextIntl(nextConfig);

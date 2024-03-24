@@ -58,7 +58,7 @@ const Textbox: React.FC<TextboxProps> = (props) => {
           ${
             errorMode
               ? "border-red-700 bg-red-300 text-red-600"
-              : "textarea-dark-placeholder border-recipeGray-darker text-recipeGray-dark"
+              : "textarea-dark-placeholder border-recipeGray-darker"
           }
           `}
           placeholder={placeHolder}

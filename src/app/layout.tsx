@@ -21,7 +21,7 @@ export default function RootLayout({
         className={`${assistant.className} text-[#5A4A42]`}
       >
         <NavBar />
-        <section className="p-6 text-recipeGray-dark">{children}</section>
+        <section className="p-6 text-recipeGray-darker">{children}</section>
       </body>
     </html>
   );

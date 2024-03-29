@@ -1,5 +1,6 @@
 "use client";
 import Dropdown, { DropdownSizes } from "@/components/Dropdown/page";
+import Dropzone from "@/components/Dropzone/page";
 import Input, { InputTypes } from "@/components/Input/page";
 import Textbox, { FontSizes } from "@/components/Textbox/page";
 import { pick } from "lodash";
@@ -52,6 +53,7 @@ export default function Index() {
       </div>
       <p className="text-2xl font-semibold">{t("addRecipeIngredients")}:</p>
       <p className="text-2xl font-semibold">{t("uploadRecipePictue")}:</p>
+      <Dropzone />
       {/* </NextIntlClientProvider> */}
     </>
   );

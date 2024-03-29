@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Assistant } from "next/font/google";
 import NavBar from "@/components/NavBar/page";
+import CreateNewIngredient from "./_popups/CreateNewIngredient/page";
 
 const assistant = Assistant({ subsets: ["latin"] });
 
@@ -20,6 +21,7 @@ export default function RootLayout({
         suppressHydrationWarning={true}
         className={`${assistant.className} text-[#5A4A42]`}
       >
+        <CreateNewIngredient />
         <NavBar />
         <section className="p-6 text-recipeGray-darker">{children}</section>
       </body>

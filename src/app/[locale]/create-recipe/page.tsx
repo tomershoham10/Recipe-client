@@ -5,13 +5,13 @@ import Input, { InputTypes } from "@/components/Input/page";
 import Textbox, { FontSizes } from "@/components/Textbox/page";
 import { pick } from "lodash";
 import {
-  NextIntlClientProvider,
-  useMessages,
+  // NextIntlClientProvider,
+  // useMessages,
   useTranslations,
 } from "next-intl";
 
 export default function Index() {
-  const messages = useMessages();
+  // const messages = useMessages();
   const t = useTranslations("createRecipe");
   return (
     <>
@@ -53,7 +53,7 @@ export default function Index() {
       </div>
       <p className="text-2xl font-semibold">{t("addRecipeIngredients")}:</p>
       <p className="text-2xl font-semibold">{t("uploadRecipePictue")}:</p>
-      <Dropzone />
+      <Dropzone className="" />
       {/* </NextIntlClientProvider> */}
     </>
   );

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -9,15 +9,31 @@ import Input, { InputTypes } from "@/components/Input/page";
 import useStore from "@/app/store/useStore";
 import { PopupsTypes, usePopupStore } from "@/app/store/stores/usePopupStore";
 import { createIngredient } from "@/app/API/recipe-service/functions";
+import {
+  newIngredientAction,
+  newIngredientReducer,
+} from "@/reducers/popups/createIngredientReducer";
+import { useTranslations } from "next-intl";
+import Dropdown, { DropdownSizes } from "@/components/Dropdown/page";
 
 library.add(faXmark);
 
 const CreateNewIngredient: React.FC = () => {
+  const tIng = useTranslations("createIngredient");
+  const tButtons = useTranslations("buttons");
   const selectedPopup = useStore(usePopupStore, (state) => state.selectedPopup);
   const updateSelectedPopup = usePopupStore.getState().updateSelectedPopup;
 
-  const [ingredientName, setIngredientName] = useState<string | undefined>(
-    undefined
+  const initialIngredientState = {
+    name: undefined,
+    averagedPrice: 0,
+    categories: [],
+    whereToFind: [],
+  };
+
+  const [newIngredientState, newIngredientDispatch] = useReducer(
+    newIngredientReducer,
+    initialIngredientState
   );
 
   const createCourseHandle = async (courseName: string) => {
@@ -69,25 +85,68 @@ const CreateNewIngredient: React.FC = () => {
           grid-cols-4 grid-rows-3 flex-col items-center justify-center"
           >
             <p className=" col-span-4 flex flex-none items-center justify-center text-2xl font-extrabold text-duoGray-darkest dark:text-duoGrayDark-lightest">
-              CREATE NEW COURSE
+              {tIng("createIngredient")}
             </p>
 
-            <p className="col-span-1 flex-none text-lg font-bold text-duoGray-darkest dark:text-duoGrayDark-lightest">
-              Course Name:
-            </p>
+            <div>
+              <p className="col-span-1 flex-none text-lg font-bold text-duoGray-darkest dark:text-duoGrayDark-lightest">
+                {tIng("ingredientName")}
+              </p>
 
-            <div className="col-span-3 mx-4 flex flex-none flex-col items-center justify-center">
-              <Input
-                type={InputTypes.text}
-                placeholder={"Course Name"}
-                value={ingredientName}
-                onChange={(value: string) => setIngredientName(value)}
-                // failed={isFailed ? true : false}
-              />
+              <div className="col-span-3 mx-4 flex flex-none flex-col items-center justify-center">
+                <Input
+                  type={InputTypes.text}
+                  placeholder={"Course Name"}
+                  value={newIngredientState.name}
+                  onChange={(value: string) =>
+                    newIngredientDispatch({
+                      type: newIngredientAction.SET_INGREDIENT_NAME,
+                      payload: value,
+                    })
+                  }
+                  // failed={isFailed ? true : false}
+                />
+              </div>
             </div>
 
+            <div>
+              <p className="col-span-1 flex-none text-lg font-bold text-duoGray-darkest dark:text-duoGrayDark-lightest">
+                {tIng("addPrice")}
+              </p>
+
+              <div className="col-span-3 mx-4 flex flex-none flex-col items-center justify-center">
+                <Input
+                  type={InputTypes.text}
+                  placeholder={"Course Name"}
+                  value={newIngredientState.name}
+                  onChange={(value: string) =>
+                    newIngredientDispatch({
+                      type: newIngredientAction.SET_INGREDIENT_NAME,
+                      payload: value,
+                    })
+                  }
+                  // failed={isFailed ? true : false}
+                />
+              </div>
+            </div>
+
+            <div>
+              <p className="col-span-1 flex-none text-lg font-bold text-duoGray-darkest dark:text-duoGrayDark-lightest">
+                {tIng("addCategory")}
+              </p>
+
+              <div className="col-span-3 mx-4 flex flex-none flex-col items-center justify-center">
+                <Dropdown
+                  isSearchable={false}
+                  placeholder={""}
+                  items={[]}
+                  onChange={() => {}}
+                  size={DropdownSizes.SMALL}
+                />
+              </div>
+            </div>
             <div className="col-span-2 col-start-2 mt-2 flex-none justify-center">
-              create
+              {tButtons("create")}
             </div>
           </div>
         </div>

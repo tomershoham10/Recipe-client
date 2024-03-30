@@ -1,3 +1,4 @@
+import CreateNewIngredient from "@/app/_popups/CreateNewIngredient/page";
 import { NextIntlClientProvider, useMessages } from "next-intl";
 
 export default function LocaleLayout({
@@ -14,7 +15,8 @@ export default function LocaleLayout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      {children}
+        <CreateNewIngredient />
+        {children}
     </NextIntlClientProvider>
   );
 }

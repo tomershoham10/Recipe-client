@@ -21,7 +21,7 @@ export default function RootLayout({
         suppressHydrationWarning={true}
         className={`${assistant.className} text-[#5A4A42]`}
       >
-        <CreateNewIngredient />
+        {/* <CreateNewIngredient /> */}
         <NavBar />
         <section className="p-6 text-recipeGray-darker">{children}</section>
       </body>

@@ -1,20 +1,19 @@
-"use client";
-import { useState, useEffect, useRef } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import useClickOutside from "@/app/utils/hooks/useClickOutside";
+'use client';
+import { useState, useEffect, useRef } from 'react';
+import useClickOutside from '@/app/utils/hooks/useClickOutside';
+import { FaChevronDown } from 'react-icons/fa';
 
 export enum DropdownSizes {
-  SMALL = "small",
-  DEFAULT = "default",
-  LARGE = "large",
+  SMALL = 'small',
+  DEFAULT = 'default',
+  LARGE = 'large',
 }
 
 const Dropdown: React.FC<DropdownProps> = (props: DropdownProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [maxHight, setMaxHight] = useState<string>(props.size);
   const [selectedValue, setSelectedValue] = useState<string | undefined>(
-    props.value?.toString() || ""
+    props.value?.toString() || ''
   );
   const [dropdownItems, setDropdownItems] = useState<string[]>(props.items);
   //   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -70,39 +69,35 @@ const Dropdown: React.FC<DropdownProps> = (props: DropdownProps) => {
   return (
     <div ref={dropdownRef} className={`relative ${props.className} w-full`}>
       <div
-        className={`flex h-10 w-full items-center justify-between rounded-xl border-2 font-bold uppercase md:h-12 lg:h-14
-   ${
-     props.isDisabled
-       ? "cursor-default border-recipeGray-darker p-3 opacity-50"
-       : isFailed
-       ? "cursor-pointer border-red-700 bg-red-300 p-3 text-red-600"
-       : props.isSearchable && isOpen
-       ? "cursor-pointer border-recipeGray-darker px-3"
-       : "cursor-pointer border-recipeGray-darker p-3"
-   }`}
+        className={`flex h-10 w-full items-center justify-between rounded-xl border-2 font-bold uppercase md:h-12 lg:h-14 ${
+          props.isDisabled
+            ? 'cursor-default border-recipeGray-darker p-3 opacity-50'
+            : isFailed
+              ? 'cursor-pointer border-red-700 bg-red-300 p-3 text-red-600'
+              : props.isSearchable && isOpen
+                ? 'cursor-pointer border-recipeGray-darker px-3'
+                : 'cursor-pointer border-recipeGray-darker p-3'
+        }`}
         onClick={() => setIsOpen(true)}
       >
-        <div className="mx-2 flex h-full items-center justify-start text-sm md:text-base lg:text-lg">
+        <div className='mx-2 flex h-full items-center justify-start text-sm md:text-base lg:text-lg'>
           {props.isSearchable && isOpen ? (
             <input
-              type="text"
+              type='text'
               value={selectedValue}
               onChange={handleSearch}
               ref={searchRef}
               className={`h-full w-[100%] bg-transparent text-sm focus:outline-none md:text-base lg:text-lg ${
-                isFailed ? "" : ""
+                isFailed ? '' : ''
               }`}
             />
           ) : (
-            <span className={` ${isFailed ? "normal-case" : "uppercase"}`}>
+            <span className={` ${isFailed ? 'normal-case' : 'uppercase'}`}>
               {selectedValue || props.placeholder}
             </span>
           )}
         </div>
-        <FontAwesomeIcon
-          icon={faChevronDown}
-          className={`${isFailed ? "" : ""}`}
-        />
+        <FaChevronDown />
       </div>
       {isOpen && !props.isDisabled && (
         <ul
@@ -112,21 +107,20 @@ const Dropdown: React.FC<DropdownProps> = (props: DropdownProps) => {
             dropdownItems.map((item, index) => (
               <li
                 key={index}
-                className={`w-full cursor-pointer bg-white p-2 hover:recipeGray-light
-                  ${
-                    index === 0
-                      ? "rounded-t-md"
-                      : index === dropdownItems.length - 1
-                      ? "rounded-b-md"
-                      : ""
-                  }  `}
+                className={`hover:recipeGray-light w-full cursor-pointer bg-white p-2 ${
+                  index === 0
+                    ? 'rounded-t-md'
+                    : index === dropdownItems.length - 1
+                      ? 'rounded-b-md'
+                      : ''
+                } `}
                 onClick={() => handleItemClick(item)}
               >
                 {item}
               </li>
             ))
           ) : (
-            <div className="w-full cursor-pointer rounded-t-md p-2 bg-white hover:bg-recipeGray-light">
+            <div className='w-full cursor-pointer rounded-t-md bg-white p-2 hover:bg-recipeGray-light'>
               Not found.
             </div>
           )}

@@ -1,10 +1,5 @@
 "use client";
-import { useEffect, useReducer, useState } from "react";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-
+import { useReducer } from "react";
 import Input, { InputTypes } from "@/components/Input/page";
 import useStore from "@/app/store/useStore";
 import { PopupsTypes, usePopupStore } from "@/app/store/stores/usePopupStore";
@@ -15,8 +10,7 @@ import {
 } from "@/reducers/popups/createIngredientReducer";
 import { useTranslations } from "next-intl";
 import Dropdown, { DropdownSizes } from "@/components/Dropdown/page";
-
-library.add(faXmark);
+import { FaXmark } from "react-icons/fa6";
 
 const CreateNewIngredient: React.FC = () => {
   const tIng = useTranslations("createIngredient");
@@ -75,10 +69,7 @@ const CreateNewIngredient: React.FC = () => {
             }}
             className="h-fit w-fit flex-none rounded-md text-duoGray-dark dark:text-duoBlueDark-text"
           >
-            <FontAwesomeIcon
-              className="fa-lg fa-solid flex-none"
-              icon={faXmark}
-            />
+            <FaXmark />
           </button>
           <div
             className="ml-[0.5rem] mr-6 grid w-[30rem] flex-none 

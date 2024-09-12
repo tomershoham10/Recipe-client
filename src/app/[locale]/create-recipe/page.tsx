@@ -1,60 +1,62 @@
-"use client";
-import Dropdown, { DropdownSizes } from "@/components/Dropdown/page";
-import Dropzone from "@/components/Dropzone/page";
-import Input, { InputTypes } from "@/components/Input/page";
-import Textbox, { FontSizes } from "@/components/Textbox/page";
-import { pick } from "lodash";
-import {
-  // NextIntlClientProvider,
-  // useMessages,
-  useTranslations,
-} from "next-intl";
+'use client';
+import Dropdown, { DropdownSizes } from '@/components/Dropdown/page';
+import Dropzone from '@/components/Dropzone/page';
+import Input, { InputTypes } from '@/components/Input/page';
+import Textbox, { FontSizes } from '@/components/Textbox/page';
+import { useTranslations } from 'next-intl';
 
-export default function Index() {
-  // const messages = useMessages();
-  const t = useTranslations("createRecipe");
+const CreateRecipe: React.FC = () => {
+  const t = useTranslations('createRecipe');
   return (
-    <>
-      {/* <NextIntlClientProvider
-        messages={
-          // … and provide the relevant messages
-          pick(messages, "ClientCounter")
-        }
-      > */}
-      <p className="text-5xl font-bold">{t("createRecipe")}:</p>
-      <div className="flex flex-col w-[20rem]">
-        <p className="text-2xl font-semibold">{t("addRecipeName")}:</p>
-        <Input
-          type={InputTypes.text}
-          value={undefined}
-          onChange={(e) => console.log(e)}
-        />
-      </div>
-      <div className="flex flex-col w-[40rem] h-[8rem]">
-        <p className="text-2xl font-semibold">{t("addRecipeDescription")}:</p>
-        <Textbox
-          isEditMode={false}
-          fontSizeProps={FontSizes.SMALL}
-          value={undefined}
-          onChange={(e) => console.log(e)}
-        />
-      </div>
-      <div className="w-[20rem]">
-        <p className="text-2xl font-semibold">{t("chooseRecipeCategory")}:</p>
-        <Dropdown
-          isSearchable={false}
-          placeholder={""}
-          items={[]}
-          onChange={function (value: string): void {
-            throw new Error("Function not implemented.");
-          }}
-          size={DropdownSizes.SMALL}
-        />
-      </div>
-      <p className="text-2xl font-semibold">{t("addRecipeIngredients")}:</p>
-      <p className="text-2xl font-semibold">{t("uploadRecipePictue")}:</p>
-      <Dropzone className="" />
-      {/* </NextIntlClientProvider> */}
-    </>
+    <section className='flex h-full w-full flex-row'>
+      <section className='flex h-full w-full basis-1/2 flex-col gap-3 border-l-2 pr-3 pt-4'>
+        <p className='pr-4 text-5xl font-bold'>{t('createRecipe')}</p>
+        <section className='w-4/5 rounded-2xl bg-white px-4 py-2'>
+          <p className='mb-1 text-xl font-semibold opacity-80'>
+            {t('addRecipeName')}
+          </p>
+          <Input
+            type={InputTypes.text}
+            value={undefined}
+            onChange={(e) => console.log(e)}
+          />
+        </section>
+
+        <section className='h-fit w-4/5 rounded-2xl bg-white px-4 py-2'>
+          <p className='mb-1 text-xl font-semibold opacity-80'>
+            {t('addRecipeDescription')}
+          </p>
+          <Textbox
+            isEditMode={false}
+            fontSizeProps={FontSizes.MEDIUM}
+            value={undefined}
+            onChange={(text: string) => {}}
+          />
+        </section>
+
+        <section className='h-fit w-4/5 rounded-2xl bg-white px-4 py-2'>
+          <p className='mb-1 text-xl font-semibold opacity-80'>
+            {t('uploadRecipePictue')}
+          </p>
+          <Dropzone onFilesChanged={(files: File[]) => {}} />
+        </section>
+      </section>
+      <section className='h-full w-full basis-1/2 pr-3 pt-4'>
+        <section className='h-fit w-4/5 rounded-2xl bg-white px-4 py-2'>
+          <p className='mb-1 text-xl font-semibold opacity-80'>
+            {t('addRecipeIngredients')}
+          </p>
+          <Dropdown
+            isSearchable={true}
+            placeholder={'Mizrachim'}
+            items={[]}
+            onChange={() => {}}
+            size={DropdownSizes.SMALL}
+          />
+        </section>
+      </section>
+    </section>
   );
-}
+};
+
+export default CreateRecipe;

@@ -1,53 +1,67 @@
-"use client";
-import Image from "next/image";
-import React, { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
+'use client';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { FaCloudUploadAlt } from 'react-icons/fa';
 
-interface DropzoneProps {
-  className: string;
+import { useDroppable } from '@dnd-kit/core';
+// import Button, { ButtonColors, ButtonTypes } from '../Button/page';
+
+interface DropZoneProps {
+  onFilesChanged: (files: File[]) => void;
 }
 
-interface ExtendedFile extends File {
-  preview: string;
-}
+const DropZone: React.FC<DropZoneProps> = (props) => {
+  const { onFilesChanged } = props;
+  const { setNodeRef } = useDroppable({ id: 'file-drop-zone' });
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
 
-const Dropzone: React.FC<DropzoneProps> = (props) => {
-  const [files, setFiles] = useState<ExtendedFile[]>([]);
+  const handleFileChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.files) {
+        setFiles([...event.target.files]);
+      }
+    },
+    []
+  );
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    // Do something with the files
-    console.log(acceptedFiles);
-    if (acceptedFiles.length) {
-      setFiles((prevFiles) => [
-        ...prevFiles,
-        ...acceptedFiles.map((file) =>
-          Object.assign(file, { preview: URL.createObjectURL(file) })
-        ),
-      ]);
+  const handleDrop = useCallback((event: React.DragEvent) => {
+    event.preventDefault();
+    if (event.dataTransfer.files) {
+      setFiles((prev) => [...prev, ...event.dataTransfer.files]);
     }
   }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+  const handleClick = useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
+
+  useEffect(() => {
+    onFilesChanged(files);
+  }, [files, onFilesChanged]);
 
   return (
-    <form>
-      <div {...getRootProps({ className: props.className })}>
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <p>Drop the files here ...</p>
-        ) : (
-          <p>Drag n drop some files here, or click to select files</p>
-        )}
-      </div>
-      <ul>
-        {files.map((file) => (
-          <li key={file.name}>
-            {file.name}
-            <Image src={file.preview} alt="" width={100} height={100} />
-          </li>
-        ))}
-      </ul>
-    </form>
+    <section
+      ref={setNodeRef}
+      className='flex h-40 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-recipeGray-light p-4'
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={handleDrop}
+      onClick={handleClick}
+    >
+      <section className='text-8xl text-recipeGray-dark'>
+        <FaCloudUploadAlt />
+      </section>
+      <p className='text-duoGrayDark-lightestOpacity font-bold'>
+        Drag & Drop your files here
+      </p>
+      <input
+        type='file'
+        ref={fileInputRef}
+        className='hidden'
+        onChange={handleFileChange}
+        multiple
+      />
+    </section>
   );
 };
 
-export default Dropzone;
+export default DropZone;

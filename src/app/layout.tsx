@@ -19,11 +19,11 @@ export default function RootLayout({
     <html lang={"he"} dir="rtl">
       <body
         suppressHydrationWarning={true}
-        className={`${assistant.className} text-[#5A4A42]`}
+        className={`${assistant.className} text-[#5A4A42] bg-[#F5F5F0] flex flex-col`}
       >
         {/* <CreateNewIngredient /> */}
         <NavBar />
-        <section className="p-6 text-recipeGray-darker">{children}</section>
+        <section className="h-full text-recipeGray-darker">{children}</section>
       </body>
     </html>
   );

@@ -23,3 +23,10 @@
     @apply w-24 text-black ease-in-out duration-500;
   } */
 }
+
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+} 

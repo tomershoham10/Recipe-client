@@ -6,6 +6,99 @@
 
 // ------ recipes ------- //
 
+enum RecipeCategories {
+    "ITALIAN",
+    "ASAIN",
+    "INDIAN",
+    "VEGAN",
+    "SEAFOOD",
+    "SALAD",
+    "DINNER",
+    "DESSERT",
+}
+
+enum difficultyLevels {
+    "Easy",
+    "Medium",
+    "Advanced",
+}
+
+enum Units {
+    "units",
+    "grams",
+    "kgs",
+    "ML",
+    "liters",
+    "tbls",
+    "spoons",
+    "cups",
+    "pinch",
+}
+
+interface QuantifiedIngredient {
+    ingredientId: string;
+    quantity: number;
+    unit: Units;
+}
+
+interface RecipeIngredients {
+    header: string;
+    quantifiedIngredients: QuantifiedIngredient[];
+}
+
+
+interface RecipeType {
+    _id: string;
+    name: string;
+    description: string;
+    img: string;
+    categories: RecipeCategories[];
+    difficultyLevel: difficultyLevels;
+    ingredients: RecipeIngredients[];
+}
+
+// ------ steps ------- //
+
+interface StepType {
+    _id: string;
+    duration: number;
+    data: string;
+    img: string;
+}
+
+// ------ ingredients ------- //
+
+enum IngredientCategories {
+    CHICKEN = "chicken",
+    MEAT = "meat",
+    VEGAN = "vegan",
+    VEGETABLE = "vegetable",
+    DAIRY = "dairy",
+    SEAFOOD = "seafood",
+    FRUIT = "fruit",
+    GRAINS = "grains",
+    SPICES = "spices",
+    SAUCES = "sauces",
+}
+
+enum Shops {
+    GROCERY = "grocery",
+    DELI = "deli",
+    FARMERS_MARKET = "farmersMarket",
+    SUPERMARKET = "supermarket",
+    BUTCHER_SHOP = "butcherShop",
+    FISH_MARKET = "fishMarket",
+    HEALTH_STORE = "healthStore",
+}
+
+interface IngredientType {
+    _id: string;
+    name: string;
+    averagedPrice: number;
+    categories: IngredientCategories[];
+    whereToFind: Shops[];
+};
+
 // // files service // //
 
 // // users service // //
@@ -67,26 +160,7 @@ enum TypesOfUser {
 
 // // Button // //
 
-enum ButtonColors {
-}
 
-enum ButtonTypes {
-    SUBMIT = 'submit',
-    BUTTON = 'button',
-}
-
-interface ButtonProps {
-    label: string;
-    icon?: IconDefinition;
-    color: ButtonColors;
-    onClick?: () => void;
-    href?: string;
-    style?: string;
-    isDisabled?: boolean;
-    buttonType?: ButtonTypes;
-    loadingLabel?: string;
-    isLoading?: boolean;
-}
 
 // // Dropdown // //
 
@@ -113,8 +187,8 @@ interface DropdownProps {
 interface InputProps {
     type: InputTypes;
     placeholder?: string;
-    value: string | undefined;
-    onChange: (value: string) => void;
+    value: string | number | undefined;
+    onChange: (value: string | number) => void;
     className?: string;
     failed?: boolean;
 }

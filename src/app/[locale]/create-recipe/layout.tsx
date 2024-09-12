@@ -1,4 +1,4 @@
-import CreateNewIngredient from '@/app/_popups/CreateNewIngredient/page';
+import CreateNewIngredient from '@/app/(popups)/(create)/CreateNewIngredient/page';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 
 export default function LocaleLayout({

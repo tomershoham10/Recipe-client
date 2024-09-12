@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Assistant } from "next/font/google";
 import NavBar from "@/components/NavBar/page";
-import CreateNewIngredient from "./_popups/CreateNewIngredient/page";
+// import CreateNewIngredient from "./_popups/CreateNewIngredient/page";
 
 const assistant = Assistant({ subsets: ["latin"] });
 

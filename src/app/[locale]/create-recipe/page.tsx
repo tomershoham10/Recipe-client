@@ -16,7 +16,7 @@ const CreateRecipe: React.FC = () => {
             {t('addRecipeName')}
           </p>
           <Input
-            type={InputTypes.text}
+            type={InputTypes.TEXT}
             value={undefined}
             onChange={(e) => console.log(e)}
           />

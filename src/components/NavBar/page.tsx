@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
+import Link from "next/link";
+
 import { BiSearchAlt, BiHomeAlt2 } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa6";
+import { IoMdSettings } from "react-icons/io";
 
-import Link from "next/link";
-import { useState } from "react";
 import { PopupsTypes, usePopupStore } from "@/app/store/stores/usePopupStore";
 
 const NavBar: React.FC = () => {
@@ -62,6 +64,10 @@ const NavBar: React.FC = () => {
           <li>create ingredient</li>
         </ul>
       </div>
+
+      <Link href={"/he/management"} className="nav-items">
+      <IoMdSettings />
+      </Link>
     </nav>
   );
 };

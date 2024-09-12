@@ -42,7 +42,7 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
   return (
     <section
       ref={setNodeRef}
-      className='flex h-40 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-recipeGray-light p-4'
+      className='flex h-40 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-recipeGray-light bg-[#F5F5F0] p-4'
       onDragOver={(e) => e.preventDefault()}
       onDrop={handleDrop}
       onClick={handleClick}

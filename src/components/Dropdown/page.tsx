@@ -103,7 +103,7 @@ const Dropdown: React.FC<DropdownProps> = (props: DropdownProps) => {
         <ul
           className={`absolute z-50 flex flex-col items-start justify-start ${maxHight} mt-2 w-full overflow-auto rounded-xl border-2 border-recipeGray-darker font-bold uppercase`}
         >
-          {dropdownItems.length > 0 ? (
+          {dropdownItems && dropdownItems.length > 0 ? (
             dropdownItems.map((item, index) => (
               <li
                 key={index}

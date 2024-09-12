@@ -11,6 +11,19 @@ import Dropdown, { DropdownSizes } from '@/components/Dropdown/page';
 import PopupHeader, { PopupSizes } from '../../PopupHeader/page';
 import Button from '@/components/Button';
 
+enum IngredientCategories {
+  CHICKEN = 'chicken',
+  MEAT = 'meat',
+  VEGAN = 'vegan',
+  VEGETABLE = 'vegetable',
+  DAIRY = 'dairy',
+  SEAFOOD = 'seafood',
+  FRUIT = 'fruit',
+  GRAINS = 'grains',
+  SPICES = 'spices',
+  SAUCES = 'sauces',
+}
+
 const CreateNewIngredient: React.FC = () => {
   const tIng = useTranslations('createIngredient');
   const tButtons = useTranslations('buttons');
@@ -76,9 +89,9 @@ const CreateNewIngredient: React.FC = () => {
           </p>
 
           <Dropdown
-            isSearchable={false}
-            placeholder={''}
-            items={[]}
+            isSearchable={true}
+            placeholder={'catagories'}
+            items={Object.values(IngredientCategories)}
             onChange={() => {}}
             size={DropdownSizes.SMALL}
           />

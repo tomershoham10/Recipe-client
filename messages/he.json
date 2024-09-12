@@ -1,7 +1,7 @@
 {
   "createRecipe": {
     "createRecipe": "צור מתכון",
-    "addRecipeName": "הוסף שם מתכון",
+    "addRecipeName": "שם המתכון",
     "addRecipeDescription": "הוסף תיאור",
     "chooseRecipeCategory": "בחר קטגוריה",
     "uploadRecipePictue": "העלה תמונה",

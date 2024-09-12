@@ -1,10 +1,10 @@
-"use client";
-import React, { useState, useEffect } from "react";
+'use client';
+import React, { useState, useEffect } from 'react';
 
 export enum FontSizes {
-  SMALL = "small",
-  MEDIUM = "medium",
-  LARGE = "large",
+  SMALL = 'small',
+  MEDIUM = 'medium',
+  LARGE = 'large',
 }
 
 const Textbox: React.FC<TextboxProps> = (props) => {
@@ -21,36 +21,34 @@ const Textbox: React.FC<TextboxProps> = (props) => {
   useEffect(() => {
     switch (fontSizeProps) {
       case FontSizes.SMALL:
-        setFontSize("text-sm font-normal");
+        setFontSize('text-sm font-normal');
         break;
       case FontSizes.MEDIUM:
-        setFontSize("text-lg font-medium");
+        setFontSize('text-lg font-medium');
         break;
       case FontSizes.LARGE:
-        setFontSize("text-xl font-semibold");
+        setFontSize('text-xl font-semibold');
         break;
       default:
-        setFontSize("text-md font-medium");
+        setFontSize('text-md font-medium');
         break;
     }
   }, [fontSizeProps]);
 
   return (
-    <form className={`${fontSize} h-full`}>
-      <div className="relative overflow-hiddenf h-full">
+    <form className={`${fontSize} h-24`}>
+      <div className='overflow-hiddenf relative h-full'>
         <textarea
-          style={isEditMode ? {} : { resize: "none" }}
+          style={isEditMode ? {} : { resize: 'none' }}
           value={propsVal}
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
             onChange(event.target.value);
           }}
-          className={`h-full bg-white w-full rounded-md border-2 px-3 py-2 focus:outline-none
-          ${
+          className={`h-full w-full rounded-xl border-2 bg-[#F5F5F0] px-3 py-2 focus:outline-none ${
             errorMode
-              ? "border-red-700 bg-red-300 text-red-600"
-              : "textarea-dark-placeholder border-recipeGray-dark"
-          }
-          `}
+              ? 'border-red-700 bg-red-300 text-red-600'
+              : 'textarea-dark-placeholder border-recipeGray-dark'
+          } `}
           placeholder={placeHolder}
         />
       </div>

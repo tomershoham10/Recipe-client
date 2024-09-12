@@ -13,7 +13,7 @@ const Input: React.FC<InputProps> = (props: InputProps) => {
         type={props.type}
         value={props.value}
         placeholder={props.placeholder}
-        className={`text:sm h-10 w-full rounded-xl border-2 bg-white px-1 py-2 font-bold focus:outline-none lg:h-14 lg:p-3 lg:text-xl ${
+        className={`text:sm bg-[#F5F5F0] h-10 w-full rounded-xl border-2 px-1 py-2 font-bold focus:outline-none focus:border-red-200 lg:h-14 lg:p-3 lg:text-xl ${
           props.failed ? 'border-red-700' : 'border-recipeGray-darker'
         }`}
         onChange={(e) => props.onChange(e.target.value)}

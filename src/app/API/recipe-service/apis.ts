@@ -1,0 +1,27 @@
+const host = process.env.NEXT_PUBLIC_HOST;
+
+const ROUT = `http://${host}:5000`;
+
+export const RECIPES_SERVICE_ENDPOINTS = {
+    INGREDIENTS: `${ROUT}/api/ingredients`,
+    RECIPES: `${ROUT}/api/recipes`,
+    STEPS: `${ROUT}/api/steps`,
+};
+
+export const INGREDIENTS_API = {
+};
+
+export const RECIPES_API = {
+    GET_LEVELS_BY_ID: `${RECIPES_SERVICE_ENDPOINTS.RECIPES}/getLevelsById`,
+    CREATE_BY_COURSE: `${RECIPES_SERVICE_ENDPOINTS.RECIPES}/createByCourse`,
+    GET_UNSUSPENDED_LEVELS_BY_ID: `${RECIPES_SERVICE_ENDPOINTS.RECIPES}/getUnsuspendedLevelsById`,
+    SUSPENDED_LEVEL: `${RECIPES_SERVICE_ENDPOINTS.RECIPES}/suspendLevel`,
+    UNSUSPENDED_LEVEL: `${RECIPES_SERVICE_ENDPOINTS.RECIPES}/unsuspendLevel`,
+};
+
+export const STEPS_API = {
+    GET_LESSONS_BY_ID: `${RECIPES_SERVICE_ENDPOINTS.STEPS}/getLessonsById`,
+    GET_UNSUSPENDED_LESSON_BY_ID: `${RECIPES_SERVICE_ENDPOINTS.STEPS}/getsUnsuspendedLessonsById`,
+    SUSPENDED_LESSON: `${RECIPES_SERVICE_ENDPOINTS.STEPS}/suspendLesson`,
+    UNSUSPENDED_LESSON: `${RECIPES_SERVICE_ENDPOINTS.STEPS}/unsuspendLesson`,
+};

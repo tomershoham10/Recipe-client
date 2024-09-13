@@ -8,7 +8,7 @@ import {
 } from '@/reducers/popups/createIngredientReducer';
 import { useTranslations } from 'next-intl';
 import Dropdown, { DropdownSizes } from '@/components/Dropdown/page';
-import PopupHeader, { PopupSizes } from '../../PopupHeader/page';
+import PopupHeader, { PopupSizes } from '../../PopupHeader';
 import Button from '@/components/Button';
 
 enum IngredientCategories {

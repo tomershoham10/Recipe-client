@@ -5,7 +5,9 @@
     "addRecipeDescription": "הוסף תיאור",
     "chooseRecipeCategory": "בחר קטגוריה",
     "uploadRecipePictue": "העלה תמונה",
-    "addRecipeIngredients": "הוסף מצרכים"
+    "addRecipeIngredients": "הוסף מצרכים",
+    "sectionName": "שם המקטע",
+    "addSection": "הוסף מקטע"
   },
   "createIngredient": {
     "createIngredient": "הוסף מצרך",

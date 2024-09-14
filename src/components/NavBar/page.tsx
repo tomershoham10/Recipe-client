@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
+import { useState } from 'react';
+import Link from 'next/link';
 
-import { BiSearchAlt, BiHomeAlt2 } from "react-icons/bi";
-import { FaPlus } from "react-icons/fa6";
-import { IoMdSettings } from "react-icons/io";
+import { BiSearchAlt, BiHomeAlt2 } from 'react-icons/bi';
+import { FaPlus } from 'react-icons/fa6';
+import { IoMdSettings } from 'react-icons/io';
 
-import { PopupsTypes, usePopupStore } from "@/app/store/stores/usePopupStore";
+import { PopupsTypes, usePopupStore } from '@/app/store/stores/usePopupStore';
 
 const NavBar: React.FC = () => {
   const [isSearchClicked, setIsSearchClicked] = useState<boolean>(false);
@@ -19,28 +19,28 @@ const NavBar: React.FC = () => {
   const updateSelectedPopup = usePopupStore.getState().updateSelectedPopup;
 
   return (
-    <nav className="bg-recipeGreen-default px-5 flex flex-row gap-5 justify-start items-center text-recipeGray-lightest h-16 max-h-16">
-      <Link href={"/"} className="nav-items">
+    <nav className='flex h-16 max-h-16 flex-row items-center justify-start gap-5 bg-recipeGreen-default px-5 text-recipeGray-lightest'>
+      <Link href={'/'} className='nav-items'>
         <BiHomeAlt2 />
       </Link>
 
       <div
         className={`${
           !isSearchClicked
-            ? "flex justify-start items-center rounded-md transition-all ease-out bg-transparent duration-500"
-            : "flex justify-start items-center pt-2 pr-2 pb-2 rounded-md bg-white transition-all ease-in-out duration-700"
+            ? 'flex items-center justify-start rounded-md bg-transparent transition-all duration-500 ease-out'
+            : 'flex items-center justify-start rounded-md bg-white pb-2 pr-2 pt-2 transition-all duration-700 ease-in-out'
         }`}
       >
         <input
-          type="text"
+          type='text'
           className={`${
             !isSearchClicked
-              ? "invisible bg-transparent max-w-none w-0 transition-all ease-in duration-700 outline-none"
-              : "w-24 bg-transparent text-recipeGray-dark transition-all ease-in-out duration-700 outline-none"
+              ? 'invisible w-0 max-w-none bg-transparent outline-none transition-all duration-700 ease-in'
+              : 'text-recipeBrown-dark w-24 bg-transparent outline-none transition-all duration-700 ease-in-out'
           }`}
         />
         <button
-          className={`${!isSearchClicked ? "nav-items" : "search-button"}`}
+          className={`${!isSearchClicked ? 'nav-items' : 'search-button'}`}
           onClick={() => {
             searchClick();
           }}
@@ -49,14 +49,14 @@ const NavBar: React.FC = () => {
         </button>
       </div>
 
-      <div className="relative group">
+      <div className='group relative'>
         <Link
-          href={"/he/create-recipe"}
-          className="rounded-md p-1 w-10 mx-auto flex justify-center text-2xl	items-center group-hover:shadow-md group-hover:scale-125 group-hover:bg-[#C0272D] transition-all ease-in-out duration-300"
+          href={'/he/create-recipe'}
+          className='mx-auto flex w-10 items-center justify-center rounded-md p-1 text-2xl transition-all duration-300 ease-in-out group-hover:scale-125 group-hover:bg-recipeRed-default group-hover:shadow-md'
         >
           <FaPlus />
         </Link>
-        <ul className="hidden w-[10rem] group-hover:block absolute bg-[#C0272D] inset-x-0 top-[2.5rem] text-center text-white rounded-md">
+        <ul className='absolute inset-x-0 top-[2.5rem] hidden w-[10rem] rounded-md bg-recipeRed-default text-center text-white group-hover:block'>
           <li>create recipe</li>
           <li onClick={() => updateSelectedPopup(PopupsTypes.NEW_INGREDIENT)}>
             create ingredient
@@ -65,8 +65,8 @@ const NavBar: React.FC = () => {
         </ul>
       </div>
 
-      <Link href={"/he/management"} className="nav-items">
-      <IoMdSettings />
+      <Link href={'/he/management'} className='nav-items'>
+        <IoMdSettings />
       </Link>
     </nav>
   );

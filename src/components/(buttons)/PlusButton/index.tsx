@@ -9,7 +9,7 @@ interface PlusButtonProps {
 const PlusButton: React.FC<PlusButtonProps> = (props) => {
   const { label, className, onClick } = props;
   return (
-    <button className={`${className}`} onClick={onClick}>
+    <button className={`${className} hover:bg-recipeGray-light p-2 rounded-full`} onClick={onClick}>
       <FaPlus />
     </button>
   );

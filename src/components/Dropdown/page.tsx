@@ -69,7 +69,7 @@ const Dropdown: React.FC<DropdownProps> = (props: DropdownProps) => {
   return (
     <div ref={dropdownRef} className={`relative ${props.className} w-full`}>
       <div
-        className={`flex h-10 w-full items-center justify-between rounded-xl border-2 font-bold uppercase md:h-12 lg:h-14 ${
+        className={`flex h-10 w-full items-center justify-between rounded-xl border-2 bg-recipeGray-light font-bold uppercase md:h-12 lg:h-14 ${
           props.isDisabled
             ? 'cursor-default border-recipeGray-darker p-3 opacity-50'
             : isFailed
@@ -107,7 +107,7 @@ const Dropdown: React.FC<DropdownProps> = (props: DropdownProps) => {
             dropdownItems.map((item, index) => (
               <li
                 key={index}
-                className={`hover:recipeGray-dark w-full cursor-pointer bg-white p-2 ${
+                className={`hover:recipeGray-dark w-full cursor-pointer bg-recipeGray-light p-2 ${
                   index === 0
                     ? 'rounded-t-md'
                     : index === dropdownItems.length - 1
@@ -120,7 +120,7 @@ const Dropdown: React.FC<DropdownProps> = (props: DropdownProps) => {
               </li>
             ))
           ) : (
-            <div className='w-full cursor-pointer rounded-t-md bg-white p-2 hover:bg-recipeGray-dark'>
+            <div className='w-full cursor-pointer rounded-t-md bg-recipeGray-light p-2 hover:bg-recipeGray-dark'>
               Not found.
             </div>
           )}

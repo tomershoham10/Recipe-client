@@ -9,7 +9,7 @@ import {
 import { useTranslations } from 'next-intl';
 import Dropdown, { DropdownSizes } from '@/components/Dropdown/page';
 import PopupHeader, { PopupSizes } from '../../PopupHeader';
-import Button from '@/components/Button';
+import Button from '@/components/(buttons)/Button';
 
 enum IngredientCategories {
   CHICKEN = 'chicken',
@@ -48,7 +48,7 @@ const CreateNewIngredient: React.FC = () => {
     >
       <div className='mt-12 flex w-full flex-row gap-6 px-2 py-4'>
         <section>
-          <p className='text-duoGray-darkest dark:text-duoGrayDark-lightest col-span-1 flex-none text-lg font-bold'>
+          <p className='col-span-1 flex-none text-lg font-bold'>
             {tIng('ingredientName')}
           </p>
 
@@ -66,7 +66,7 @@ const CreateNewIngredient: React.FC = () => {
         </section>
 
         <section>
-          <p className='text-duoGray-darkest dark:text-duoGrayDark-lightest col-span-1 flex-none text-lg font-bold'>
+          <p className='col-span-1 flex-none text-lg font-bold'>
             {tIng('addPrice')}
           </p>
 
@@ -84,7 +84,7 @@ const CreateNewIngredient: React.FC = () => {
         </section>
 
         <section>
-          <p className='text-duoGray-darkest dark:text-duoGrayDark-lightest col-span-1 flex-none text-lg font-bold'>
+          <p className='col-span-1 flex-none text-lg font-bold'>
             {tIng('addCategory')}
           </p>
 

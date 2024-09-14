@@ -22,8 +22,8 @@ export default function RootLayout({
         className={`${assistant.className} text-recipeBrown-dark flex flex-col bg-recipeGray-light`}
       >
         {/* <CreateNewIngredient /> */}
-        <NavBar />
-        <section className='h-full text-recipeGray-darker'>{children}</section>
+        <NavBar/>
+        <section className='h-full text-recipeGray-darker overflow-hidden'>{children}</section>
       </body>
     </html>
   );

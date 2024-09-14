@@ -42,17 +42,15 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
   return (
     <section
       ref={setNodeRef}
-      className='flex h-40 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-recipeGray-light bg-[#F5F5F0] p-4'
+      className='flex h-40 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-recipeGray-dark bg-recipeGray-light p-4'
       onDragOver={(e) => e.preventDefault()}
       onDrop={handleDrop}
       onClick={handleClick}
     >
-      <section className='text-8xl text-recipeGray-dark'>
+      <section className='text-recipeBrown-dark text-8xl'>
         <FaCloudUploadAlt />
       </section>
-      <p className='text-duoGrayDark-lightestOpacity font-bold'>
-        Drag & Drop your files here
-      </p>
+      <p className='font-bold'>Drag & Drop your files here</p>
       <input
         type='file'
         ref={fileInputRef}

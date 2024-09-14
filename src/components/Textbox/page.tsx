@@ -44,10 +44,10 @@ const Textbox: React.FC<TextboxProps> = (props) => {
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
             onChange(event.target.value);
           }}
-          className={`h-full w-full rounded-xl border-2 bg-[#F5F5F0] px-3 py-2 focus:outline-none ${
+          className={`h-full w-full rounded-xl border-2 bg-recipeGray-light px-3 py-2 focus:outline-none ${
             errorMode
               ? 'border-red-700 bg-red-300 text-red-600'
-              : 'textarea-dark-placeholder border-recipeGray-dark'
+              : 'textarea-dark-placeholder border-recipeBrown-dark'
           } `}
           placeholder={placeHolder}
         />

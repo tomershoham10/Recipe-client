@@ -107,7 +107,7 @@ const Dropdown: React.FC<DropdownProps> = (props: DropdownProps) => {
             dropdownItems.map((item, index) => (
               <li
                 key={index}
-                className={`hover:recipeGray-light w-full cursor-pointer bg-white p-2 ${
+                className={`hover:recipeGray-dark w-full cursor-pointer bg-white p-2 ${
                   index === 0
                     ? 'rounded-t-md'
                     : index === dropdownItems.length - 1
@@ -120,7 +120,7 @@ const Dropdown: React.FC<DropdownProps> = (props: DropdownProps) => {
               </li>
             ))
           ) : (
-            <div className='w-full cursor-pointer rounded-t-md bg-white p-2 hover:bg-recipeGray-light'>
+            <div className='w-full cursor-pointer rounded-t-md bg-white p-2 hover:bg-recipeGray-dark'>
               Not found.
             </div>
           )}

@@ -58,18 +58,18 @@ const PopupHeader: React.FC<PopupHeaderProps> = (props) => {
     >
       {selectedPopup === popupType ? (
         <div
-          className={`dark:bg-duoGrayDark-darkest relative m-5 flex justify-center rounded-md bg-white p-5 ${widthClass} ${heightClass}`}
+          className={`relative m-5 flex justify-center rounded-md bg-white p-5 ${widthClass} ${heightClass}`}
         >
           <button
             onClick={() => {
               updateSelectedPopup(PopupsTypes.CLOSED);
             }}
-            className='text-duoGray-dark absolute right-4 z-50 flex h-6 w-6 flex-none items-center justify-center rounded-full transition duration-75 ease-in hover:bg-recipeBrown-light'
+            className='absolute right-4 z-50 flex h-6 w-6 flex-none items-center justify-center rounded-full transition duration-75 ease-in hover:bg-recipeBrown-light'
           >
             <FaXmark />
           </button>
           <div className='w-full items-start justify-start'>
-            <div className='dark:border-duoBlueDark-text absolute left-0 flex h-10 w-full justify-center border-b-2 text-xl font-extrabold 3xl:h-12 3xl:text-2xl'>
+            <div className='absolute left-0 flex h-10 w-full justify-center border-b-2 text-xl font-extrabold 3xl:h-12 3xl:text-2xl'>
               {header}
             </div>
             {children}

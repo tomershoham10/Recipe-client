@@ -5,13 +5,13 @@
 @layer components {
   .nav-items {
     @apply rounded-md p-1 w-10 flex justify-center items-center text-2xl	 
-    hover:shadow-md hover:scale-125 hover:bg-[#C0272D] 
+    hover:shadow-md hover:scale-125 hover:bg-recipeBrown-default 
     transition-all ease-in-out duration-300;
   }
 
   .search-button {
     @apply rounded-md w-8 mx-2 flex 
-     justify-center text-3xl text-[#C0272D]
+     justify-center text-3xl text-recipeBrown-default
       transition-all ease-out duration-150;
   }
 

@@ -46,7 +46,7 @@ const CreateRecipe: React.FC = () => {
       <section className='h-full w-full basis-1/2 overflow-y-auto py-4 pr-3'>
         <section className='relative mr-4 h-fit w-4/5 rounded-2xl bg-white px-4 pb-7 pt-2'>
           <p className='mb-1 text-3xl font-bold'>{t('addRecipeIngredients')}</p>
-          <section className='mb-3 rounded-xl bg-[#DADAD1] px-4 py-2'>
+          <section className='bg-recipeGray-default mb-3 rounded-xl px-4 py-2'>
             <p className='mb-1 text-xl font-semibold opacity-80'>
               {t('sectionName')}
             </p>
@@ -102,7 +102,7 @@ const CreateRecipe: React.FC = () => {
             </section>
           </section>
 
-          <section className='mb-3 rounded-xl bg-[#DADAD1] px-4 py-2'>
+          <section className='bg-recipeGray-default mb-3 rounded-xl px-4 py-2'>
             <p className='mb-1 text-xl font-semibold opacity-80'>
               {t('sectionName')}
             </p>
@@ -157,7 +157,7 @@ const CreateRecipe: React.FC = () => {
             </section>
           </section>
 
-          <section className='mb-3 rounded-xl bg-[#DADAD1] px-4 py-2'>
+          <section className='bg-recipeGray-default mb-3 rounded-xl px-4 py-2'>
             <p className='mb-1 text-xl font-semibold opacity-80'>
               {t('sectionName')}
             </p>

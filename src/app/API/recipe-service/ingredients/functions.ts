@@ -1,5 +1,17 @@
 import { RECIPES_SERVICE_ENDPOINTS } from "../apis";
 
+export enum Units {
+    UNITS = "units",
+    GRAMS = "grams",
+    KGS = "kgs",
+    ML = "ml",
+    LITERS = "liters",
+    TBLS = "tbls",
+    SPOONS = "spoons",
+    CUPS = "cups",
+    PINCH = "pinch",
+}
+
 export const createIngredient = async (newIngredient: Partial<IngredientType>): Promise<number | null> => {
     try {
         console.log('createIngredient', newIngredient);

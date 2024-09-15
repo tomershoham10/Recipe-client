@@ -5,7 +5,7 @@ import { PopupsTypes } from '@/app/store/stores/usePopupStore';
 import {
   newIngredientAction,
   newIngredientReducer,
-} from '@/reducers/popups/createIngredientReducer';
+} from '@/reducers/(popups)/createIngredientReducer';
 import { useTranslations } from 'next-intl';
 import Dropdown, { DropdownSizes } from '@/components/Dropdown/page';
 import PopupHeader, { PopupSizes } from '../../PopupHeader';

@@ -3,14 +3,17 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 
 import { useDroppable } from '@dnd-kit/core';
-// import Button, { ButtonColors, ButtonTypes } from '../Button/page';
 
 interface DropZoneProps {
+  isMultiple: boolean;
   onFilesChanged: (files: File[]) => void;
 }
 
 const DropZone: React.FC<DropZoneProps> = (props) => {
-  const { onFilesChanged } = props;
+  const { isMultiple, onFilesChanged } = props;
+
+  const onFilesChangedRef = useRef(onFilesChanged);
+
   const { setNodeRef } = useDroppable({ id: 'file-drop-zone' });
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [files, setFiles] = useState<File[]>([]);
@@ -18,26 +21,47 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
   const handleFileChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.files) {
-        setFiles([...event.target.files]);
+        const newFiles = Array.from(event.target.files);
+        setFiles((prev) => {
+          if (isMultiple) {
+            return [...prev, ...newFiles];
+          } else {
+            return newFiles;
+          }
+        });
       }
     },
-    []
+    [isMultiple]
   );
 
-  const handleDrop = useCallback((event: React.DragEvent) => {
-    event.preventDefault();
-    if (event.dataTransfer.files) {
-      setFiles((prev) => [...prev, ...event.dataTransfer.files]);
-    }
-  }, []);
+  const handleDrop = useCallback(
+    (event: React.DragEvent) => {
+      event.preventDefault();
+      if (event.dataTransfer.files) {
+        const newFiles = Array.from(event.dataTransfer.files);
+        setFiles((prev) => {
+          if (isMultiple) {
+            return [...prev, ...newFiles];
+          } else {
+            return newFiles;
+          }
+        });
+      }
+    },
+    [isMultiple]
+  );
 
   const handleClick = useCallback(() => {
     fileInputRef.current?.click();
   }, []);
 
   useEffect(() => {
-    onFilesChanged(files);
-  }, [files, onFilesChanged]);
+    onFilesChangedRef.current = onFilesChanged;
+  }, [onFilesChanged]);
+
+  useEffect(() => {
+    onFilesChangedRef.current(files);
+  }, [files]);
 
   return (
     <section
@@ -56,7 +80,8 @@ const DropZone: React.FC<DropZoneProps> = (props) => {
         ref={fileInputRef}
         className='hidden'
         onChange={handleFileChange}
-        multiple
+        multiple={isMultiple}
+        accept='image/*'
       />
     </section>
   );

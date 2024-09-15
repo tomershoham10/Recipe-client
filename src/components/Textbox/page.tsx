@@ -8,13 +8,15 @@ export enum FontSizes {
 }
 
 const Textbox: React.FC<TextboxProps> = (props) => {
-  const prevData = props.prevData;
-  const isEditMode = props.isEditMode;
-  const fontSizeProps = props.fontSizeProps;
-  const placeHolder = props.placeHolder;
-  const propsVal = props.value;
-  const onChange = props.onChange;
-  const errorMode = props.errorMode;
+  const {
+    prevData,
+    isEditMode,
+    fontSizeProps,
+    placeHolder,
+    value,
+    errorMode,
+    onChange,
+  } = props;
 
   const [fontSize, setFontSize] = useState<string>();
 
@@ -40,7 +42,7 @@ const Textbox: React.FC<TextboxProps> = (props) => {
       <div className='overflow-hiddenf relative h-full'>
         <textarea
           style={isEditMode ? {} : { resize: 'none' }}
-          value={propsVal}
+          value={value}
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
             onChange(event.target.value);
           }}

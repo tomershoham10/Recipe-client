@@ -24,26 +24,28 @@ enum difficultyLevels {
 }
 
 enum Units {
-    "units",
-    "grams",
-    "kgs",
-    "ML",
-    "liters",
-    "tbls",
-    "spoons",
-    "cups",
-    "pinch",
+    UNITS = "units",
+    GRAMS = "grams",
+    KGS = "kgs",
+    ML = "ml",
+    LITERS = "liters",
+    TBLS = "tbls",
+    SPOONS = "spoons",
+    CUPS = "cups",
+    PINCH = "pinch",
 }
 
 interface QuantifiedIngredient {
     ingredientId: string;
     quantity: number;
     unit: Units;
+    index: number;
 }
 
-interface RecipeIngredients {
+interface ingredientsSection {
     header: string;
     quantifiedIngredients: QuantifiedIngredient[];
+    index: number;
 }
 
 
@@ -54,7 +56,8 @@ interface RecipeType {
     img: string;
     categories: RecipeCategories[];
     difficultyLevel: difficultyLevels;
-    ingredients: RecipeIngredients[];
+    ingredientsSections: ingredientsSection[];
+    steps: string[];
 }
 
 // ------ steps ------- //
@@ -242,7 +245,7 @@ interface TextboxProps {
     isEditMode: boolean;
     fontSizeProps: FontSizes;
     placeHolder?: string;
-    value: string | undefined;
+    value: string;
     onChange: (text: string) => void;
     errorMode?: boolean;
 }

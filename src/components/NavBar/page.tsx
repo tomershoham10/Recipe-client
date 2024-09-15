@@ -19,7 +19,7 @@ const NavBar: React.FC = () => {
   const updateSelectedPopup = usePopupStore.getState().updateSelectedPopup;
 
   return (
-    <nav className='flex h-16 max-h-16 flex-row items-center justify-start gap-5 bg-recipeGreen-default px-5 text-recipeGray-lightest'>
+    <nav className='flex h-16 max-h-16 flex-row items-center justify-start gap-5 bg-recipeBlue-default px-5 text-recipeGray-lightest'>
       <Link href={'/'} className='nav-items'>
         <BiHomeAlt2 />
       </Link>
@@ -52,11 +52,11 @@ const NavBar: React.FC = () => {
       <div className='group relative'>
         <Link
           href={'/he/create-recipe'}
-          className='mx-auto flex w-10 items-center justify-center rounded-md p-1 text-2xl transition-all duration-300 ease-in-out group-hover:scale-125 group-hover:bg-recipeRed-default group-hover:shadow-md'
+          className='mx-auto flex w-10 items-center justify-center rounded-md p-1 text-2xl transition-all duration-300 ease-in-out group-hover:scale-125 group-hover:bg-recipeBrown-default group-hover:shadow-md'
         >
           <FaPlus />
         </Link>
-        <ul className='absolute inset-x-0 top-[2.5rem] hidden w-[10rem] rounded-md bg-recipeRed-default text-center text-white group-hover:block'>
+        <ul className='absolute inset-x-0 top-[2.5rem] hidden w-[10rem] rounded-md bg-recipeBrown-default text-center text-white group-hover:block'>
           <li>create recipe</li>
           <li onClick={() => updateSelectedPopup(PopupsTypes.NEW_INGREDIENT)}>
             create ingredient

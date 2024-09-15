@@ -24,14 +24,19 @@ module.exports = {
         recipeGreen: {
           default: '#98AB85',
         },
+        recipeBlue: {
+          default: '#16428C',
+        },
         recipeGray: {
           lightest: '#FFFFFF',
-          light:'#F5F5F0',
+          light: '#F5F5F0',
+          default: '#DADAD1',
           dark: '#6C594F',
           darker: '#433B31',
         },
         recipeBrown: {
           light: '#804F45',
+          default: '#9E8E7D',
           dark: '#5A4A42',
         },
         recipeRed: {

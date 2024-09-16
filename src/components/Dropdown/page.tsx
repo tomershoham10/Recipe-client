@@ -9,24 +9,48 @@ export enum DropdownSizes {
   LARGE = 'large',
 }
 
-const Dropdown: React.FC<DropdownProps> = (props: DropdownProps) => {
+const Dropdown: React.FC<DropdownProps> = (props) => {
+  const {
+    isSearchable,
+    placeholder,
+    items,
+    value,
+    onChange,
+    className,
+    isFailed,
+    isDisabled,
+    size,
+  } = props;
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [maxHight, setMaxHight] = useState<string>(props.size);
   const [selectedValue, setSelectedValue] = useState<string | undefined>(
-    props.value?.toString() || ''
+    value?.toString() || ''
   );
-  const [dropdownItems, setDropdownItems] = useState<string[]>(props.items);
+  const [dropdownItems, setDropdownItems] = useState<string[]>(items);
   //   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const dropdownRef = useClickOutside(() => setIsOpen(false));
   const searchRef = useRef<HTMLInputElement | null>(null);
 
-  const [isFailed, setIsFailed] = useState<boolean>(
-    props.isFailed ? props.isFailed : false
+  const [searchFailed, setSearchFailed] = useState<boolean>(
+    isFailed ? isFailed : false
   );
 
+  let maxHight: string = '';
+
+  switch (size) {
+    case DropdownSizes.SMALL:
+      maxHight = 'h-[5rem]';
+      break;
+    case DropdownSizes.DEFAULT:
+      maxHight = 'h-[10rem]';
+      break;
+    case DropdownSizes.LARGE:
+      maxHight = 'h-[15rem]';
+      break;
+  }
+
   useEffect(() => {
-    setSelectedValue(props.value?.toString());
-  }, [props.value]);
+    setSelectedValue(value?.toString());
+  }, [value]);
 
   useEffect(() => {
     if (isOpen && searchRef && searchRef.current) {
@@ -35,7 +59,7 @@ const Dropdown: React.FC<DropdownProps> = (props: DropdownProps) => {
   }, [isOpen, searchRef]);
 
   useEffect(() => {
-    const originalItems = props.items;
+    const originalItems = items;
 
     if (selectedValue) {
       const filteredItems = originalItems.filter((item) =>
@@ -43,14 +67,16 @@ const Dropdown: React.FC<DropdownProps> = (props: DropdownProps) => {
           .toLocaleLowerCase()
           .includes(selectedValue.toString().toLocaleLowerCase())
       );
-      filteredItems.length === 0 ? setIsFailed(true) : setIsFailed(false);
+      filteredItems.length === 0
+        ? setSearchFailed(true)
+        : setSearchFailed(false);
     } else {
-      setIsFailed(false);
+      setSearchFailed(false);
     }
-  }, [props.items, selectedValue]);
+  }, [items, selectedValue]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const originalItems = props.items;
+    const originalItems = items;
     setSelectedValue(event.target.value);
 
     const filteredItems: string[] = originalItems.filter((item) =>
@@ -61,45 +87,45 @@ const Dropdown: React.FC<DropdownProps> = (props: DropdownProps) => {
 
   const handleItemClick = (item: string) => {
     setSelectedValue(item);
-    props.onChange && props.onChange(item);
-    setIsFailed(false);
+    onChange(item);
+    setSearchFailed(false);
     setIsOpen(false);
   };
 
   return (
-    <div ref={dropdownRef} className={`relative ${props.className} w-full`}>
+    <div ref={dropdownRef} className={`relative ${className} w-full`}>
       <div
         className={`flex h-10 w-full items-center justify-between rounded-xl border-2 bg-recipeGray-light font-bold uppercase md:h-12 lg:h-14 ${
-          props.isDisabled
+          isDisabled
             ? 'cursor-default border-recipeGray-darker p-3 opacity-50'
-            : isFailed
+            : searchFailed
               ? 'cursor-pointer border-red-700 bg-red-300 p-3 text-red-600'
-              : props.isSearchable && isOpen
+              : isSearchable && isOpen
                 ? 'cursor-pointer border-recipeGray-darker px-3'
                 : 'cursor-pointer border-recipeGray-darker p-3'
         }`}
         onClick={() => setIsOpen(true)}
       >
         <div className='mx-2 flex h-full items-center justify-start text-sm md:text-base lg:text-lg'>
-          {props.isSearchable && isOpen ? (
+          {isSearchable && isOpen ? (
             <input
               type='text'
               value={selectedValue}
               onChange={handleSearch}
               ref={searchRef}
               className={`h-full w-[100%] bg-transparent text-sm focus:outline-none md:text-base lg:text-lg ${
-                isFailed ? '' : ''
+                searchFailed ? '' : ''
               }`}
             />
           ) : (
-            <span className={` ${isFailed ? 'normal-case' : 'uppercase'}`}>
-              {selectedValue || props.placeholder}
+            <span className={` ${searchFailed ? 'normal-case' : 'uppercase'}`}>
+              {selectedValue || placeholder}
             </span>
           )}
         </div>
         <FaChevronDown />
       </div>
-      {isOpen && !props.isDisabled && (
+      {isOpen && !isDisabled && (
         <ul
           className={`absolute z-50 flex flex-col items-start justify-start ${maxHight} mt-2 w-full overflow-auto rounded-xl border-2 border-recipeGray-darker font-bold uppercase`}
         >

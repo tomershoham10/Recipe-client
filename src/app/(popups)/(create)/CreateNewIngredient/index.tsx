@@ -1,11 +1,11 @@
 'use client';
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 import Input, { InputTypes } from '@/components/Input/page';
 import { PopupsTypes } from '@/app/store/stores/usePopupStore';
-import {
-  newIngredientAction,
-  newIngredientReducer,
-} from '@/reducers/(popups)/createIngredientReducer';
+// import {
+//   newIngredientAction,
+//   newIngredientReducer,
+// } from '@/reducers/(popups)/createIngredientReducer';
 import { useTranslations } from 'next-intl';
 import Dropdown, { DropdownSizes } from '@/components/Dropdown/page';
 import PopupHeader, { PopupSizes } from '../../PopupHeader';
@@ -28,17 +28,8 @@ const CreateNewIngredient: React.FC = () => {
   const tIng = useTranslations('createIngredient');
   const tButtons = useTranslations('buttons');
 
-  const initialIngredientState = {
-    name: undefined,
-    averagedPrice: 0,
-    categories: [],
-    whereToFind: [],
-  };
-
-  const [newIngredientState, newIngredientDispatch] = useReducer(
-    newIngredientReducer,
-    initialIngredientState
-  );
+  const [ingredientName, setIngredientName] = useState<string | null>(null);
+  const [pluralName, setPluralName] = useState<string | null>(null);
 
   return (
     <PopupHeader
@@ -54,32 +45,22 @@ const CreateNewIngredient: React.FC = () => {
 
           <Input
             type={InputTypes.TEXT}
-            placeholder={'Course Name'}
-            value={newIngredientState.name}
-            onChange={(value) =>
-              newIngredientDispatch({
-                type: newIngredientAction.SET_INGREDIENT_NAME,
-                payload: value as string,
-              })
-            }
+            placeholder={tIng('ingredientName')}
+            value={ingredientName || ''}
+            onChange={(value) => setIngredientName(String(value))}
           />
         </section>
 
         <section>
           <p className='col-span-1 flex-none text-lg font-bold'>
-            {tIng('addPrice')}
+            {tIng('pluralName')}
           </p>
 
           <Input
-            type={InputTypes.NUMBER}
-            placeholder={'Course Name'}
-            value={newIngredientState.averagedPrice}
-            onChange={(value) =>
-              newIngredientDispatch({
-                type: newIngredientAction.SET_AVERAGED_PRICE,
-                payload: value as number,
-              })
-            }
+            type={InputTypes.TEXT}
+            placeholder={tIng('pluralName')}
+            value={pluralName || ''}
+            onChange={(value) => setPluralName(String(value))}
           />
         </section>
 
@@ -93,7 +74,7 @@ const CreateNewIngredient: React.FC = () => {
             placeholder={'catagories'}
             items={Object.values(IngredientCategories)}
             onChange={() => {}}
-            size={DropdownSizes.SMALL}
+            size={DropdownSizes.DEFAULT}
           />
         </section>
 

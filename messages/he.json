@@ -1,4 +1,8 @@
 {
+  "navBar": {
+    "createRecipe":"צור מתכון",
+    "createIngredient":"צור מצרך"
+  },
   "createRecipe": {
     "createRecipe": "צור מתכון",
     "addRecipeName": "שם המתכון",

@@ -129,6 +129,8 @@ interface ContentType {
 
 enum PopupsTypes {
     CLOSED = "closed",
+    NEW_INGREDIENT = "newIngredient",
+    NEW_RECIPE_CATEGORY = "newRecipeCategory",
 }
 
 // // useThemeStore // //

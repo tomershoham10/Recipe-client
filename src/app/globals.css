@@ -4,8 +4,8 @@
 
 @layer components {
   .nav-items {
-    @apply rounded-md p-1 w-10 flex justify-center items-center text-2xl	 
-    hover:shadow-md hover:scale-125 hover:bg-recipeBrown-default 
+    @apply rounded-md p-1 w-10 flex justify-center items-center text-2xl
+    hover:shadow-md hover:scale-125 hover:bg-recipeBrown-default cursor-pointer
     transition-all ease-in-out duration-300;
   }
 
@@ -29,4 +29,6 @@ html, body {
   width: 100%;
   margin: 0;
   padding: 0;
+  /* background: url('../../public/background.png'); */
+  /* background-size: cover; */
 } 

@@ -1,61 +1,71 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
-import { BiSearchAlt, BiHomeAlt2 } from 'react-icons/bi';
+import { BiHomeAlt2 } from 'react-icons/bi';
 import { FaPlus } from 'react-icons/fa6';
 import { IoMdSettings } from 'react-icons/io';
 
-import { usePopupStore } from '@/app/store/stores/usePopupStore';
+import { PopupsTypes, usePopupStore } from '@/app/store/stores/usePopupStore';
+import SearchButton from '../(buttons)/SearchBotton';
+
+enum NavButtonsTypes {
+  LINK = 'link',
+  COMPONENT = 'component',
+  DROPDOWN = 'dropdown',
+}
 
 const NavBar: React.FC = () => {
   const t = useTranslations('navBar');
 
   const [isSearchClicked, setIsSearchClicked] = useState<boolean>(false);
-  const searchClick = () => {
-    setIsSearchClicked(!isSearchClicked);
-    console.log(isSearchClicked);
-  };
+  const searchClick = useCallback(() => {
+    setIsSearchClicked((prev) => !prev);
+  }, []);
 
   const updateSelectedPopup = usePopupStore.getState().updateSelectedPopup;
 
   const buttonsData = useMemo(() => {
     return [
       {
-        type: 'link',
+        type: NavButtonsTypes.LINK,
         icon: <BiHomeAlt2 />,
         href: '/',
         style: 'nav-items',
       },
       {
-        type: 'search',
-        icon: <BiSearchAlt />,
-        style: !isSearchClicked ? 'nav-items' : 'search-button',
+        type: NavButtonsTypes.COMPONENT,
+        component: (
+          <SearchButton
+            isSearchClicked={isSearchClicked}
+            searchClick={searchClick}
+          />
+        ),
       },
       {
-        type: 'dropdown',
+        type: NavButtonsTypes.DROPDOWN,
         icon: <FaPlus />,
         dropdownItems: [
           { text: t('createRecipe'), href: '/he/create-recipe' },
           {
             text: t('createIngredient'),
-            action: () => {},
+            action: () => {
+              updateSelectedPopup(PopupsTypes.NEW_INGREDIENT);
+            },
           },
         ],
         style: 'nav-items',
-
-        // style: 'mx-auto flex w-10 items-center justify-center rounded-md p-1 text-2xl transition-all duration-300 ease-in-out group-hover:scale-125 group-hover:bg-recipeBrown-default group-hover:shadow-md',
       },
       {
-        type: 'link',
+        type: NavButtonsTypes.DROPDOWN,
         icon: <IoMdSettings />,
-        href: '/he/management',
+        dropdownItems: [{ text: t('manageIngredients'), href: '/he/create-recipe' }],
         style: 'nav-items',
       },
     ];
-  }, [isSearchClicked, t]);
+  }, [isSearchClicked, searchClick, t, updateSelectedPopup]);
 
   return (
     <nav className='flex h-16 max-h-16 flex-row items-center justify-start gap-5 bg-recipeBlue-default px-5 text-recipeGray-lightest'>
@@ -63,32 +73,45 @@ const NavBar: React.FC = () => {
         <div
           key={index}
           className={
-            !buttonData.dropdownItems ? buttonData.style : 'group relative'
+            buttonData.type !== NavButtonsTypes.DROPDOWN
+              ? buttonData.style
+              : 'group relative'
           }
         >
-          <section
-            className={
-              buttonData.dropdownItems
-                ? `${buttonData.style} group-hover:bg-recipeBrown-default group-hover:scale-125`
-                : undefined
-            }
-          >
-            {buttonData.href && <Link href={buttonData.href}></Link>}
-            {buttonData.icon}
-          </section>
-          {buttonData.dropdownItems && (
+          {buttonData.type === NavButtonsTypes.COMPONENT ? (
+            buttonData.component
+          ) : (
             <>
-              <div className='absolute -bottom-[1.25rem] left-1/2 hidden h-[1.25rem] w-[6rem] -translate-x-1/2 transform group-hover:visible group-hover:flex' />
-              <section className='absolute -bottom-[5.25rem] left-1/2 z-[999] hidden -translate-x-1/2 transform flex-col rounded-lg bg-recipeBrown-default group-hover:flex'>
-                {buttonData.dropdownItems.map((item, itemIndex) => (
-                  <button
-                    key={itemIndex}
-                    className='whitespace-nowrap px-2 py-1'
-                  >
-                    {item.text}
-                  </button>
-                ))}
+              <section
+                className={
+                  buttonData.type === NavButtonsTypes.DROPDOWN
+                    ? `${buttonData.style} group-hover:scale-125 group-hover:bg-recipeBrown-default`
+                    : undefined
+                }
+              >
+                {buttonData.href && <Link href={buttonData.href}></Link>}
+                {buttonData.icon}
               </section>
+              {buttonData.type === NavButtonsTypes.DROPDOWN &&
+                buttonData.dropdownItems && (
+                  <>
+                    <div className='absolute -bottom-[1.25rem] left-1/2 hidden h-[1.25rem] w-[6rem] -translate-x-1/2 transform group-hover:visible group-hover:flex' />
+                    <section className='absolute top-[3.25rem] left-1/2 z-[999] hidden -translate-x-1/2 transform flex-col gap-1 rounded-lg bg-recipeBrown-default py-1 group-hover:flex'>
+                      {buttonData.dropdownItems.map((item, itemIndex) => (
+                        <button
+                          key={itemIndex}
+                          onClick={() => {
+                            item.action && item.action();
+                          }}
+                          className='whitespace-nowrap px-3 text-xl'
+                        >
+                          {item.href && <Link href={item.href}></Link>}
+                          {item.text}
+                        </button>
+                      ))}
+                    </section>
+                  </>
+                )}
             </>
           )}
         </div>

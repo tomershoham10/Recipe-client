@@ -1,7 +1,8 @@
 {
   "navBar": {
-    "createRecipe":"צור מתכון",
-    "createIngredient":"צור מצרך"
+    "createRecipe": "צור מתכון",
+    "createIngredient": "צור מצרך",
+    "manageIngredients": "ניהול מצרכים"
   },
   "createRecipe": {
     "createRecipe": "צור מתכון",
@@ -16,7 +17,7 @@
   "createIngredient": {
     "createIngredient": "הוסף מצרך",
     "ingredientName": "שם מצרך",
-    "addPrice": "מחיר ממוצע",
+    "pluralName": "שם ברבים",
     "addCategory": "בחר קטגוריה"
   },
   "buttons": {

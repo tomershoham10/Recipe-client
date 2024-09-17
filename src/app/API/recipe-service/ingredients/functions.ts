@@ -12,6 +12,21 @@ export enum Units {
     PINCH = "pinch",
 }
 
+export enum IngredientCategories {
+    CHICKEN = 'chicken',
+    MEAT = 'meat',
+    VEGAN = 'vegan',
+    VEGETERIAN = 'vegeterian',
+    VEGETABLES = 'vegetables',
+    FRUITS = 'fruits',
+    DAIRY = 'dairy',
+    SEAFOOD = 'seafood',
+    GRAINS = 'grains',
+    SPICES = 'spices',
+    SAUCES = 'sauces',
+    ALCOHOL = 'alcohol',
+}
+
 export const createIngredient = async (newIngredient: Partial<IngredientType>): Promise<number | null> => {
     try {
         console.log('createIngredient', newIngredient);

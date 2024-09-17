@@ -26,6 +26,7 @@ module.exports = {
         },
         recipeBlue: {
           default: '#16428C',
+          dark: '#282E62'
         },
         recipeGray: {
           lightest: '#FFFFFF',

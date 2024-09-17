@@ -1,4 +1,7 @@
-import CreateNewIngredient from '../(popups)/(create)/CreateNewIngredient';
+import { lazy } from 'react';
+const CreateNewIngredient = lazy(
+  () => import('../(popups)/(create)/CreateNewIngredient')
+);
 
 export default function LocaleLayout({
   children,

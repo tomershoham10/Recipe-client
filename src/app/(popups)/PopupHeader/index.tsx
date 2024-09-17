@@ -16,9 +16,10 @@ interface PopupHeaderProps {
   popupType: PopupsTypes;
   header: string;
   size?: PopupSizes;
+  onClose: () => void;
 }
 const PopupHeader: React.FC<PopupHeaderProps> = (props) => {
-  const { children, popupType, header, size } = props;
+  const { children, popupType, header, size, onClose } = props;
   const selectedPopup = useStore(usePopupStore, (state) => state.selectedPopup);
   //   console.log('PopupHeader selectedPopup', selectedPopup);
   const updateSelectedPopup = usePopupStore.getState().updateSelectedPopup;
@@ -63,6 +64,7 @@ const PopupHeader: React.FC<PopupHeaderProps> = (props) => {
           <button
             onClick={() => {
               updateSelectedPopup(PopupsTypes.CLOSED);
+              onClose();
             }}
             className='absolute right-4 z-50 flex h-6 w-6 flex-none items-center justify-center rounded-full transition duration-75 ease-in hover:bg-recipeGray-default'
           >

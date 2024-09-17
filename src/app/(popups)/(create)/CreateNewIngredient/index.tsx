@@ -50,19 +50,23 @@ const CreateNewIngredient: React.FC = () => {
   );
 
   const submitIngredient = useCallback(async () => {
-    const response = await pRetry(
-      () =>
-        ingredientName
-          ? createIngredient({
-              name: ingredientName,
-              categories: ingredientsList,
-              pluralName: pluralName || undefined,
-            })
-          : null,
-      {
-        retries: 5,
-      }
-    );
+    try {
+      const response = await pRetry(
+        () =>
+          ingredientName
+            ? createIngredient({
+                name: ingredientName,
+                categories: ingredientsList,
+                pluralName: pluralName || undefined,
+              })
+            : null,
+        {
+          retries: 5,
+        }
+      );
+    } catch (e) {
+      console.error('submitIngredient error', e);
+    }
   }, [ingredientName, ingredientsList, pluralName]);
 
   const resetState = () => {

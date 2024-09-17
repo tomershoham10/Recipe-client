@@ -48,7 +48,6 @@ interface ingredientsSection {
     index: number;
 }
 
-
 interface RecipeType {
     _id: string;
     name: string;
@@ -72,34 +71,25 @@ interface StepType {
 // ------ ingredients ------- //
 
 enum IngredientCategories {
-    CHICKEN = "chicken",
-    MEAT = "meat",
-    VEGAN = "vegan",
-    VEGETABLE = "vegetable",
-    DAIRY = "dairy",
-    SEAFOOD = "seafood",
-    FRUIT = "fruit",
-    GRAINS = "grains",
-    SPICES = "spices",
-    SAUCES = "sauces",
-}
-
-enum Shops {
-    GROCERY = "grocery",
-    DELI = "deli",
-    FARMERS_MARKET = "farmersMarket",
-    SUPERMARKET = "supermarket",
-    BUTCHER_SHOP = "butcherShop",
-    FISH_MARKET = "fishMarket",
-    HEALTH_STORE = "healthStore",
+    CHICKEN = 'chicken',
+    MEAT = 'meat',
+    VEGAN = 'vegan',
+    VEGETERIAN = 'vegeterian',
+    VEGETABLES = 'vegetables',
+    FRUITS = 'fruits',
+    DAIRY = 'dairy',
+    SEAFOOD = 'seafood',
+    GRAINS = 'grains',
+    SPICES = 'spices',
+    SAUCES = 'sauces',
+    ALCOHOL = 'alcohol',
 }
 
 interface IngredientType {
     _id: string;
     name: string;
-    averagedPrice: number;
+    pluralName?: string;
     categories: IngredientCategories[];
-    whereToFind: Shops[];
 };
 
 // // files service // //

@@ -3,7 +3,10 @@ import type { Metadata } from 'next';
 import { Assistant } from 'next/font/google';
 
 import NavBar from '@/components/NavBar';
-import { NextIntlClientProvider, useMessages } from 'next-intl';
+import { NextIntlClientProvider } from 'next-intl';
+import { notFound } from 'next/navigation';
+
+// import { getMessages } from 'next-intl/server';
 
 const assistant = Assistant({ subsets: ['latin'] });
 
@@ -11,15 +14,19 @@ export const metadata: Metadata = {
   title: 'Recipe apps',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params: { locale },
 }: {
   children: React.ReactNode;
   params: { locale: string };
 }) {
-  const messages = useMessages();
-
+  let messages;
+  try {
+    messages = (await import(`../../messages/${locale}.json`)).default;
+  } catch (error) {
+    notFound();
+  }
   return (
     <html lang={'he'} dir='rtl'>
       <body

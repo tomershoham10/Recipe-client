@@ -4,9 +4,7 @@ import { Assistant } from 'next/font/google';
 
 import NavBar from '@/components/NavBar';
 import { NextIntlClientProvider } from 'next-intl';
-import { notFound } from 'next/navigation';
-
-// import { getMessages } from 'next-intl/server';
+import { getMessages } from 'next-intl/server';
 
 const assistant = Assistant({ subsets: ['latin'] });
 
@@ -21,14 +19,10 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
-  let messages;
-  try {
-    messages = (await import(`../../messages/${locale}.json`)).default;
-  } catch (error) {
-    notFound();
-  }
+  const messages = await getMessages();
+
   return (
-    <html lang={'he'} dir='rtl'>
+    <html lang={locale} dir='rtl'>
       <body
         suppressHydrationWarning={true}
         className={`${assistant.className} flex flex-col bg-recipeGray-light text-recipeBrown-dark`}

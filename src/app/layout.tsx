@@ -9,7 +9,7 @@ import { getMessages } from 'next-intl/server';
 const assistant = Assistant({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Recipe apps',
+  title: 'Recipes app',
 };
 
 export default async function RootLayout({

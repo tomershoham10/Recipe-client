@@ -42,7 +42,7 @@ const CreateRecipe: React.FC = () => {
     ],
 
     newIngredientsBySection: {
-      0: { ingredientId: '', unit: tUnits(Units.UNITS), index: 0, quantity: 0 },
+      0: { ingredientId: '', unit: Units.UNITS, index: 0, quantity: 0 },
     },
 
     steps: [],
@@ -298,7 +298,7 @@ const CreateRecipe: React.FC = () => {
                   <li>
                     <input
                       type='text'
-                      className='w-full border-b-black bg-transparent px-3 py-2 focus:outline-none border-2'
+                      className='w-full border-2 border-b-black bg-transparent px-3 py-2 focus:outline-none'
                     />
                   </li>
                   <li>abc</li>

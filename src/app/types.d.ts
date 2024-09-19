@@ -24,15 +24,15 @@ enum difficultyLevels {
 }
 
 enum Units {
-    UNITS = "units",
-    GRAMS = "grams",
-    KGS = "kgs",
-    ML = "ml",
-    LITERS = "liters",
-    TBLS = "tbls",
-    SPOONS = "spoons",
-    CUPS = "cups",
-    PINCH = "pinch",
+    UNITS = "יח'",
+    GRAMS = "גרם",
+    KGS = "ק\"ג",
+    ML = "מ\"ל",
+    LITERS = "ליטר",
+    TBLS = "כפות",
+    SPOONS = "כפיות",
+    CUPS = "כוסות",
+    PINCH = "קמצוץ",
 }
 
 interface QuantifiedIngredient {

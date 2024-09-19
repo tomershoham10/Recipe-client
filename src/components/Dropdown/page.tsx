@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import useClickOutside from '@/app/utils/hooks/useClickOutside';
 import { FaChevronDown } from 'react-icons/fa';
+import { createPortal } from 'react-dom';
 
 export enum DropdownSizes {
   SMALL = 'small',
@@ -25,8 +26,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
   const [selectedValue, setSelectedValue] = useState<string | undefined>(
     value?.toString() || ''
   );
-  const [dropdownItems, setDropdownItems] = useState<string[]>(items);
-  //   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const [dropdownItems, setDropdownItems] = useState<string[]>([]);
   const dropdownRef = useClickOutside(() => setIsOpen(false));
   const searchRef = useRef<HTMLInputElement | null>(null);
 
@@ -34,17 +34,21 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
     isFailed ? isFailed : false
   );
 
+  useEffect(() => {
+    setDropdownItems(items);
+  }, [items]);
+
   let maxHight: string = '';
 
   switch (size) {
     case DropdownSizes.SMALL:
-      maxHight = 'h-[5rem]';
+      maxHight = 'max-h-[5rem]';
       break;
     case DropdownSizes.DEFAULT:
-      maxHight = 'h-[10rem]';
+      maxHight = 'max-h-[10rem]';
       break;
     case DropdownSizes.LARGE:
-      maxHight = 'h-[15rem]';
+      maxHight = 'max-h-[15rem]';
       break;
   }
 
@@ -86,11 +90,39 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
   };
 
   const handleItemClick = (item: string) => {
+    console.log('handleItemClick', item);
     setSelectedValue(item);
     onChange(item);
     setSearchFailed(false);
     setIsOpen(false);
   };
+
+  const dropdownMenu = (
+    <ul
+      className={`absolute z-50 flex h-fit flex-col items-start justify-start ${maxHight} mt-2 w-full overflow-auto rounded-xl border-2 border-recipeGray-darker font-bold uppercase`}
+      style={{
+        top: `${dropdownRef.current?.getBoundingClientRect().bottom}px`,
+        left: `${dropdownRef.current?.getBoundingClientRect().left}px`,
+        width: `${dropdownRef.current?.offsetWidth}px`,
+      }}
+    >
+      {dropdownItems && dropdownItems.length > 0 ? (
+        dropdownItems.map((item, index) => (
+          <li
+            key={index}
+            className={`w-full cursor-pointer p-2 hover:bg-recipeBlue-default hover:text-recipeGray-lightest ${selectedValue === item ? 'bg-recipeBlue-default text-recipeGray-lightest' : 'bg-recipeGray-light'}`}
+            onClick={() => handleItemClick(item)}
+          >
+            {item}
+          </li>
+        ))
+      ) : (
+        <div className='w-full cursor-pointer rounded-t-md bg-recipeGray-light p-2 hover:bg-recipeBlue-default hover:text-recipeGray-lightest'>
+          Not found.
+        </div>
+      )}
+    </ul>
+  );
 
   return (
     <div ref={dropdownRef} className={`relative ${className} w-full`}>
@@ -125,33 +157,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
         </div>
         <FaChevronDown />
       </div>
-      {isOpen && !isDisabled && (
-        <ul
-          className={`absolute z-50 flex flex-col items-start justify-start ${maxHight} mt-2 w-full overflow-auto rounded-xl border-2 border-recipeGray-darker font-bold uppercase`}
-        >
-          {dropdownItems && dropdownItems.length > 0 ? (
-            dropdownItems.map((item, index) => (
-              <li
-                key={index}
-                className={`hover:recipeGray-dark w-full cursor-pointer bg-recipeGray-light p-2 ${
-                  index === 0
-                    ? 'rounded-t-md'
-                    : index === dropdownItems.length - 1
-                      ? 'rounded-b-md'
-                      : ''
-                } `}
-                onClick={() => handleItemClick(item)}
-              >
-                {item}
-              </li>
-            ))
-          ) : (
-            <div className='w-full cursor-pointer rounded-t-md bg-recipeGray-light p-2 hover:bg-recipeGray-dark'>
-              Not found.
-            </div>
-          )}
-        </ul>
-      )}
+      {isOpen && !isDisabled && createPortal(dropdownMenu, document.body)}
     </div>
   );
 };

@@ -63,8 +63,8 @@ const PopupHeader: React.FC<PopupHeaderProps> = (props) => {
         >
           <button
             onClick={() => {
-              updateSelectedPopup(PopupsTypes.CLOSED);
               onClose();
+              updateSelectedPopup(PopupsTypes.CLOSED);
             }}
             className='absolute right-4 z-50 flex h-6 w-6 flex-none items-center justify-center rounded-full transition duration-75 ease-in hover:bg-recipeGray-default'
           >

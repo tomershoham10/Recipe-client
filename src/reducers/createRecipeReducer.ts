@@ -123,7 +123,7 @@ export const createRecipeReducer = (
             );
 
             const updatedNewIngredientsBySection = { ...state.newIngredientsBySection };
-            delete updatedNewIngredientsBySection[action.payload.sectionIndex];
+            updatedNewIngredientsBySection[action.payload.sectionIndex] = { ingredientId: '', unit: 'units', index: 0, quantity: 0 };
 
             return {
                 ...state,

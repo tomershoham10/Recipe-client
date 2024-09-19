@@ -1,4 +1,15 @@
 {
+  "units": {
+    "units": "יח'",
+    "grams": "גרם",
+    "kgs": "ק\"ג",
+    "ml": "מ\"ל",
+    "liters": "ליטר",
+    "tbls": "כפות",
+    "spoons": "כפיות",
+    "cups": "כוסות",
+    "pinch": "קמצוץ"
+  },
   "navBar": {
     "createRecipe": "צור מתכון",
     "createIngredient": "צור מצרך",
@@ -12,7 +23,9 @@
     "uploadRecipePictue": "העלה תמונה",
     "addRecipeIngredients": "הוסף מצרכים",
     "sectionName": "שם המקטע",
-    "addSection": "הוסף מקטע"
+    "addSection": "הוסף מקטע",
+
+    "addRecipeSteps": "הוסף שלבים"
   },
   "createIngredient": {
     "createIngredient": "הוסף מצרך",

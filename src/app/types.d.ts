@@ -42,10 +42,21 @@ interface QuantifiedIngredient {
     index: number;
 }
 
-interface ingredientsSection {
+interface IngredientsSection {
     header: string;
     quantifiedIngredients: QuantifiedIngredient[];
     index: number;
+}
+
+interface StepsType {
+    info: string;
+    index: number
+}
+
+interface StepsSection {
+    header: string;
+    index: number;
+    steps: StepsType[];
 }
 
 interface RecipeType {
@@ -55,8 +66,8 @@ interface RecipeType {
     img: string;
     categories: RecipeCategories[];
     difficultyLevel: difficultyLevels;
-    ingredientsSections: ingredientsSection[];
-    steps: string[];
+    ingredientsSections: IngredientsSection[];
+    steps: StepsSection[];
 }
 
 // ------ steps ------- //

@@ -16,10 +16,10 @@ import {
 } from '@/reducers/createRecipeReducer';
 import { Units } from '@/app/API/recipe-service/ingredients/functions';
 import { useFetchIngredients } from '@/app/utils/hooks/useFetchIngredients';
+import BorderedInput from '@/components/(inputs)/BorderedInput';
 
 const CreateRecipe: React.FC = () => {
   const tCreateRecipe = useTranslations('createRecipe');
-  const tUnits = useTranslations('units');
 
   const ingredientsList = useFetchIngredients();
 
@@ -33,6 +33,7 @@ const CreateRecipe: React.FC = () => {
     name: '',
     description: '',
     picture: null,
+
     ingredientsSections: [
       {
         header: '',
@@ -40,12 +41,20 @@ const CreateRecipe: React.FC = () => {
         index: 0,
       },
     ],
-
     newIngredientsBySection: {
       0: { ingredientId: '', unit: Units.UNITS, index: 0, quantity: 0 },
     },
 
-    steps: [],
+    stepsSections: [
+      {
+        header: '',
+        index: 0,
+        steps: [],
+      },
+    ],
+    newStepsBySection: {
+      0: { info: '', index: 0 },
+    },
   };
 
   const [createRecipeState, createRecipeDispatch] = useReducer(
@@ -73,6 +82,23 @@ const CreateRecipe: React.FC = () => {
       });
     },
     [createRecipeState.newIngredientsBySection]
+  );
+
+  const handleAddingStep = useCallback(
+    (sectionIndex: number) => {
+      const newStep = createRecipeState.newStepsBySection[sectionIndex];
+
+      console.log('handleAddingStep', newStep);
+
+      createRecipeDispatch({
+        type: createRecipeAction.ADD_STEP_TO_SECTION,
+        payload: {
+          sectionIndex: sectionIndex,
+          step: newStep,
+        },
+      });
+    },
+    [createRecipeState.newStepsBySection]
   );
 
   return (
@@ -144,135 +170,144 @@ const CreateRecipe: React.FC = () => {
             {tCreateRecipe('addRecipeIngredients')}
           </p>
 
-          {createRecipeState.ingredientsSections.map(
-            (section, sectionIndex) => (
-              <div
-                className='group relative mb-3 rounded-xl bg-recipeGray-default px-4 py-2'
-                key={sectionIndex}
-              >
-                <p className='mb-1 text-xl font-semibold opacity-80'>
-                  {section.header.length > 0
-                    ? section.header
-                    : tCreateRecipe('sectionName')}
-                </p>
+          {createRecipeState.ingredientsSections.map((ingredientSection) => (
+            <div
+              className='group relative mb-3 rounded-xl bg-recipeGray-default px-4 py-2'
+              key={ingredientSection.index}
+            >
+              <div className='mb-1 text-xl font-semibold opacity-80'>
+                <BorderedInput
+                  placeholder={tCreateRecipe('sectionName')}
+                  onChange={(event) => {
+                    const inputValue = event.target.value;
+                    createRecipeDispatch({
+                      type: createRecipeAction.SET_INGREDIENT_SECTION_HEADER,
+                      payload: {
+                        sectionIndex: ingredientSection.index,
+                        sectionHeader: inputValue,
+                      },
+                    });
+                  }}
+                  className='mb-1 w-[6.5rem] text-xl font-semibold'
+                />
+              </div>
 
-                <section className='flex flex-row items-center justify-between'>
-                  <section className='w-[40%]'>
-                    <p className='text-lg font-semibold opacity-60'>
-                      ingredients list
-                    </p>
-                    <Dropdown
-                      isSearchable={true}
-                      placeholder={'Select ingredient'}
-                      items={sortedIngredientsList.map((ing) => ing.name)}
-                      onChange={(val) => {
-                        const ingObj = sortedIngredientsList.find(
-                          (ing) => ing.name === val
-                        );
-                        console.log(
-                          'ingredientId',
-                          val,
-                          ingObj,
-                          sortedIngredientsList
-                        );
-                        if (ingObj) {
-                          createRecipeDispatch({
-                            type: createRecipeAction.UPDATE_NEW_INGREDIENT_FIELD,
-                            payload: {
-                              sectionIndex: section.index,
-                              field: 'ingredientId',
-                              value: ingObj._id,
-                            },
-                          });
-                        }
-                      }}
-                      size={DropdownSizes.DEFAULT}
-                    />
-                  </section>
-                  <section className='w-[25%]'>
-                    <p className='text-lg font-semibold opacity-60'>
-                      units list
-                    </p>
-                    <Dropdown
-                      isSearchable={true}
-                      placeholder={'Units'}
-                      items={
-                        Object.values(Units)
-                          .map((unit) => tUnits(unit))
-                          .sort((a, b) => a.localeCompare(b)) || []
-                      }
-                      onChange={(val) => {
-                        console.log(val);
+              <section className='flex flex-row items-center justify-between'>
+                <section className='w-[40%]'>
+                  <p className='text-lg font-semibold opacity-60'>
+                    ingredients list
+                  </p>
+                  <Dropdown
+                    isSearchable={true}
+                    placeholder={tCreateRecipe('selectIngredient')}
+                    items={sortedIngredientsList.map((ing) => ing.name)}
+                    onChange={(val) => {
+                      const ingObj = sortedIngredientsList.find(
+                        (ing) => ing.name === val
+                      );
+                      console.log(
+                        'ingredientId',
+                        val,
+                        ingObj,
+                        sortedIngredientsList
+                      );
+                      if (ingObj) {
                         createRecipeDispatch({
                           type: createRecipeAction.UPDATE_NEW_INGREDIENT_FIELD,
                           payload: {
-                            sectionIndex: section.index,
-                            field: 'unit',
-                            value: val,
+                            sectionIndex: ingredientSection.index,
+                            field: 'ingredientId',
+                            value: ingObj._id,
                           },
                         });
-                      }}
-                      size={DropdownSizes.DEFAULT}
-                    />
-                  </section>
-                  <section className='w-[20%]'>
-                    <p className='text-lg font-semibold opacity-60'>quantity</p>
-                    <Input
-                      type={InputTypes.NUMBER}
-                      value={
-                        createRecipeState.newIngredientsBySection[section.index]
-                          .quantity
                       }
-                      onChange={(quantity) => {
-                        console.log(quantity);
-                        createRecipeDispatch({
-                          type: createRecipeAction.UPDATE_NEW_INGREDIENT_FIELD,
-                          payload: {
-                            sectionIndex: section.index,
-                            field: 'quantity',
-                            value: Number(quantity),
-                          },
-                        });
-                      }}
-                    />
-                  </section>
-                  <PlusButton
-                    onClick={() => handleAddingIngredient(section.index)}
-                    className='mt-6 bg-recipeGray-light'
+                    }}
+                    size={DropdownSizes.DEFAULT}
                   />
                 </section>
-
-                <section className='mt-2 flex flex-row flex-wrap gap-3'>
-                  <Chips
-                    values={section.quantifiedIngredients.map(
-                      (ingredient) =>
-                        `${ingredient.quantity} ${ingredient.unit} ${sortedIngredientsList.find((ing) => ing._id === ingredient.ingredientId)?.name}`
-                    )}
-                    onRemove={(index) => {
+                <section className='w-[25%]'>
+                  <p className='text-lg font-semibold opacity-60'>units list</p>
+                  <Dropdown
+                    isSearchable={true}
+                    placeholder={tCreateRecipe('units')}
+                    items={
+                      Object.values(Units).sort((a, b) => a.localeCompare(b)) ||
+                      []
+                    }
+                    onChange={(val) => {
+                      console.log(val);
                       createRecipeDispatch({
-                        type: createRecipeAction.REMOVE_INGREDIENT_FROM_SECTION,
+                        type: createRecipeAction.UPDATE_NEW_INGREDIENT_FIELD,
                         payload: {
-                          sectionIndex: section.index,
-                          ingredientIndex: index,
+                          sectionIndex: ingredientSection.index,
+                          field: 'unit',
+                          value: val,
+                        },
+                      });
+                    }}
+                    size={DropdownSizes.DEFAULT}
+                  />
+                </section>
+                <section className='w-[20%]'>
+                  <p className='text-lg font-semibold opacity-60'>quantity</p>
+                  <Input
+                    type={InputTypes.NUMBER}
+                    value={
+                      createRecipeState.newIngredientsBySection[
+                        ingredientSection.index
+                      ].quantity
+                    }
+                    onChange={(quantity) => {
+                      console.log(quantity);
+                      createRecipeDispatch({
+                        type: createRecipeAction.UPDATE_NEW_INGREDIENT_FIELD,
+                        payload: {
+                          sectionIndex: ingredientSection.index,
+                          field: 'quantity',
+                          value: Number(quantity),
                         },
                       });
                     }}
                   />
                 </section>
-                <button
-                  className='absolute left-4 top-3 hidden h-6 w-6 items-center justify-center rounded-full bg-black text-recipeGray-lightest group-hover:flex'
-                  onClick={() => {
+                <PlusButton
+                  onClick={() =>
+                    handleAddingIngredient(ingredientSection.index)
+                  }
+                  className='mt-6 bg-recipeGray-light'
+                />
+              </section>
+
+              <section className='mt-2 flex flex-row flex-wrap gap-3'>
+                <Chips
+                  values={ingredientSection.quantifiedIngredients.map(
+                    (ingredient) =>
+                      `${ingredient.quantity} ${ingredient.unit} ${sortedIngredientsList.find((ing) => ing._id === ingredient.ingredientId)?.name}`
+                  )}
+                  onRemove={(index) => {
                     createRecipeDispatch({
-                      type: createRecipeAction.REMOVE_INGREDIENT_SECTION,
-                      payload: section.index,
+                      type: createRecipeAction.REMOVE_INGREDIENT_FROM_SECTION,
+                      payload: {
+                        sectionIndex: ingredientSection.index,
+                        ingredientIndex: index,
+                      },
                     });
                   }}
-                >
-                  <FaXmark />
-                </button>
-              </div>
-            )
-          )}
+                />
+              </section>
+              <button
+                onClick={() => {
+                  createRecipeDispatch({
+                    type: createRecipeAction.REMOVE_INGREDIENT_SECTION,
+                    payload: ingredientSection.index,
+                  });
+                }}
+                className='absolute left-4 top-3 hidden h-6 w-6 items-center justify-center rounded-full bg-black text-recipeGray-lightest group-hover:flex'
+              >
+                <FaXmark />
+              </button>
+            </div>
+          ))}
 
           <PlusButton
             onClick={() => {
@@ -288,28 +323,72 @@ const CreateRecipe: React.FC = () => {
           <p className='mb-1 text-3xl font-bold'>
             {tCreateRecipe('addRecipeSteps')}
           </p>
-          <div className='group relative mb-3 rounded-xl bg-recipeGray-default px-4 py-2'>
-            <p className='mb-1 text-xl font-semibold opacity-80'>
-              {tCreateRecipe('sectionName')}
-            </p>
-            <section className='flex flex-row items-center justify-between'>
-              <section className='w-[40%]'>
-                <ol type='A'>
-                  <li>
-                    <input
-                      type='text'
-                      className='w-full border-2 border-b-black bg-transparent px-3 py-2 focus:outline-none'
-                    />
-                  </li>
-                  <li>abc</li>
-                  <li>abc</li>
-                </ol>
+          {createRecipeState.stepsSections.map((stepsSection) => (
+            <div
+              className='group relative mb-3 rounded-xl bg-recipeGray-default px-4 py-2'
+              key={stepsSection.index}
+            >
+              <div className='mb-1 text-xl font-semibold opacity-80'>
+                <BorderedInput
+                  placeholder={tCreateRecipe('sectionName')}
+                  onChange={(event) => {
+                    const inputValue = event.target.value;
+                    createRecipeDispatch({
+                      type: createRecipeAction.SET_STEP_SECTION_HEADER,
+                      payload: {
+                        sectionIndex: stepsSection.index,
+                        sectionHeader: inputValue,
+                      },
+                    });
+                  }}
+                  className='mb-1 w-[6.5rem] text-xl font-semibold'
+                />
+              </div>
+              <section className='flex flex-col items-center justify-between'>
+                <section className='mb-1 mt-2 flex w-full flex-row items-center justify-center gap-3'>
+                  <Textbox
+                    isEditMode={false}
+                    fontSizeProps={FontSizes.LARGE}
+                    value={
+                      createRecipeState.newStepsBySection[stepsSection.index]
+                        .info
+                    }
+                    onChange={(text) => {
+                      console.log(text);
+                      createRecipeDispatch({
+                        type: createRecipeAction.UPDATE_NEW_STEP_FIELD,
+                        payload: {
+                          sectionIndex: stepsSection.index,
+                          field: 'info',
+                          value: text,
+                        },
+                      });
+                    }}
+                  />
+                  <PlusButton
+                    onClick={() => {
+                      handleAddingStep(stepsSection.index);
+                    }}
+                    className='h-fit bg-recipeGray-light'
+                  />
+                </section>
+                <ul className='w-full text-xl'>
+                  {stepsSection.steps.map((step) => (
+                    <li key={step.index} className='flex flex-row gap-1'>
+                      <span>{step.index + 1}.</span>
+                      <span className='w-[95%] break-words'>{step.info}</span>
+                    </li>
+                  ))}
+                </ul>
               </section>
-            </section>
-          </div>
-
+            </div>
+          ))}
           <PlusButton
-            onClick={() => {}}
+            onClick={() => {
+              createRecipeDispatch({
+                type: createRecipeAction.ADD_STEP_SECTION,
+              });
+            }}
             className='absolute bottom-1 left-1/2 -translate-x-1/2 transform'
           />
         </section>

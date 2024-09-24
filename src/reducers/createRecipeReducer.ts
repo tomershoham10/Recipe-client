@@ -1,9 +1,12 @@
 import { Units } from "@/app/API/recipe-service/ingredients/functions";
 
-export enum createRecipeAction {
+export enum RecipeActionsList {
     SET_RECIPE_NAME = 'setRecipeName',
+
     SET_RECIPE_DESCRIPTION = 'setRecipeDescription',
+
     SET_RECIPE_PICTURE = "setRecipePicture",
+    REMOVE_RECIPE_PICTURE = "removeRecipePicture",
 
     ADD_INGREDIENT_SECTION = "addIngredientSection",
     REMOVE_INGREDIENT_SECTION = "removeIngredientSection",
@@ -21,26 +24,29 @@ export enum createRecipeAction {
 }
 
 
-type Action =
-    | { type: createRecipeAction.SET_RECIPE_NAME, payload: string }
-    | { type: createRecipeAction.SET_RECIPE_DESCRIPTION, payload: string }
-    | { type: createRecipeAction.SET_RECIPE_PICTURE, payload: File | null }
+export type CreateRecipeAction =
+    | { type: RecipeActionsList.SET_RECIPE_NAME, payload: string }
 
-    | { type: createRecipeAction.ADD_INGREDIENT_SECTION }
-    | { type: createRecipeAction.REMOVE_INGREDIENT_SECTION, payload: number }
-    | { type: createRecipeAction.SET_INGREDIENT_SECTION_HEADER, payload: { sectionIndex: number, sectionHeader: string } }
-    | { type: createRecipeAction.ADD_INGREDIENT_TO_SECTION, payload: { sectionIndex: number, ingredient: QuantifiedIngredient } }
-    | { type: createRecipeAction.REMOVE_INGREDIENT_FROM_SECTION, payload: { sectionIndex: number, ingredientIndex: number } }
-    | { type: createRecipeAction.UPDATE_NEW_INGREDIENT_FIELD, payload: { sectionIndex: number, field: keyof QuantifiedIngredient, value: string | number } }
+    | { type: RecipeActionsList.SET_RECIPE_DESCRIPTION, payload: string }
 
-    | { type: createRecipeAction.ADD_STEP_SECTION }
-    | { type: createRecipeAction.REMOVE_STEP_SECTION, payload: number }
-    | { type: createRecipeAction.SET_STEP_SECTION_HEADER, payload: { sectionIndex: number, sectionHeader: string } }
-    | { type: createRecipeAction.ADD_STEP_TO_SECTION, payload: { sectionIndex: number, step: StepsType } }
-    | { type: createRecipeAction.REMOVE_STEP_FROM_SECTION, payload: { sectionIndex: number, stepIndex: number } }
-    | { type: createRecipeAction.UPDATE_NEW_STEP_FIELD, payload: { sectionIndex: number, field: keyof StepsType, value: string | number } };
+    | { type: RecipeActionsList.SET_RECIPE_PICTURE, payload: File | null }
+    | { type: RecipeActionsList.REMOVE_RECIPE_PICTURE }
 
-export interface createRecipeType {
+    | { type: RecipeActionsList.ADD_INGREDIENT_SECTION }
+    | { type: RecipeActionsList.REMOVE_INGREDIENT_SECTION, payload: number }
+    | { type: RecipeActionsList.SET_INGREDIENT_SECTION_HEADER, payload: { sectionIndex: number, sectionHeader: string } }
+    | { type: RecipeActionsList.ADD_INGREDIENT_TO_SECTION, payload: { sectionIndex: number, ingredient: QuantifiedIngredient } }
+    | { type: RecipeActionsList.REMOVE_INGREDIENT_FROM_SECTION, payload: { sectionIndex: number, ingredientIndex: number } }
+    | { type: RecipeActionsList.UPDATE_NEW_INGREDIENT_FIELD, payload: { sectionIndex: number, field: keyof QuantifiedIngredient, value: string | number } }
+
+    | { type: RecipeActionsList.ADD_STEP_SECTION }
+    | { type: RecipeActionsList.REMOVE_STEP_SECTION, payload: number }
+    | { type: RecipeActionsList.SET_STEP_SECTION_HEADER, payload: { sectionIndex: number, sectionHeader: string } }
+    | { type: RecipeActionsList.ADD_STEP_TO_SECTION, payload: { sectionIndex: number, step: StepsType } }
+    | { type: RecipeActionsList.REMOVE_STEP_FROM_SECTION, payload: { sectionIndex: number, stepIndex: number } }
+    | { type: RecipeActionsList.UPDATE_NEW_STEP_FIELD, payload: { sectionIndex: number, field: keyof StepsType, value: string | number } };
+
+export interface CreateRecipeType {
     name: string;
     description: string;
     picture: File | null;
@@ -57,18 +63,25 @@ export interface createRecipeType {
 }
 
 export const createRecipeReducer = (
-    state: createRecipeType,
-    action: Action
-): createRecipeType => {
+    state: CreateRecipeType,
+    action: CreateRecipeAction
+): CreateRecipeType => {
     switch (action.type) {
-        case createRecipeAction.SET_RECIPE_NAME:
+        case RecipeActionsList.SET_RECIPE_NAME:
             return { ...state, name: action.payload };
-        case createRecipeAction.SET_RECIPE_DESCRIPTION:
-            return { ...state, description: action.payload };
-        case createRecipeAction.SET_RECIPE_PICTURE:
-            return { ...state, picture: action.payload };
 
-        case createRecipeAction.ADD_INGREDIENT_SECTION:
+        case RecipeActionsList.SET_RECIPE_DESCRIPTION:
+            return { ...state, description: action.payload };
+
+        case RecipeActionsList.SET_RECIPE_PICTURE:
+            return { ...state, picture: action.payload };
+        case RecipeActionsList.REMOVE_RECIPE_PICTURE:
+            return {
+                ...state,
+                picture: null,
+            };
+
+        case RecipeActionsList.ADD_INGREDIENT_SECTION:
             return {
                 ...state, ingredientsSections: [...state.ingredientsSections, {
                     header: '',
@@ -80,7 +93,7 @@ export const createRecipeReducer = (
                     [state.ingredientsSections.length]: { ingredientId: '', unit: Units.UNITS, index: 0, quantity: 0 }
                 }
             };
-        case createRecipeAction.REMOVE_INGREDIENT_SECTION:
+        case RecipeActionsList.REMOVE_INGREDIENT_SECTION:
             if (state.ingredientsSections.length === 1) {
                 return state;
             }
@@ -94,7 +107,7 @@ export const createRecipeReducer = (
                     })),
             };
 
-        case createRecipeAction.SET_INGREDIENT_SECTION_HEADER:
+        case RecipeActionsList.SET_INGREDIENT_SECTION_HEADER:
             return {
                 ...state,
                 ingredientsSections: state.ingredientsSections.map((section, index) =>
@@ -104,7 +117,7 @@ export const createRecipeReducer = (
                 ),
             };
 
-        case createRecipeAction.ADD_INGREDIENT_TO_SECTION:
+        case RecipeActionsList.ADD_INGREDIENT_TO_SECTION:
             const currentIndex = state.newIngredientsBySection[action.payload.sectionIndex]?.index || 0;
             const newIndex = currentIndex + 1;
             return {
@@ -124,7 +137,7 @@ export const createRecipeReducer = (
                         : section
                 ),
             };
-        case createRecipeAction.REMOVE_INGREDIENT_FROM_SECTION:
+        case RecipeActionsList.REMOVE_INGREDIENT_FROM_SECTION:
             const updatedIngredientsSections = state.ingredientsSections.map((section, index) =>
                 index === action.payload.sectionIndex
                     ? {
@@ -145,7 +158,7 @@ export const createRecipeReducer = (
                 newIngredientsBySection: updatedNewIngredientsBySection,
             };
 
-        case createRecipeAction.UPDATE_NEW_INGREDIENT_FIELD:
+        case RecipeActionsList.UPDATE_NEW_INGREDIENT_FIELD:
             return {
                 ...state,
                 newIngredientsBySection: {
@@ -158,7 +171,7 @@ export const createRecipeReducer = (
             };
 
 
-        case createRecipeAction.ADD_STEP_SECTION:
+        case RecipeActionsList.ADD_STEP_SECTION:
             return {
                 ...state,
                 stepsSections: [
@@ -171,7 +184,7 @@ export const createRecipeReducer = (
                 },
             };
 
-        case createRecipeAction.REMOVE_STEP_SECTION:
+        case RecipeActionsList.REMOVE_STEP_SECTION:
             if (state.stepsSections.length === 1) {
                 return state;
             }
@@ -185,7 +198,7 @@ export const createRecipeReducer = (
                     })),
             };
 
-        case createRecipeAction.SET_STEP_SECTION_HEADER:
+        case RecipeActionsList.SET_STEP_SECTION_HEADER:
             return {
                 ...state,
                 stepsSections: state.stepsSections.map((section, index) =>
@@ -195,7 +208,7 @@ export const createRecipeReducer = (
                 ),
             };
 
-        case createRecipeAction.ADD_STEP_TO_SECTION:
+        case RecipeActionsList.ADD_STEP_TO_SECTION:
             return {
                 ...state,
                 newStepsBySection: {
@@ -212,7 +225,7 @@ export const createRecipeReducer = (
                 ),
             };
 
-        case createRecipeAction.REMOVE_STEP_FROM_SECTION:
+        case RecipeActionsList.REMOVE_STEP_FROM_SECTION:
             return {
                 ...state,
                 stepsSections: state.stepsSections.map((section, index) =>
@@ -231,7 +244,7 @@ export const createRecipeReducer = (
                 },
             };
 
-        case createRecipeAction.UPDATE_NEW_STEP_FIELD:
+        case RecipeActionsList.UPDATE_NEW_STEP_FIELD:
             return {
                 ...state,
                 newStepsBySection: {

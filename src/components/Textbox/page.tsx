@@ -38,7 +38,7 @@ const Textbox: React.FC<TextboxProps> = (props) => {
   }, [fontSizeProps]);
 
   return (
-    <form className={`${fontSize} h-24`}>
+    <form className={`${fontSize} h-24 w-full`}>
       <div className='overflow-hiddenf relative h-full'>
         <textarea
           style={isEditMode ? {} : { resize: 'none' }}

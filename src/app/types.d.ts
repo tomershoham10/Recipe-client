@@ -17,10 +17,10 @@ enum RecipeCategories {
     "DESSERT",
 }
 
-enum difficultyLevels {
-    "Easy",
-    "Medium",
-    "Advanced",
+enum DifficultyLevels {
+    EASY = "easy",
+    MEDIUM = "medium",
+    ADVANCED = "advanced",
 }
 
 enum Units {
@@ -63,11 +63,11 @@ interface RecipeType {
     _id: string;
     name: string;
     description: string;
-    img: string;
+    picture: string;
     categories: RecipeCategories[];
-    difficultyLevel: difficultyLevels;
+    difficultyLevel: DifficultyLevels;
     ingredientsSections: IngredientsSection[];
-    steps: StepsSection[];
+    stepsSections: StepsSection[];
 }
 
 // ------ steps ------- //

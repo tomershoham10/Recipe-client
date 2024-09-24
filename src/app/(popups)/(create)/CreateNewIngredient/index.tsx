@@ -64,8 +64,8 @@ const CreateNewIngredient: React.FC = () => {
           retries: 5,
         }
       );
-    } catch (e) {
-      console.error('submitIngredient error', e);
+    } catch (error) {
+      console.error('Error submitIngredient:', error);
     }
   }, [ingredientName, ingredientsList, pluralName]);
 

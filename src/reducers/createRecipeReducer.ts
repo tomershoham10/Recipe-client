@@ -4,13 +4,20 @@ export enum createRecipeAction {
     SET_RECIPE_NAME = 'setRecipeName',
     SET_RECIPE_DESCRIPTION = 'setRecipeDescription',
     SET_RECIPE_PICTURE = "setRecipePicture",
+
     ADD_INGREDIENT_SECTION = "addIngredientSection",
     REMOVE_INGREDIENT_SECTION = "removeIngredientSection",
     SET_INGREDIENT_SECTION_HEADER = "setIngredientSectionHeader",
     ADD_INGREDIENT_TO_SECTION = "addIngredientToSection",
     REMOVE_INGREDIENT_FROM_SECTION = "removeIngredientFromSection",
-
     UPDATE_NEW_INGREDIENT_FIELD = "updateNewIngredientField",
+
+    ADD_STEP_SECTION = "addStepSection",
+    REMOVE_STEP_SECTION = "removeStepSection",
+    SET_STEP_SECTION_HEADER = "setStepSectionHeader",
+    ADD_STEP_TO_SECTION = "addStepToSection",
+    REMOVE_STEP_FROM_SECTION = "removeStepFromSection",
+    UPDATE_NEW_STEP_FIELD = "updateNewStepField",
 }
 
 
@@ -21,25 +28,32 @@ type Action =
 
     | { type: createRecipeAction.ADD_INGREDIENT_SECTION }
     | { type: createRecipeAction.REMOVE_INGREDIENT_SECTION, payload: number }
-
     | { type: createRecipeAction.SET_INGREDIENT_SECTION_HEADER, payload: { sectionIndex: number, sectionHeader: string } }
-
     | { type: createRecipeAction.ADD_INGREDIENT_TO_SECTION, payload: { sectionIndex: number, ingredient: QuantifiedIngredient } }
     | { type: createRecipeAction.REMOVE_INGREDIENT_FROM_SECTION, payload: { sectionIndex: number, ingredientIndex: number } }
+    | { type: createRecipeAction.UPDATE_NEW_INGREDIENT_FIELD, payload: { sectionIndex: number, field: keyof QuantifiedIngredient, value: string | number } }
 
-    | { type: createRecipeAction.UPDATE_NEW_INGREDIENT_FIELD, payload: { sectionIndex: number, field: keyof QuantifiedIngredient, value: string | number } };
+    | { type: createRecipeAction.ADD_STEP_SECTION }
+    | { type: createRecipeAction.REMOVE_STEP_SECTION, payload: number }
+    | { type: createRecipeAction.SET_STEP_SECTION_HEADER, payload: { sectionIndex: number, sectionHeader: string } }
+    | { type: createRecipeAction.ADD_STEP_TO_SECTION, payload: { sectionIndex: number, step: StepsType } }
+    | { type: createRecipeAction.REMOVE_STEP_FROM_SECTION, payload: { sectionIndex: number, stepIndex: number } }
+    | { type: createRecipeAction.UPDATE_NEW_STEP_FIELD, payload: { sectionIndex: number, field: keyof StepsType, value: string | number } };
 
 export interface createRecipeType {
     name: string;
     description: string;
     picture: File | null;
-    ingredientsSections: ingredientsSection[];
 
+    ingredientsSections: IngredientsSection[];
     newIngredientsBySection: {
         [sectionIndex: number]: QuantifiedIngredient;
     };
 
-    steps: string[];
+    stepsSections: StepsSection[];
+    newStepsBySection: {
+        [sectionIndex: number]: StepsType;
+    };
 }
 
 export const createRecipeReducer = (
@@ -142,6 +156,93 @@ export const createRecipeReducer = (
                     },
                 },
             };
+
+
+        case createRecipeAction.ADD_STEP_SECTION:
+            return {
+                ...state,
+                stepsSections: [
+                    ...state.stepsSections,
+                    { header: '', steps: [], index: state.stepsSections.length },
+                ],
+                newStepsBySection: {
+                    ...state.newStepsBySection,
+                    [state.stepsSections.length]: { info: '', index: 0 },
+                },
+            };
+
+        case createRecipeAction.REMOVE_STEP_SECTION:
+            if (state.stepsSections.length === 1) {
+                return state;
+            }
+            return {
+                ...state,
+                stepsSections: state.stepsSections
+                    .filter((_, index) => index !== action.payload)
+                    .map((section, index) => ({
+                        ...section,
+                        index,
+                    })),
+            };
+
+        case createRecipeAction.SET_STEP_SECTION_HEADER:
+            return {
+                ...state,
+                stepsSections: state.stepsSections.map((section, index) =>
+                    index === action.payload.sectionIndex
+                        ? { ...section, header: action.payload.sectionHeader }
+                        : section
+                ),
+            };
+
+        case createRecipeAction.ADD_STEP_TO_SECTION:
+            return {
+                ...state,
+                newStepsBySection: {
+                    ...state.newStepsBySection,
+                    [action.payload.sectionIndex]: {
+                        info: '',
+                        index: (state.newStepsBySection[action.payload.sectionIndex]?.index || 0) + 1,
+                    },
+                },
+                stepsSections: state.stepsSections.map((section, index) =>
+                    index === action.payload.sectionIndex
+                        ? { ...section, steps: [...section.steps, action.payload.step] }
+                        : section
+                ),
+            };
+
+        case createRecipeAction.REMOVE_STEP_FROM_SECTION:
+            return {
+                ...state,
+                stepsSections: state.stepsSections.map((section, index) =>
+                    index === action.payload.sectionIndex
+                        ? {
+                            ...section,
+                            steps: section.steps.filter(
+                                (_, i) => i !== action.payload.stepIndex
+                            ),
+                        }
+                        : section
+                ),
+                newStepsBySection: {
+                    ...state.newStepsBySection,
+                    [action.payload.sectionIndex]: { info: '', index: 0 },
+                },
+            };
+
+        case createRecipeAction.UPDATE_NEW_STEP_FIELD:
+            return {
+                ...state,
+                newStepsBySection: {
+                    ...state.newStepsBySection,
+                    [action.payload.sectionIndex]: {
+                        ...state.newStepsBySection[action.payload.sectionIndex],
+                        [action.payload.field]: action.payload.value,
+                    },
+                },
+            };
+
         default:
             return state;
     };

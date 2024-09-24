@@ -99,7 +99,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 
   const dropdownMenu = (
     <ul
-      className={`absolute z-50 flex h-fit flex-col items-start justify-start ${maxHight} mt-2 w-full overflow-auto rounded-xl border-2 border-recipeGray-darker font-bold uppercase`}
+      className={`absolute z-[1001] flex h-fit flex-col items-start justify-start ${maxHight} mt-2 w-full overflow-auto rounded-xl border-2 border-recipeGray-darker font-bold uppercase`}
       style={{
         top: `${dropdownRef.current?.getBoundingClientRect().bottom}px`,
         left: `${dropdownRef.current?.getBoundingClientRect().left}px`,

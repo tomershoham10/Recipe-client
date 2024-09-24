@@ -51,6 +51,9 @@ export interface CreateRecipeType {
     description: string;
     picture: File | null;
 
+    categories: RecipeCategories[];
+    difficultyLevel: DifficultyLevels;
+
     ingredientsSections: IngredientsSection[];
     newIngredientsBySection: {
         [sectionIndex: number]: QuantifiedIngredient;

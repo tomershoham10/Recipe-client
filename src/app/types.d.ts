@@ -7,20 +7,24 @@
 // ------ recipes ------- //
 
 enum RecipeCategories {
-    "ITALIAN",
-    "ASAIN",
-    "INDIAN",
-    "VEGAN",
-    "SEAFOOD",
-    "SALAD",
-    "DINNER",
-    "DESSERT",
+    ITALIAN = "איטלקי",
+    ASAIN = "אסייתי",
+    INDIAN = "הודי",
+    VEGAN = "טבעוני",
+    VEGETERIAN = "צמחוני",
+    SEAFOOD = "דגים",
+    SALAD = "סלט",
+    DINNER = "ארוחת ערב",
+    DESSERT = "קינוח",
+    COCKTAIL = "קוקטייל",
+    SOUP = "מרק",
+    BAKING = "אפייה",
 }
 
 enum DifficultyLevels {
-    EASY = "easy",
-    MEDIUM = "medium",
-    ADVANCED = "advanced",
+    EASY = "קל",
+    MEDIUM = "בינוני",
+    ADVANCED = "למתקדמים",
 }
 
 enum Units {
@@ -68,15 +72,6 @@ interface RecipeType {
     difficultyLevel: DifficultyLevels;
     ingredientsSections: IngredientsSection[];
     stepsSections: StepsSection[];
-}
-
-// ------ steps ------- //
-
-interface StepType {
-    _id: string;
-    duration: number;
-    data: string;
-    img: string;
 }
 
 // ------ ingredients ------- //

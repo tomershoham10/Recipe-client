@@ -1,14 +1,31 @@
 import { RECIPES_SERVICE_ENDPOINTS } from "../apis";
 
 export enum DifficultyLevels {
-    EASY = "easy",
-    MEDIUM = "medium",
-    ADVANCED = "advanced",
+    EASY = "קל",
+    MEDIUM = "בינוני",
+    ADVANCED = "למתקדמים",
 }
 
-export const createRecipe = async (newIngredient: Partial<RecipeType>): Promise<number | null> => {
+export enum RecipeCategories {
+    ITALIAN = "איטלקי",
+    ASAIN = "אסייתי",
+    INDIAN = "הודי",
+    VEGAN = "טבעוני",
+    VEGETERIAN = "צמחוני",
+    SEAFOOD = "דגים",
+    SALAD = "סלט",
+    DINNER = "ארוחת ערב",
+    DESSERT = "קינוח",
+    COCKTAIL = "קוקטייל",
+    SOUP = "מרק",
+    BAKING = "אפייה",
+}
+
+export const createRecipe = async (recipe: Partial<RecipeType>): Promise<RecipeType | null> => {
     try {
-        console.log('createIngredient', newIngredient);
+        console.log('createIngredient', recipe);
+
+
         const response = await fetch(
             RECIPES_SERVICE_ENDPOINTS.RECIPES,
             {
@@ -17,10 +34,17 @@ export const createRecipe = async (newIngredient: Partial<RecipeType>): Promise<
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(newIngredient)
+                body: JSON.stringify(recipe)
             });
 
-        return response.status;
+        if (response.status === 201) {
+            const data = await response.json();
+            const resRecipe = data.recipe;
+            return resRecipe;
+
+        } else {
+            return null;
+        }
 
     } catch (error) {
         console.error("Error creating an ingredient:", error);

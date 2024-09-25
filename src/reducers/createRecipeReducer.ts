@@ -1,4 +1,5 @@
 import { Units } from "@/app/API/recipe-service/ingredients/functions";
+import { DifficultyLevels } from "@/app/API/recipe-service/recipes/functions";
 
 export enum RecipeActionsList {
     SET_RECIPE_NAME = 'setRecipeName',
@@ -7,6 +8,10 @@ export enum RecipeActionsList {
 
     SET_RECIPE_PICTURE = "setRecipePicture",
     REMOVE_RECIPE_PICTURE = "removeRecipePicture",
+
+    SET_RECIPE_DIFFICULTY_LEVEL = 'setRecipeDifficultyLevel',
+    ADD_RECIPE_CATEGORY = 'addRecipeCategory',
+    REMOVE_RECIPE_CATEGORY = 'removeRecipeCategory',
 
     ADD_INGREDIENT_SECTION = "addIngredientSection",
     REMOVE_INGREDIENT_SECTION = "removeIngredientSection",
@@ -32,6 +37,10 @@ export type CreateRecipeAction =
     | { type: RecipeActionsList.SET_RECIPE_PICTURE, payload: File | null }
     | { type: RecipeActionsList.REMOVE_RECIPE_PICTURE }
 
+    | { type: RecipeActionsList.SET_RECIPE_DIFFICULTY_LEVEL, payload: DifficultyLevels }
+    | { type: RecipeActionsList.ADD_RECIPE_CATEGORY, payload: RecipeCategories }
+    | { type: RecipeActionsList.REMOVE_RECIPE_CATEGORY, payload: RecipeCategories }
+
     | { type: RecipeActionsList.ADD_INGREDIENT_SECTION }
     | { type: RecipeActionsList.REMOVE_INGREDIENT_SECTION, payload: number }
     | { type: RecipeActionsList.SET_INGREDIENT_SECTION_HEADER, payload: { sectionIndex: number, sectionHeader: string } }
@@ -52,7 +61,7 @@ export interface CreateRecipeType {
     picture: File | null;
 
     categories: RecipeCategories[];
-    difficultyLevel: DifficultyLevels;
+    difficultyLevel: DifficultyLevels | null;
 
     ingredientsSections: IngredientsSection[];
     newIngredientsBySection: {
@@ -82,6 +91,22 @@ export const createRecipeReducer = (
             return {
                 ...state,
                 picture: null,
+            };
+
+        case RecipeActionsList.SET_RECIPE_DIFFICULTY_LEVEL:
+            return { ...state, difficultyLevel: action.payload };
+        case RecipeActionsList.ADD_RECIPE_CATEGORY:
+            if (!state.categories.includes(action.payload)) {
+                return {
+                    ...state,
+                    categories: [...state.categories, action.payload],
+                };
+            }
+            return state;
+        case RecipeActionsList.REMOVE_RECIPE_CATEGORY:
+            return {
+                ...state,
+                categories: state.categories.filter(category => category !== action.payload),
             };
 
         case RecipeActionsList.ADD_INGREDIENT_SECTION:

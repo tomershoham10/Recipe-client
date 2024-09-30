@@ -94,6 +94,7 @@ const RecipeGeneralDataSection: React.FC<RecipeSectionsProps> = (props) => {
           {createRecipeState.categories.length > 0 && (
             <section className='mt-3 flex w-full flex-row flex-wrap gap-2 pb-1'>
               <Chips
+                editMode={true}
                 values={createRecipeState.categories}
                 onRemove={handleRemovingCategory}
               />

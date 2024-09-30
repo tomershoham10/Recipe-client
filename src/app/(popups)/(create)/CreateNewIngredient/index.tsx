@@ -135,7 +135,7 @@ const CreateNewIngredient: React.FC = () => {
           />
         </section>
         <section className='flex w-full flex-row flex-wrap gap-2'>
-          <Chips values={ingredientsList} onRemove={removeIngredient} />
+          <Chips editMode={true} values={ingredientsList} onRemove={removeIngredient} />
         </section>
 
         <Button

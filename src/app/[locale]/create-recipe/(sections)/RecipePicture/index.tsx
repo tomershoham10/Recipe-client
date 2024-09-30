@@ -27,6 +27,7 @@ const RecipePictureSection: React.FC<RecipeSectionsProps> = (props) => {
       {createRecipeState.picture && (
         <section className='mt-2'>
           <Chips
+            editMode={true}
             values={[createRecipeState.picture.name]}
             onRemove={() => {
               createRecipeDispatch({

@@ -153,6 +153,7 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
 
           <section className='mt-2 flex flex-row flex-wrap gap-3'>
             <Chips
+              editMode={true}
               values={ingredientSection.quantifiedIngredients.map(
                 (ingredient) =>
                   `${ingredient.quantity} ${ingredient.unit} ${sortedIngredientsList.find((ing) => ing._id === ingredient.ingredientId)?.name}`

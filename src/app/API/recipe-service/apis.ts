@@ -11,5 +11,6 @@ export const INGREDIENTS_API = {
 };
 
 export const RECIPES_API = {
+    LOAD_RECIPES: `${RECIPES_SERVICE_ENDPOINTS.RECIPES}/infinite-scroll`
 };
 

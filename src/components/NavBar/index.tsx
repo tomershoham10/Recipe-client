@@ -4,7 +4,7 @@ import { useCallback, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
-import { BiHomeAlt2 } from 'react-icons/bi';
+import { BiHomeAlt2, BiSearchAlt } from 'react-icons/bi';
 import { FaPlus } from 'react-icons/fa6';
 import { IoMdSettings } from 'react-icons/io';
 
@@ -15,6 +15,7 @@ enum NavButtonsTypes {
   LINK = 'link',
   COMPONENT = 'component',
   DROPDOWN = 'dropdown',
+  BUTTON = 'button',
 }
 
 const NavBar: React.FC = () => {
@@ -36,14 +37,22 @@ const NavBar: React.FC = () => {
         style: 'nav-items',
       },
       {
-        type: NavButtonsTypes.COMPONENT,
-        component: (
-          <SearchButton
-            isSearchClicked={isSearchClicked}
-            searchClick={searchClick}
-          />
-        ),
+        type: NavButtonsTypes.BUTTON,
+        icon: <BiSearchAlt />,
+        style: 'nav-items',
+        action: () => {
+          updateSelectedPopup(PopupsTypes.SEARCH);
+        },
       },
+      // {
+      //   type: NavButtonsTypes.COMPONENT,
+      //   component: (
+      //     <SearchButton
+      //       isSearchClicked={isSearchClicked}
+      //       searchClick={searchClick}
+      //     />
+      //   ),
+      // },
       {
         type: NavButtonsTypes.DROPDOWN,
         icon: <FaPlus />,
@@ -61,11 +70,13 @@ const NavBar: React.FC = () => {
       {
         type: NavButtonsTypes.DROPDOWN,
         icon: <IoMdSettings />,
-        dropdownItems: [{ text: t('manageIngredients'), href: '/he/create-recipe' }],
+        dropdownItems: [
+          { text: t('manageIngredients'), href: '/he/create-recipe' },
+        ],
         style: 'nav-items',
       },
     ];
-  }, [isSearchClicked, searchClick, t, updateSelectedPopup]);
+  }, [t, updateSelectedPopup]);
 
   return (
     <nav className='flex h-16 max-h-16 flex-row items-center justify-start gap-5 bg-recipeBlue-default px-5 text-recipeGray-lightest'>
@@ -79,7 +90,16 @@ const NavBar: React.FC = () => {
           }
         >
           {buttonData.type === NavButtonsTypes.COMPONENT ? (
-            buttonData.component
+            // buttonData.component
+            <></>
+          ) : buttonData.type === NavButtonsTypes.BUTTON ? (
+            <button
+              onClick={() => {
+                buttonData.action && buttonData.action();
+              }}
+            >
+              {buttonData.icon}
+            </button>
           ) : (
             <>
               <section
@@ -96,7 +116,7 @@ const NavBar: React.FC = () => {
                 buttonData.dropdownItems && (
                   <>
                     <div className='absolute -bottom-[1.25rem] left-1/2 hidden h-[1.25rem] w-[6rem] -translate-x-1/2 transform group-hover:visible group-hover:flex' />
-                    <section className='absolute top-[3.25rem] left-1/2 z-[999] hidden -translate-x-1/2 transform flex-col gap-1 rounded-lg bg-recipeBrown-default py-1 group-hover:flex'>
+                    <section className='absolute left-1/2 top-[3.25rem] z-[999] hidden -translate-x-1/2 transform flex-col gap-1 rounded-lg bg-recipeBrown-default py-1 group-hover:flex'>
                       {buttonData.dropdownItems.map((item, itemIndex) => (
                         <button
                           key={itemIndex}

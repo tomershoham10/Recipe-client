@@ -27,6 +27,7 @@
     "pluralName": "שם ברבים",
     "addCategory": "בחר קטגוריה"
   },
+  "searchPopup": {},
   "buttons": {
     "create": "צור"
   }

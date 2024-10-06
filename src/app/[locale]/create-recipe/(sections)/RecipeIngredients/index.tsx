@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { FaXmark } from 'react-icons/fa6';
@@ -9,6 +9,7 @@ import { RecipeSectionsProps } from '../RecipeName';
 import PlusButton from '@/components/(buttons)/PlusButton';
 import Input, { InputTypes } from '@/components/Input/page';
 import BorderedInput from '@/components/(inputs)/BorderedInput';
+import { decimalToFraction } from '@/app/utils/decimalToFraction';
 import { RecipeActionsList } from '@/reducers/createRecipeReducer';
 import Dropdown, { DropdownSizes } from '@/components/Dropdown/page';
 import { Units } from '@/app/API/recipe-service/ingredients/functions';
@@ -20,6 +21,10 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
 
   const ingredientsList = useFetchIngredients();
 
+  const [unitsDropdownValue, setUnitsDropdownValue] = useState<Units | null>(
+    null
+  );
+
   const sortedIngredientsList = useMemo(() => {
     return ingredientsList?.sort((a, b) => a.name.localeCompare(b.name)) || [];
   }, [ingredientsList]);
@@ -30,6 +35,8 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
         createRecipeState.newIngredientsBySection[sectionIndex];
 
       console.log('handleAddingIngredient', newIngredient);
+
+      setUnitsDropdownValue(null);
 
       createRecipeDispatch({
         type: RecipeActionsList.ADD_INGREDIENT_TO_SECTION,
@@ -76,17 +83,21 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
               <Dropdown
                 isSearchable={true}
                 placeholder={t('selectIngredient')}
+                value={
+                  sortedIngredientsList?.find(
+                    (ing) =>
+                      ing._id ===
+                      createRecipeState.newIngredientsBySection[
+                        ingredientSection.index
+                      ].ingredientId
+                  )?.name
+                }
                 items={sortedIngredientsList.map((ing) => ing.name)}
                 onChange={(val) => {
                   const ingObj = sortedIngredientsList.find(
                     (ing) => ing.name === val
                   );
-                  console.log(
-                    'ingredientId',
-                    val,
-                    ingObj,
-                    sortedIngredientsList
-                  );
+
                   if (ingObj) {
                     createRecipeDispatch({
                       type: RecipeActionsList.UPDATE_NEW_INGREDIENT_FIELD,
@@ -105,12 +116,14 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
               <p className='text-lg font-semibold opacity-60'>units list</p>
               <Dropdown
                 isSearchable={true}
+                value={unitsDropdownValue || undefined}
                 placeholder={t('units')}
                 items={
                   Object.values(Units).sort((a, b) => a.localeCompare(b)) || []
                 }
                 onChange={(val) => {
                   console.log(val);
+                  setUnitsDropdownValue(val as Units);
                   createRecipeDispatch({
                     type: RecipeActionsList.UPDATE_NEW_INGREDIENT_FIELD,
                     payload: {
@@ -155,8 +168,25 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
             <Chips
               editMode={true}
               values={ingredientSection.quantifiedIngredients.map(
-                (ingredient) =>
-                  `${ingredient.quantity} ${ingredient.unit} ${sortedIngredientsList.find((ing) => ing._id === ingredient.ingredientId)?.name}`
+                (ingredient) => (
+                  <span key={ingredient.ingredientId}>
+                    <p
+                      className='inline-block'
+                      style={{
+                        unicodeBidi: 'isolate',
+                        direction: 'ltr',
+                      }}
+                    >
+                      {decimalToFraction(ingredient.quantity)}
+                    </p>{' '}
+                    {ingredient.unit}{' '}
+                    {
+                      sortedIngredientsList.find(
+                        (ing) => ing._id === ingredient.ingredientId
+                      )?.name
+                    }
+                  </span>
+                )
               )}
               onRemove={(index) => {
                 createRecipeDispatch({

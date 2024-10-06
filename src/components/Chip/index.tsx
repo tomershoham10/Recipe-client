@@ -1,8 +1,9 @@
 'use client';
+import { ReactNode } from 'react';
 import { FaXmark } from 'react-icons/fa6';
 
 interface ChipsProps {
-  values: string[];
+  values: string[] | ReactNode[];
   editMode: boolean;
   onRemove?: (index: number) => void;
 }

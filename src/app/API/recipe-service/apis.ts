@@ -5,6 +5,7 @@ const ROUT = `http://${host}:5000`;
 export const RECIPES_SERVICE_ENDPOINTS = {
     INGREDIENTS: `${ROUT}/api/ingredients`,
     RECIPES: `${ROUT}/api/recipes`,
+    SEARCH: `${ROUT}/api/search`,
 };
 
 export const INGREDIENTS_API = {

@@ -17,7 +17,7 @@ export const useFetchIngredients = () => {
       const response = await pRetry(getAllIngredients, {
         retries: 5,
       });
-      console.log('usefetchIngredients response', response);
+      // console.log('usefetchIngredients response', response);
       response && setIngredients(response);
     } catch (err) {
       console.error('fetchIngredients error:', err);

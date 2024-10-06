@@ -139,7 +139,6 @@ export const getFileMetadataByETag = async (bucketName: BucketsNames, etag: stri
 
 export const getFileByName = async (bucketName: BucketsNames, recipeId: string, objectName: string): Promise<string | null> => {
     try {
-
         const encodedObjectName = encodeURIComponent(objectName);
         const response = await fetch(
             `${FILES_API.GET_FILE_BY_NAME}/${bucketName}/${recipeId}/${encodedObjectName}`, {
@@ -147,10 +146,10 @@ export const getFileByName = async (bucketName: BucketsNames, recipeId: string, 
             credentials: 'include',
         })
 
-        console.log("getFileByName response", response);
+        // console.log("getFileByName response", response);
 
         const blob = await response.blob();
-        console.log('getFileByName blob', blob);
+        // console.log('getFileByName blob', blob);
         const url = window.URL.createObjectURL(blob);
 
 

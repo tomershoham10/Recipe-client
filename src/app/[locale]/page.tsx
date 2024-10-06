@@ -3,7 +3,11 @@ import { useCallback, useEffect, useState } from 'react';
 import pRetry from 'p-retry';
 import { useRouter } from 'next/navigation';
 import RecipeCard from '@/components/RecipeCard';
-import { loadRecipes } from '../API/recipe-service/recipes/functions';
+import {
+  loadRecipes,
+  RecipeCategories,
+} from '../API/recipe-service/recipes/functions';
+import Chips from '@/components/Chip';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -24,7 +28,7 @@ const Home: React.FC = () => {
       const response = await pRetry(() => loadRecipes(page, ITEMS_PER_PAGE), {
         retries: 5,
         onFailedAttempt: (error) =>
-          console.error(`Attempt ${error.attemptNumber} failed. Retrying...`),
+          console.error(`loadRecipes Attempt ${error.attemptNumber} failed. Retrying...`),
       });
 
       if (response) {
@@ -71,7 +75,6 @@ const Home: React.FC = () => {
 
   const handleRecipeClicked = useCallback(
     (recipeId: string) => {
-      alert(recipeId);
       router.push(`/he/recipes/${recipeId}`);
     },
     [router]
@@ -79,6 +82,10 @@ const Home: React.FC = () => {
 
   return (
     <div className='flex h-full w-full flex-col items-center justify-start overflow-y-auto px-6 py-8'>
+      {/* <div className='flex flex-row gap-2'> */}
+      {/* <Chips values={Object.values(RecipeCategories)} editMode={false} /> */}
+
+      {/* </div> */}
       {/* maybe switch flex-wrap to grid */}
       <section className='flex h-fit w-full flex-row flex-wrap gap-x-8 gap-y-6'>
         {recipes.map((recipe) => (

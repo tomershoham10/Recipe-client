@@ -2,16 +2,17 @@
 import { useCallback, useEffect, useReducer } from 'react';
 import pRetry from 'p-retry';
 import { useTranslations } from 'next-intl';
-import { createRecipeReducer } from '@/reducers/createRecipeReducer';
-import { Units } from '@/app/API/recipe-service/ingredients/functions';
-import RecipeNameSection from './(sections)/RecipeName';
-import RecipeDescriptionSection from './(sections)/RecipeDescription';
-import RecipePictureSection from './(sections)/RecipePicture';
-import RecipeIngredientsSection from './(sections)/RecipeIngredients';
-import RecipeStepsSection from './(sections)/RecipeSteps';
+
 import Button from '@/components/(buttons)/Button';
-import { createRecipe } from '@/app/API/recipe-service/recipes/functions';
+import RecipeNameSection from './(sections)/RecipeName';
+import RecipeStepsSection from './(sections)/RecipeSteps';
+import RecipePictureSection from './(sections)/RecipePicture';
+import { createRecipeReducer } from '@/reducers/createRecipeReducer';
+import RecipeDescriptionSection from './(sections)/RecipeDescription';
+import RecipeIngredientsSection from './(sections)/RecipeIngredients';
 import RecipeGeneralDataSection from './(sections)/RecipeGeneralData';
+import { Units } from '@/app/API/recipe-service/ingredients/functions';
+import { createRecipe } from '@/app/API/recipe-service/recipes/functions';
 import { BucketsNames, uploadFile } from '@/app/API/files-service/functions';
 
 const CreateRecipe: React.FC = () => {
@@ -54,7 +55,7 @@ const CreateRecipe: React.FC = () => {
   );
 
   useEffect(() => {
-    console.log(createRecipeState);
+    console.log('createRecipeState', createRecipeState);
   }, [createRecipeState]);
 
   const submitRecipe = useCallback(async () => {
@@ -83,6 +84,10 @@ const CreateRecipe: React.FC = () => {
             : null,
         {
           retries: 5,
+          onFailedAttempt: (error) =>
+            console.error(
+              `createRecipe Attempt ${error.attemptNumber} failed. Retrying...`
+            ),
         }
       );
 
@@ -99,6 +104,10 @@ const CreateRecipe: React.FC = () => {
               : null,
           {
             retries: 5,
+            onFailedAttempt: (error) =>
+              console.error(
+                `uploadFile Attempt ${error.attemptNumber} failed. Retrying...`
+              ),
           }
         );
       }

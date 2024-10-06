@@ -22,6 +22,10 @@ const RecipeCard: React.FC<RecipeCardProps> = (props) => {
           () => getFileByName(BucketsNames.RECIPES, recipe._id, recipe.picture),
           {
             retries: 5,
+            onFailedAttempt: (error) =>
+              console.error(
+                `getFileByName Attempt ${error.attemptNumber} failed. Retrying...`
+              ),
           }
         );
         setUrl(responseUrl);

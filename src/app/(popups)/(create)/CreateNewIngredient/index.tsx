@@ -62,6 +62,10 @@ const CreateNewIngredient: React.FC = () => {
             : null,
         {
           retries: 5,
+          onFailedAttempt: (error) =>
+            console.error(
+              `submitIngredient Attempt ${error.attemptNumber} failed. Retrying...`
+            ),
         }
       );
     } catch (error) {
@@ -135,7 +139,11 @@ const CreateNewIngredient: React.FC = () => {
           />
         </section>
         <section className='flex w-full flex-row flex-wrap gap-2'>
-          <Chips editMode={true} values={ingredientsList} onRemove={removeIngredient} />
+          <Chips
+            editMode={true}
+            values={ingredientsList}
+            onRemove={removeIngredient}
+          />
         </section>
 
         <Button

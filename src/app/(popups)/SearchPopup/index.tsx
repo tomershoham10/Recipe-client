@@ -25,7 +25,13 @@ const getFile = async (recipeId: string, objectName: string) => {
   try {
     const responseUrl = await pRetry(
       () => getFileByName(BucketsNames.RECIPES, recipeId, objectName),
-      { retries: 5 }
+      {
+        retries: 5,
+        onFailedAttempt: (error) =>
+          console.error(
+            `getFileByName Attempt ${error.attemptNumber} failed. Retrying...`
+          ),
+      }
     );
     return responseUrl;
   } catch (err) {
@@ -151,7 +157,6 @@ const SeachPopup: React.FC = () => {
                               </section>
                               {category === 'recipes' && (
                                 <div className='relative ml-2 h-0 w-0 overflow-hidden transition-all duration-200 ease-in group-hover:h-[148px] group-hover:w-[150px]'>
-                                  {' '}
                                   <Image
                                     src={imageUrls[item._id] || background}
                                     alt='recipe image'

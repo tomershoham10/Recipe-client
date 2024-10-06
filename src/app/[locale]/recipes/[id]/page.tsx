@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Chips from '@/components/Chip';
 
 import { BucketsNames } from '@/app/API/files-service/functions';
+import { decimalToFraction } from '@/app/utils/decimalToFraction';
 import { getRecipeById } from '@/app/API/recipe-service/recipes/functions';
 import { getAllIngredients } from '@/app/API/recipe-service/ingredients/functions';
 
@@ -11,7 +12,13 @@ import { getAllIngredients } from '@/app/API/recipe-service/ingredients/function
 const fetchRecipe = async (id: string): Promise<RecipeType | null> => {
   try {
     console.log('fetchRecipe', id);
-    const response = await getRecipeById(id);
+    const response = await pRetry(() => getRecipeById(id), {
+      retries: 5,
+      onFailedAttempt: (error) =>
+        console.error(
+          `fetchRecipe Attempt ${error.attemptNumber} failed. Retrying...`
+        ),
+    });
     return response;
   } catch (error) {
     throw new Error(`error getting recipe by id - ${error}`);
@@ -84,44 +91,53 @@ const Recipes = async ({ params }: { params: { id: string } }) => {
   return (
     <section className='h-full w-full overflow-y-auto'>
       {recipe && (
-        <div className='h-full w-full'>
-          <header className='flex w-full flex-col items-center justify-center gap-3 pt-12'>
+        <div className='h-full w-full pt-12'>
+          <header className='flex w-full flex-col items-center justify-center gap-3'>
             <h1 className='text-5xl font-bold'>{recipe.name}</h1>
             <h2 className='text-4xl'>{recipe.description}</h2>
-
-            <Chips values={recipe.categories} editMode={false} />
+            <section className='flex flex-row gap-3'>
+              <Chips
+                values={[recipe.difficultyLevel, ...recipe.categories]}
+                editMode={false}
+              />
+            </section>
             {blob && (
-              <div className='relative ml-2 h-fit w-fit overflow-hidden transition-all duration-200 ease-in'>
+              <div className='relative ml-2 h-fit w-fit overflow-hidden'>
                 <Image
                   src={src}
                   alt='recipe image'
-                  className='rounded-xl py-2'
-                  width={900}
-                  height={1600}
+                  width={1024}
+                  height={768}
+                  className='mx-auto h-auto w-[70%] rounded-md'
                 />
               </div>
             )}
           </header>
 
-          <section className='px-6'>
-            <>
-              <p className='text-3xl font-semibold'>ingredients</p>
+          <section className='mx-auto flex w-[70%] flex-col pb-12 pt-3'>
+            <section className='mb-4 w-full border-b-2 border-recipeBrown-dark pb-3'>
+              {/* <p className='text-4xl font-bold'>ingredients</p> */}
               {recipe.ingredientsSections &&
                 recipe.ingredientsSections.map((ingSection) => (
                   <section key={ingSection.index} className='mb-3'>
-                    <p className='text-xl font-semibold'>{ingSection.header}</p>
-                    <section className='text-lg'>
+                    <p className='text-3xl font-bold'>{ingSection.header}</p>
+                    <ul className='flex flex-col gap-1 text-2xl'>
                       {ingSection.quantifiedIngredients.map((quntIng) => (
-                        <span
-                          key={quntIng.index}
-                          className='flex flex-row gap-1'
-                        >
+                        <li key={quntIng.index} className='flex flex-row gap-1'>
                           {ingredientsList &&
                             ingredientsList.find(
                               (ing) => ing._id === quntIng.ingredientId
                             ) && (
                               <>
-                                <p>{quntIng.quantity}</p>
+                                <p
+                                  className='inline-block'
+                                  style={{
+                                    unicodeBidi: 'isolate',
+                                    direction: 'ltr',
+                                  }}
+                                >
+                                  {decimalToFraction(quntIng.quantity)}
+                                </p>
                                 <p>{quntIng.unit}</p>
                                 <p>
                                   {
@@ -132,35 +148,35 @@ const Recipes = async ({ params }: { params: { id: string } }) => {
                                 </p>
                               </>
                             )}
-                        </span>
+                        </li>
                       ))}
-                    </section>
+                    </ul>
                   </section>
                 ))}
-            </>
-            <>
-              <p className='text-3xl font-semibold'>steps</p>
+            </section>
+
+            <section>
+              {/* <p className='text-4xl font-bold'>steps</p> */}
 
               {recipe.stepsSections &&
                 recipe.stepsSections.map((stepSection) => (
-                  <section key={stepSection.index} className='mb-3'>
-                    <p className='text-xl font-semibold'>
-                      {stepSection.header}
-                    </p>
-                    <section className='text-lg'>
+                  <section key={stepSection.index}>
+                    <p className='text-3xl font-bold'>{stepSection.header}</p>
+                    <ul
+                      className='flex list-inside flex-col gap-3 text-2xl'
+                      style={{ listStyleType: 'disc' }}
+                    >
                       {stepSection.steps &&
                         stepSection.steps.map((step) => (
-                          <span
-                            key={step.index}
-                            className='flex flex-row gap-1'
-                          >
-                            {step.info}
-                          </span>
+                          <li key={step.index} className='flex flex-row gap-2'>
+                            <span>{step.index + 1}.</span>
+                            <p>{step.info}</p>
+                          </li>
                         ))}
-                    </section>
+                    </ul>
                   </section>
                 ))}
-            </>
+            </section>
           </section>
         </div>
       )}

@@ -1,8 +1,6 @@
-import React from 'react';
-
 interface BorderedInputProps {
   type?: string;
-  value?: string;
+  value?: string | number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   className?: string;

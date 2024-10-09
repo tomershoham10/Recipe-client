@@ -2,6 +2,7 @@
 import { useCallback, useReducer, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import pRetry from 'p-retry';
+import { TiPlus } from 'react-icons/ti';
 
 import {
   createIngredient,
@@ -10,7 +11,7 @@ import {
 
 import Chips from '@/components/Chip';
 import Button from '@/components/(buttons)/Button';
-import PlusButton from '@/components/(buttons)/PlusButton';
+import RoundButton from '@/components/(buttons)/RoundButton';
 import Input, { InputTypes } from '@/components/Input/page';
 import PopupHeader, { PopupSizes } from '../../PopupHeader';
 import Dropdown, { DropdownSizes } from '@/components/Dropdown/page';
@@ -133,7 +134,8 @@ const CreateNewIngredient: React.FC = () => {
               size={DropdownSizes.DEFAULT}
             />
           </section>
-          <PlusButton
+          <RoundButton
+            Icon={TiPlus}
             onClick={handleIngredientsList}
             className='mt-10 h-8 w-8 bg-recipeGray-light'
           />

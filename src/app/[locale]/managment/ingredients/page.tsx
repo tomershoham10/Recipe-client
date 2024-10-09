@@ -1,9 +1,10 @@
 'use client';
 import { useCallback, useState } from 'react';
 import Button from '@/components/(buttons)/Button';
-import PlusButton from '@/components/(buttons)/PlusButton';
+import RoundButton from '@/components/(buttons)/RoundButton';
 import { useFetchIngredients } from '@/app/utils/hooks/useFetchIngredients';
 import { PopupsTypes, usePopupStore } from '@/app/store/stores/usePopupStore';
+import { TiPlus } from 'react-icons/ti';
 
 const Ingredients = () => {
   const ingredientsList = useFetchIngredients();
@@ -43,7 +44,8 @@ const Ingredients = () => {
             ))}
           </ul>
         )}
-        <PlusButton
+        <RoundButton
+          Icon={TiPlus}
           onClick={() => {
             updateSelectedPopup(PopupsTypes.NEW_INGREDIENT);
           }}

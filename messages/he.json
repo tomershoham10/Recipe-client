@@ -16,6 +16,7 @@
     "difficultyLevel": "רמת קושי",
     "chooseDifficultyLevel": "בחר רמת קושי",
     "selectCategory": "בחר קטגוריה",
+    "addSource": "הוסף המקור",
     "addRecipeIngredients": "הוסף מצרכים",
     "sectionName": "שם המקטע",
     "addSection": "הוסף מקטע",
@@ -30,5 +31,19 @@
   "searchPopup": {},
   "buttons": {
     "create": "צור"
+  },
+  "Months": {
+    "January": "בינואר",
+    "February": "בפברואר",
+    "March": "במרץ",
+    "April": "באפריל",
+    "May": "במאי",
+    "June": "ביוני",
+    "July": "ביולי",
+    "August": "באוגוסט",
+    "September": "בספטמבר",
+    "October": "באוקטובר",
+    "November": "בנובמבר",
+    "December": "בדצמבר"
   }
 }

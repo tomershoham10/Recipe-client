@@ -1,9 +1,11 @@
-import { BucketsNames, getFileByName } from '@/app/API/files-service/functions';
-import Image from 'next/image';
-import pRetry from 'p-retry';
 import React, { useCallback, useEffect, useState } from 'react';
+import pRetry from 'p-retry';
+import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import Chips from '../Chip';
 import { FaRegHeart } from 'react-icons/fa6';
+import { formatDate } from '@/app/utils/formatDate';
+import { BucketsNames, getFileByName } from '@/app/API/files-service/functions';
 
 interface RecipeCardProps {
   recipe: RecipeType;
@@ -13,6 +15,23 @@ interface RecipeCardProps {
 const RecipeCard: React.FC<RecipeCardProps> = (props) => {
   const { recipe, onClick } = props;
 
+  console.log('RecipeCard', recipe);
+  const t = useTranslations('Months');
+
+  const monthNames: string[] = [
+    t('January'),
+    t('February'),
+    t('March'),
+    t('April'),
+    t('May'),
+    t('June'),
+    t('July'),
+    t('August'),
+    t('September'),
+    t('October'),
+    t('November'),
+    t('December'),
+  ];
   const [url, setUrl] = useState<string | null>(null);
 
   const getFile = useCallback(async () => {
@@ -65,12 +84,15 @@ const RecipeCard: React.FC<RecipeCardProps> = (props) => {
         <h2 className='text-xl font-bold'>{recipe.name}</h2>
         <p className='line-clamp-2 font-semibold'>{recipe.description}</p>
       </div>
-      <section className='flex flex-wrap gap-2 py-1'>
-        <Chips values={[...recipe.categories]} editMode={false} />
+      <section className='flex h-full w-full flex-col'>
+        <section className='flex flex-wrap gap-2 py-1'>
+          <Chips values={[...recipe.categories]} editMode={false} />
+        </section>
+        <span className='absolute bottom-2 left-1/2 -translate-x-1/2 overflow-hidden text-ellipsis whitespace-nowrap font-semibold opacity-80'>
+          - {recipe.difficultyLevel} | {'1.5 שעות'} |{' '}
+          {formatDate(String(recipe.createdAt), monthNames)} -
+        </span>
       </section>
-      <span className='absolute bottom-2 left-1/2 -translate-x-1/2 font-semibold opacity-90'>
-        - {recipe.difficultyLevel} | 1.5 hours -
-      </span>
     </div>
   );
 };

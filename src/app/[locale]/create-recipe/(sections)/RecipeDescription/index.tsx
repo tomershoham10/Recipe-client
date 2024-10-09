@@ -9,7 +9,7 @@ const RecipeDescriptionSection: React.FC<RecipeSectionsProps> = (props) => {
   const t = useTranslations('createRecipe');
 
   return (
-    <section className='mr-4 w-4/5 rounded-2xl bg-recipeGray-lightest px-4 py-2'>
+    <section className='lg:mr-4 w-4/5 rounded-2xl bg-recipeGray-lightest px-4 py-2'>
       <p className='mb-1 text-xl font-semibold opacity-80'>
         {t('addRecipeDescription')}
       </p>

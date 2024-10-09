@@ -117,9 +117,9 @@ const CreateRecipe: React.FC = () => {
   }, [createRecipeState]);
 
   return (
-    <section className='flex h-full w-full flex-row'>
-      <section className='flex h-full w-full basis-1/2 flex-col gap-3 overflow-y-auto border-l-2 border-recipeGray-default py-4 pr-3'>
-        <p className='pr-4 text-5xl font-bold'>
+    <section className='flex h-full w-full flex-col overflow-y-auto py-3 lg:flex-row lg:overflow-hidden lg:py-0'>
+      <section className='flex h-full w-full flex-col items-center gap-3 lg:basis-1/2 lg:items-start lg:overflow-y-auto lg:border-l-2 lg:border-recipeGray-default lg:py-4 lg:pr-3'>
+        <p className='w-4/5 text-5xl font-bold lg:w-fit lg:pr-4'>
           {tCreateRecipe('createRecipe')}
         </p>
 
@@ -137,13 +137,14 @@ const CreateRecipe: React.FC = () => {
           createRecipeState={createRecipeState}
           createRecipeDispatch={createRecipeDispatch}
         />
+
         <Button
           label={tButtons('create')}
           onClick={submitRecipe}
-          className='mr-4 mt-2'
+          className='mr-4 mt-2 hidden lg:block'
         />
       </section>
-      <section className='flex h-full w-full basis-1/2 flex-col gap-3 overflow-y-auto py-4 pr-3'>
+      <section className='flex h-full w-full flex-col items-center gap-3 py-4 lg:basis-1/2 lg:items-start lg:overflow-y-auto lg:pr-3'>
         <RecipeGeneralDataSection
           createRecipeState={createRecipeState}
           createRecipeDispatch={createRecipeDispatch}
@@ -158,6 +159,9 @@ const CreateRecipe: React.FC = () => {
           createRecipeState={createRecipeState}
           createRecipeDispatch={createRecipeDispatch}
         />
+        <section className='mb-2 w-4/5 lg:hidden'>
+          <Button label={tButtons('create')} onClick={submitRecipe} />
+        </section>
       </section>
     </section>
   );

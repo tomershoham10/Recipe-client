@@ -72,6 +72,7 @@ interface RecipeType {
     difficultyLevel: DifficultyLevels;
     ingredientsSections: IngredientsSection[];
     stepsSections: StepsSection[];
+    createdAt: Date;
 }
 
 // ------ ingredients ------- //
@@ -161,7 +162,14 @@ enum TypesOfUser {
 
 // // Button // //
 
+// // RoundButton // //
 
+interface RoundButtonProps {
+    label?: string;
+    Icon: IconType;
+    className?: string;
+    onClick: () => void;
+}
 
 // // Dropdown // //
 

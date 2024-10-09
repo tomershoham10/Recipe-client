@@ -1,9 +1,10 @@
 'use client';
 import { useCallback } from 'react';
 import { useTranslations } from 'next-intl';
+import { TiPlus, TiCamera } from 'react-icons/ti';
 
 import { RecipeSectionsProps } from '../RecipeName';
-import PlusButton from '@/components/(buttons)/PlusButton';
+import RoundButton from '@/components/(buttons)/RoundButton';
 import Textbox, { FontSizes } from '@/components/Textbox/page';
 import BorderedInput from '@/components/(inputs)/BorderedInput';
 import { RecipeActionsList } from '@/reducers/createRecipeReducer';
@@ -29,8 +30,13 @@ const RecipeStepsSection: React.FC<RecipeSectionsProps> = (props) => {
     [createRecipeDispatch, createRecipeState.newStepsBySection]
   );
 
+  const handleAddingImage = useCallback((sectionIndex: number) => {
+    console.log('handleAddingImage');
+    alert('not functional');
+  }, []);
+
   return (
-    <section className='relative mr-4 h-fit w-4/5 rounded-2xl bg-recipeGray-lightest px-4 pb-7 pt-2'>
+    <section className='relative lg:mr-4 h-fit w-4/5 rounded-2xl bg-recipeGray-lightest px-4 pb-7 pt-2'>
       <p className='mb-1 text-3xl font-bold'>{t('addRecipeSteps')}</p>
       {createRecipeState.stepsSections.map((stepsSection) => (
         <div
@@ -73,12 +79,23 @@ const RecipeStepsSection: React.FC<RecipeSectionsProps> = (props) => {
                   });
                 }}
               />
-              <PlusButton
-                onClick={() => {
-                  handleAddingStep(stepsSection.index);
-                }}
-                className='h-fit bg-recipeGray-light'
-              />
+              <section className='flex h-full flex-col gap-3'>
+                <RoundButton
+                  Icon={TiPlus}
+                  onClick={() => {
+                    handleAddingStep(stepsSection.index);
+                  }}
+                  className='h-fit bg-recipeGray-light'
+                />
+
+                <RoundButton
+                  Icon={TiCamera}
+                  onClick={() => {
+                    handleAddingImage(stepsSection.index);
+                  }}
+                  className='h-fit bg-recipeGray-light'
+                />
+              </section>
             </section>
             <ul className='w-full text-xl'>
               {stepsSection.steps.map((step) => (
@@ -91,7 +108,8 @@ const RecipeStepsSection: React.FC<RecipeSectionsProps> = (props) => {
           </section>
         </div>
       ))}
-      <PlusButton
+      <RoundButton
+        Icon={TiPlus}
         onClick={() => {
           createRecipeDispatch({
             type: RecipeActionsList.ADD_STEP_SECTION,

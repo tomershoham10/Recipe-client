@@ -2,11 +2,12 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
+import { TiPlus } from 'react-icons/ti';
 import { FaXmark } from 'react-icons/fa6';
 
 import Chips from '@/components/Chip';
 import { RecipeSectionsProps } from '../RecipeName';
-import PlusButton from '@/components/(buttons)/PlusButton';
+import RoundButton from '@/components/(buttons)/RoundButton';
 import Input, { InputTypes } from '@/components/Input/page';
 import BorderedInput from '@/components/(inputs)/BorderedInput';
 import { decimalToFraction } from '@/app/utils/decimalToFraction';
@@ -50,7 +51,7 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
   );
 
   return (
-    <section className='relative mr-4 h-fit w-4/5 rounded-2xl bg-recipeGray-lightest px-4 pb-7 pt-2'>
+    <section className='relative lg:mr-4 h-fit w-4/5 rounded-2xl bg-recipeGray-lightest px-4 pb-7 pt-2'>
       <p className='mb-1 text-3xl font-bold'>{t('addRecipeIngredients')}</p>
 
       {createRecipeState.ingredientsSections.map((ingredientSection) => (
@@ -158,10 +159,13 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
                 }}
               />
             </section>
-            <PlusButton
-              onClick={() => handleAddingIngredient(ingredientSection.index)}
-              className='mt-6 bg-recipeGray-light'
-            />
+            <section className='mt-[1.75rem]'>
+              <RoundButton
+                Icon={TiPlus}
+                onClick={() => handleAddingIngredient(ingredientSection.index)}
+                className='bg-recipeGray-light'
+              />
+            </section>
           </section>
 
           <section className='mt-2 flex flex-row flex-wrap gap-3'>
@@ -213,7 +217,8 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
         </div>
       ))}
 
-      <PlusButton
+      <RoundButton
+        Icon={TiPlus}
         onClick={() => {
           createRecipeDispatch({
             type: RecipeActionsList.ADD_INGREDIENT_SECTION,

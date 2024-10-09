@@ -11,8 +11,11 @@ import {
   RecipeCategories,
 } from '@/app/API/recipe-service/recipes/functions';
 import Chips from '@/components/Chip';
-import PlusButton from '@/components/(buttons)/PlusButton';
+import RoundButton from '@/components/(buttons)/RoundButton';
 import Dropdown, { DropdownSizes } from '@/components/Dropdown/page';
+import { TiPlus } from 'react-icons/ti';
+import BorderedInput from '@/components/(inputs)/BorderedInput';
+import TimeSelector from '@/components/TimeSelector';
 
 export interface RecipeSectionsProps {
   createRecipeState: CreateRecipeType;
@@ -49,7 +52,7 @@ const RecipeGeneralDataSection: React.FC<RecipeSectionsProps> = (props) => {
   );
 
   return (
-    <section className='mr-4 w-4/5 rounded-2xl bg-recipeGray-lightest px-4 py-2'>
+    <section className='lg:mr-4 w-4/5 rounded-2xl bg-recipeGray-lightest px-4 py-2'>
       <p className='mb-1 text-3xl font-bold'>{t('generalData')}</p>
       <section className='flex w-full flex-row justify-between'>
         <section className='relative mb-3 h-fit basis-[35%] rounded-xl bg-recipeGray-default px-4 pb-4 pt-2'>
@@ -57,7 +60,7 @@ const RecipeGeneralDataSection: React.FC<RecipeSectionsProps> = (props) => {
             {t('chooseDifficultyLevel')}
           </p>
           <Dropdown
-            isSearchable={true}
+            isSearchable={false}
             placeholder={t('chooseDifficultyLevel')}
             items={Object.values(DifficultyLevels)}
             onChange={(val) => {
@@ -86,7 +89,8 @@ const RecipeGeneralDataSection: React.FC<RecipeSectionsProps> = (props) => {
               }}
               size={DropdownSizes.DEFAULT}
             />
-            <PlusButton
+            <RoundButton
+              Icon={TiPlus}
               onClick={addCategory}
               className='h-fit bg-recipeGray-light'
             />
@@ -101,6 +105,21 @@ const RecipeGeneralDataSection: React.FC<RecipeSectionsProps> = (props) => {
             </section>
           )}
         </section>
+      </section>
+      <section className='relative mb-3 h-fit rounded-xl bg-recipeGray-default px-4 py-4'>
+        <BorderedInput
+          placeholder={t('addSource')}
+          onChange={(event) => {
+            const inputValue = event.target.value;
+            console.log(inputValue);
+          }}
+          className='mb-1 w-[6.5rem] text-xl font-semibold'
+        />{' '}
+        <TimeSelector
+          onTimeSelect={(days, hours, minutes) => {
+            // Dispatch or store the selected time as needed
+          }}
+        />
       </section>
     </section>
   );

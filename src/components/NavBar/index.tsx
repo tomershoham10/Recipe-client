@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { BiHomeAlt2, BiSearchAlt } from 'react-icons/bi';
@@ -101,7 +101,7 @@ const NavBar: React.FC = () => {
                 <div className='absolute left-1/2 top-0 hidden h-[3rem] w-[6rem] -translate-x-1/2 transform group-hover:visible group-hover:flex' />
                 <ul className='absolute left-1/2 top-[3rem] hidden h-fit -translate-x-1/2 flex-col gap-1 rounded-lg bg-recipeBrown-default py-1 group-hover:flex'>
                   {buttonData.dropdownItems.map((item, itemIndex) => (
-                    <li>
+                    <li key={itemIndex}>
                       <Link
                         key={itemIndex}
                         href={item.href}

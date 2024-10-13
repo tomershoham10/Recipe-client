@@ -75,10 +75,11 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
     [updateSelectedPopup]
   );
 
-  const resetEditIngredient = () => {
+  const resetEditIngredient = useCallback(() => {
     setEditIngredientSectionIndex(null);
     setEditIngredientIndex(null);
-  };
+    updateSelectedPopup(PopupsTypes.CLOSED);
+  }, [updateSelectedPopup]);
 
   return (
     <section className='relative h-fit w-4/5 rounded-2xl bg-recipeGray-lightest px-4 pb-7 pt-2 lg:mr-4'>
@@ -211,7 +212,10 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
               editMode={true}
               values={ingredientSection.quantifiedIngredients.map(
                 (ingredient) => (
-                  <span key={ingredient.ingredientId}>
+                  <span
+                    key={ingredient.ingredientId}
+                    className='flex flex-row'
+                  >
                     <p
                       className='inline-block'
                       style={{
@@ -227,6 +231,7 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
                         (ing) => ing._id === ingredient.ingredientId
                       )?.name
                     }
+                    {ingredient.comment && <p>{`, ${ingredient.comment}`}</p>}
                   </span>
                 )
               )}

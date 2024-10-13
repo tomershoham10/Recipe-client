@@ -20,7 +20,12 @@
     "addRecipeIngredients": "הוסף מצרכים",
     "sectionName": "שם המקטע",
     "addSection": "הוסף מקטע",
-    "addRecipeSteps": "הוסף שלבים"
+    "addRecipeSteps": "הוסף שלבים",
+    "editIngrediet": {
+      "ingredientName": "שם מצרך",
+      "units": "יחידות",
+      "editIngrediet": "ערוך מצרך"
+    }
   },
   "createIngredient": {
     "createIngredient": "הוסף מצרך",
@@ -30,7 +35,14 @@
   },
   "searchPopup": {},
   "buttons": {
-    "create": "צור"
+    "create": "צור",
+    "save": "שמור"
+  },
+  "timeUnits": {
+    "days": "ימים",
+    "hours": "שעות",
+    "minutes": "'דקות",
+    "seconds": "שניות"
   },
   "Months": {
     "January": "בינואר",

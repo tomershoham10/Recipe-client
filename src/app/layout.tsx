@@ -25,7 +25,7 @@ export default async function RootLayout({
     <html lang={locale} dir='rtl'>
       <body
         suppressHydrationWarning={true}
-        className={`${assistant.className} flex flex-col bg-recipeGray-light text-recipeBrown-dark`}
+        className={`${assistant.className} flex flex-col bg-recipeGray-mid text-recipeBrown-dark`}
       >
         {/* <NextIntlClientProvider locale={locale} messages={messages}> */}
         {/* <NavBar /> */}

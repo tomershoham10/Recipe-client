@@ -69,6 +69,17 @@ const CreateNewIngredient: React.FC = () => {
             ),
         }
       );
+
+      console.log('submitIngredient response', response);
+
+      if (response === 200) {
+        alert('ingredient already existed!');
+      } else if (response === 201) {
+        alert('ingredient created successfully.');
+        resetState();
+      } else {
+        alert('error while creating the ingredient!');
+      }
     } catch (error) {
       console.error('Error submitIngredient:', error);
     }

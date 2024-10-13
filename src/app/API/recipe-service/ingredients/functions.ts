@@ -13,18 +13,19 @@ export enum Units {
 }
 
 export enum IngredientCategories {
-    CHICKEN = 'chicken',
-    MEAT = 'meat',
-    VEGAN = 'vegan',
-    VEGETERIAN = 'vegeterian',
-    VEGETABLES = 'vegetables',
-    FRUITS = 'fruits',
-    DAIRY = 'dairy',
-    SEAFOOD = 'seafood',
-    GRAINS = 'grains',
-    SPICES = 'spices',
-    SAUCES = 'sauces',
-    ALCOHOL = 'alcohol',
+    CHICKEN = 'עוף',
+    MEAT = 'בשרי',
+    VEGAN = 'טבעוני',
+    VEGETERIAN = 'צמחוני',
+    VEGETABLES = 'ירקות',
+    FRUITS = 'פירות',
+    DAIRY = 'חלבי',
+    SEAFOOD = 'מאכלי ים',
+    GRAINS = 'דגנים',
+    SPICES = 'תבלינים',
+    SAUCES = 'ממרחים',
+    HERBS = 'עשבי תיבול',
+    ALCOHOL = 'אלכוהול',
 }
 
 export const createIngredient = async (newIngredient: Partial<IngredientType>): Promise<number | null> => {

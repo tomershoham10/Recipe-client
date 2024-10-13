@@ -15,14 +15,30 @@ import { RecipeActionsList } from '@/reducers/createRecipeReducer';
 import Dropdown, { DropdownSizes } from '@/components/Dropdown/page';
 import { Units } from '@/app/API/recipe-service/ingredients/functions';
 import { useFetchIngredients } from '@/app/utils/hooks/useFetchIngredients';
+import { PopupsTypes, usePopupStore } from '@/app/store/stores/usePopupStore';
+import CreateRecipeEditIngredient from '@/app/(popups)/(create)/(createRecipe)/EditIngrediet';
 
+/**
+ * Functional component for the Recipe Ingredients Section.
+ * @param {RecipeSectionsProps} props - The props for the component.
+ * @returns JSX element representing the Recipe Ingredients Section.
+ */
 const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
   const { createRecipeState, createRecipeDispatch } = props;
   const t = useTranslations('createRecipe');
 
   const ingredientsList = useFetchIngredients();
+  const updateSelectedPopup = usePopupStore.getState().updateSelectedPopup;
 
   const [unitsDropdownValue, setUnitsDropdownValue] = useState<Units | null>(
+    null
+  );
+
+  const [editIngredientSectionIndex, setEditIngredientSectionIndex] = useState<
+    number | null
+  >(null);
+
+  const [editIngredientIndex, setEditIngredientIndex] = useState<number | null>(
     null
   );
 
@@ -50,8 +66,30 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
     [createRecipeDispatch, createRecipeState.newIngredientsBySection]
   );
 
+  const handleEditIngredient = useCallback(
+    (sectionIndex: number, ingredientIndex: number) => {
+      setEditIngredientSectionIndex(sectionIndex);
+      setEditIngredientIndex(ingredientIndex);
+      updateSelectedPopup(PopupsTypes.CREATE_RECIPE_EDIT_INGREDIENT);
+    },
+    [updateSelectedPopup]
+  );
+
+  const resetEditIngredient = () => {
+    setEditIngredientSectionIndex(null);
+    setEditIngredientIndex(null);
+  };
+
   return (
-    <section className='relative lg:mr-4 h-fit w-4/5 rounded-2xl bg-recipeGray-lightest px-4 pb-7 pt-2'>
+    <section className='relative h-fit w-4/5 rounded-2xl bg-recipeGray-lightest px-4 pb-7 pt-2 lg:mr-4'>
+      <CreateRecipeEditIngredient
+        sectionIndex={editIngredientSectionIndex}
+        ingredientIndex={editIngredientIndex}
+        createRecipeState={createRecipeState}
+        ingredientsList={ingredientsList}
+        createRecipeDispatch={createRecipeDispatch}
+        onClose={resetEditIngredient}
+      />
       <p className='mb-1 text-3xl font-bold'>{t('addRecipeIngredients')}</p>
 
       {createRecipeState.ingredientsSections.map((ingredientSection) => (
@@ -201,6 +239,9 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
                   },
                 });
               }}
+              onEdit={(index) =>
+                handleEditIngredient(ingredientSection.index, index)
+              }
             />
           </section>
           <button

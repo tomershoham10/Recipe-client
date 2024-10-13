@@ -44,6 +44,7 @@ interface QuantifiedIngredient {
     quantity: number;
     unit: Units;
     index: number;
+    comment?: string;
 }
 
 interface IngredientsSection {

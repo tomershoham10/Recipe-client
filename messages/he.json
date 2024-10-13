@@ -24,7 +24,8 @@
     "editIngrediet": {
       "ingredientName": "שם מצרך",
       "units": "יחידות",
-      "editIngrediet": "ערוך מצרך"
+      "editIngrediet": "ערוך מצרך",
+      "addComment": "הוסף הערה"
     }
   },
   "createIngredient": {

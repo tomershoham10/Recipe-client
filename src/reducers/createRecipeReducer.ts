@@ -19,6 +19,9 @@ export enum RecipeActionsList {
     SET_INGREDIENT_SECTION_HEADER = "setIngredientSectionHeader",
     ADD_INGREDIENT_TO_SECTION = "addIngredientToSection",
     REMOVE_INGREDIENT_FROM_SECTION = "removeIngredientFromSection",
+
+    UPDATE_INGREDIENT = "updateIngredient",
+
     UPDATE_NEW_INGREDIENT_FIELD = "updateNewIngredientField",
 
     ADD_STEP_SECTION = "addStepSection",
@@ -48,6 +51,9 @@ export type CreateRecipeAction =
     | { type: RecipeActionsList.SET_INGREDIENT_SECTION_HEADER, payload: { sectionIndex: number, sectionHeader: string } }
     | { type: RecipeActionsList.ADD_INGREDIENT_TO_SECTION, payload: { sectionIndex: number, ingredient: QuantifiedIngredient } }
     | { type: RecipeActionsList.REMOVE_INGREDIENT_FROM_SECTION, payload: { sectionIndex: number, ingredientIndex: number } }
+
+    | { type: RecipeActionsList.UPDATE_INGREDIENT, payload: { sectionIndex: number, ingredientIndex: number, updatedIngredient: QuantifiedIngredient } }
+
     | { type: RecipeActionsList.UPDATE_NEW_INGREDIENT_FIELD, payload: { sectionIndex: number, field: keyof QuantifiedIngredient, value: string | number } }
 
     | { type: RecipeActionsList.ADD_STEP_SECTION }
@@ -189,6 +195,23 @@ export const createRecipeReducer = (
                 ...state,
                 ingredientsSections: updatedIngredientsSections,
                 newIngredientsBySection: updatedNewIngredientsBySection,
+            };
+
+        case RecipeActionsList.UPDATE_INGREDIENT:
+            return {
+                ...state,
+                ingredientsSections: state.ingredientsSections.map((section, sectionIndex) =>
+                    sectionIndex === action.payload.sectionIndex
+                        ? {
+                            ...section,
+                            quantifiedIngredients: section.quantifiedIngredients.map((ingredient, ingredientIndex) =>
+                                ingredientIndex === action.payload.ingredientIndex
+                                    ? { ...action.payload.updatedIngredient }
+                                    : ingredient
+                            ),
+                        }
+                        : section
+                ),
             };
 
         case RecipeActionsList.UPDATE_NEW_INGREDIENT_FIELD:

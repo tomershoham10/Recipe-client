@@ -7,14 +7,12 @@ export interface TimeSelectorProps {
 }
 
 const TimeSelector: React.FC<TimeSelectorProps> = ({ onTimeSelect }) => {
-  const t = useTranslations('createRecipe');
+  const t = useTranslations('timeUnits');
 
-  // State to manage the input values for days, hours, and minutes
   const [days, setDays] = useState<number>(0);
   const [hours, setHours] = useState<number>(0);
   const [minutes, setMinutes] = useState<number>(0);
 
-  // Function to handle time input changes and propagate the selected time upwards
   const handleTimeChange = useCallback(
     (unit: 'days' | 'hours' | 'minutes', value: string) => {
       const numericValue = Math.max(0, parseInt(value, 10) || 0);
@@ -34,39 +32,34 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({ onTimeSelect }) => {
   );
 
   return (
-    <section className='flex w-full flex-col gap-2'>
-      <p className='mb-1 text-lg font-semibold opacity-60'>
-        {t('recipeDuration')}
-      </p>
-      <section className='flex w-full items-center gap-4'>
-        <div className='flex flex-col'>
-          <label className='text-sm'>{t('days')}</label>
-          <BorderedInput
-            type='number'
-            value={days}
-            onChange={(e) => handleTimeChange('days', e.target.value)}
-            className='w-16 text-center'
-          />
-        </div>
-        <div className='flex flex-col'>
-          <label className='text-sm'>{t('hours')}</label>
-          <BorderedInput
-            type='number'
-            value={hours}
-            onChange={(e) => handleTimeChange('hours', e.target.value)}
-            className='w-16 text-center'
-          />
-        </div>
-        <div className='flex flex-col'>
-          <label className='text-sm'>{t('minutes')}</label>
-          <BorderedInput
-            type='number'
-            value={minutes}
-            onChange={(e) => handleTimeChange('minutes', e.target.value)}
-            className='w-16 text-center'
-          />
-        </div>
-      </section>
+    <section className='flex w-full items-center gap-4'>
+      <div className='flex flex-col'>
+        <label className='text-sm'>{t('days')}</label>
+        <BorderedInput
+          type='number'
+          value={days}
+          onChange={(e) => handleTimeChange('days', e.target.value)}
+          className='w-16 text-center'
+        />
+      </div>
+      <div className='flex flex-col'>
+        <label className='text-sm'>{t('hours')}</label>
+        <BorderedInput
+          type='number'
+          value={hours}
+          onChange={(e) => handleTimeChange('hours', e.target.value)}
+          className='w-16 text-center'
+        />
+      </div>
+      <div className='flex flex-col'>
+        <label className='text-sm'>{t('minutes')}</label>
+        <BorderedInput
+          type='number'
+          value={minutes}
+          onChange={(e) => handleTimeChange('minutes', e.target.value)}
+          className='w-16 text-center'
+        />
+      </div>
     </section>
   );
 };

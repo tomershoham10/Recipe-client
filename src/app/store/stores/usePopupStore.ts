@@ -7,6 +7,8 @@ export enum PopupsTypes {
     SEARCH = 'search',
     NEW_INGREDIENT = "newIngredient",
     NEW_RECIPE_CATEGORY = "newRecipeCategory",
+
+    CREATE_RECIPE_EDIT_INGREDIENT = 'createRecipeEditIngredient'
 }
 
 type PopupState = {

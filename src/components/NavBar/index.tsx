@@ -123,7 +123,7 @@ const NavBar: React.FC = () => {
   }, []);
 
   return (
-    <nav className='flex h-16 max-h-16 flex-row items-center justify-start gap-5 bg-recipeBlue-default px-5 text-recipeGray-lightest'>
+    <nav className='flex h-16 max-h-16 w-full flex-row items-center justify-start gap-5 bg-recipeBlue-default px-5 text-recipeGray-lightest'>
       {buttonsData.map(renderButton)}
     </nav>
   );

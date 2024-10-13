@@ -25,6 +25,7 @@ const CreateRecipe: React.FC = () => {
     picture: null,
     categories: [],
     difficultyLevel: null,
+    source: null,
 
     ingredientsSections: [
       {
@@ -66,6 +67,7 @@ const CreateRecipe: React.FC = () => {
         picture: createRecipeState.picture,
         categories: createRecipeState.categories,
         difficultyLevel: createRecipeState.difficultyLevel || undefined,
+        source: createRecipeState.source,
         ingredientsSections: createRecipeState.ingredientsSections,
         stepsSections: createRecipeState.stepsSections,
       });
@@ -78,6 +80,7 @@ const CreateRecipe: React.FC = () => {
                 categories: createRecipeState.categories,
                 picture: createRecipeState.picture.name,
                 difficultyLevel: createRecipeState.difficultyLevel || undefined,
+                source: createRecipeState.source || undefined,
                 ingredientsSections: createRecipeState.ingredientsSections,
                 stepsSections: createRecipeState.stepsSections,
               })

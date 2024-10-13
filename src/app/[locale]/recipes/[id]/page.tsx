@@ -1,6 +1,6 @@
 import pRetry from 'p-retry';
 import Image from 'next/image';
-import Chips from '@/components/Chip';
+// import Chips from '@/components/Chip';
 
 import { BucketsNames } from '@/app/API/files-service/functions';
 import { decimalToFraction } from '@/app/utils/decimalToFraction';
@@ -209,6 +209,15 @@ const Recipes = async ({ params }: { params: { id: string } }) => {
               </section>
               <p className='font-semibold'>2:30 שעות</p>
             </div>
+
+            {recipe.source && (
+              <div className='flex h-full flex-col items-center justify-center gap-2 rounded-2xl bg-recipeBrown-light p-5 text-2xl text-recipeGray-lightest'>
+                <section className='rounded-full border-2 p-2 text-lg'>
+                  <FaHourglassEnd />
+                </section>
+                <p className='font-semibold'>{recipe.source}</p>
+              </div>
+            )}
           </section>
         </div>
         {blob && (
@@ -259,7 +268,7 @@ const Recipes = async ({ params }: { params: { id: string } }) => {
           ))}
       </section>
 
-      <section className='flex h-full basis-2/5 flex-col justify-start gap-3 overflow-y-auto'>
+      <section className='flex h-full basis-2/5 flex-col justify-start gap-3 overflow-y-auto rounded-2xl'>
         {recipe.stepsSections &&
           recipe.stepsSections.map((stepSection) => (
             <section

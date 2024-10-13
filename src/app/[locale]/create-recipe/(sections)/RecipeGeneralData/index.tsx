@@ -52,7 +52,7 @@ const RecipeGeneralDataSection: React.FC<RecipeSectionsProps> = (props) => {
   );
 
   return (
-    <section className='lg:mr-4 w-4/5 rounded-2xl bg-recipeGray-lightest px-4 py-2'>
+    <section className='w-4/5 rounded-2xl bg-recipeGray-lightest px-4 py-2 lg:mr-4'>
       <p className='mb-1 text-3xl font-bold'>{t('generalData')}</p>
       <section className='flex w-full flex-row justify-between'>
         <section className='relative mb-3 h-fit basis-[35%] rounded-xl bg-recipeGray-default px-4 pb-4 pt-2'>
@@ -106,20 +106,51 @@ const RecipeGeneralDataSection: React.FC<RecipeSectionsProps> = (props) => {
           )}
         </section>
       </section>
-      <section className='relative mb-3 h-fit rounded-xl bg-recipeGray-default px-4 py-4'>
+      <section className='relative mb-3 flex h-fit flex-row justify-between rounded-xl bg-recipeGray-default px-4 py-4'>
         <BorderedInput
           placeholder={t('addSource')}
           onChange={(event) => {
             const inputValue = event.target.value;
-            console.log(inputValue);
+            console.log('add source name', inputValue);
+            createRecipeDispatch({
+              type: RecipeActionsList.SET_RECIPE_SOURCE,
+              payload: inputValue.length > 0 ? inputValue : null,
+            });
           }}
           className='mb-1 w-[6.5rem] text-xl font-semibold'
         />{' '}
-        <TimeSelector
+        {/* <TimeSelector
           onTimeSelect={(days, hours, minutes) => {
             // Dispatch or store the selected time as needed
           }}
-        />
+        /> */}
+        <div className='relative w-fit cursor-pointer hover:bg-recipeGray-light'>
+          0 days, 0 hours, 0 minutes{' '}
+          <select
+            size={5}
+            className='absolute left-0 top-8 z-10 cursor-pointer'
+          >
+            {Array.from({ length: 10 }, (_, i) => i).map((num) => (
+              <option key={num}>{num}</option>
+            ))}
+          </select>
+          <select
+            size={5}
+            className='absolute left-12 top-8 z-10 cursor-pointer'
+          >
+            {Array.from({ length: 24 }, (_, i) => i).map((num) => (
+              <option key={num}>{num}</option>
+            ))}
+          </select>
+          <select
+            size={5}
+            className='absolute left-24 top-8 z-10 cursor-pointer'
+          >
+            {Array.from({ length: 60 }, (_, i) => i).map((num) => (
+              <option key={num}>{num}</option>
+            ))}
+          </select>
+        </div>
       </section>
     </section>
   );

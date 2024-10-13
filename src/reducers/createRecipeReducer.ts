@@ -12,6 +12,7 @@ export enum RecipeActionsList {
     SET_RECIPE_DIFFICULTY_LEVEL = 'setRecipeDifficultyLevel',
     ADD_RECIPE_CATEGORY = 'addRecipeCategory',
     REMOVE_RECIPE_CATEGORY = 'removeRecipeCategory',
+    SET_RECIPE_SOURCE = 'setRecipeSource',
 
     ADD_INGREDIENT_SECTION = "addIngredientSection",
     REMOVE_INGREDIENT_SECTION = "removeIngredientSection",
@@ -40,6 +41,7 @@ export type CreateRecipeAction =
     | { type: RecipeActionsList.SET_RECIPE_DIFFICULTY_LEVEL, payload: DifficultyLevels }
     | { type: RecipeActionsList.ADD_RECIPE_CATEGORY, payload: RecipeCategories }
     | { type: RecipeActionsList.REMOVE_RECIPE_CATEGORY, payload: RecipeCategories }
+    | { type: RecipeActionsList.SET_RECIPE_SOURCE, payload: string | null }
 
     | { type: RecipeActionsList.ADD_INGREDIENT_SECTION }
     | { type: RecipeActionsList.REMOVE_INGREDIENT_SECTION, payload: number }
@@ -62,6 +64,7 @@ export interface CreateRecipeType {
 
     categories: RecipeCategories[];
     difficultyLevel: DifficultyLevels | null;
+    source: string | null;
 
     ingredientsSections: IngredientsSection[];
     newIngredientsBySection: {
@@ -108,6 +111,8 @@ export const createRecipeReducer = (
                 ...state,
                 categories: state.categories.filter(category => category !== action.payload),
             };
+        case RecipeActionsList.SET_RECIPE_SOURCE:
+            return { ...state, source: action.payload };
 
         case RecipeActionsList.ADD_INGREDIENT_SECTION:
             return {

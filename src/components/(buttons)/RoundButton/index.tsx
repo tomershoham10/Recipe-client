@@ -1,16 +1,22 @@
-const RoundButton: React.FC<RoundButtonProps> = (props) => {
-  const { label, Icon, className, onClick } = props;
+const RoundButton: React.FC<RoundButtonProps> = ({
+  type,
+  label,
+  Icon,
+  className,
+  onClick,
+}) => {
   return (
     <div
-      className={`${className} group mx-auto flex w-fit h-fit cursor-pointer flex-row items-center justify-start rounded-full`}
+      className={`${className} group mx-auto flex h-fit w-fit cursor-pointer flex-row items-center justify-start rounded-full`}
     >
       <button
+        type={type}
+        onClick={onClick}
         className={`flex h-8 min-w-8 items-center justify-center rounded-full text-2xl text-recipeBrown-dark transition-all duration-300 ease-in-out ${
           label
-            ? 'group-hover:rounded-2xl group-hover:px-2 group-hover:bg-recipeGray-light'
+            ? 'group-hover:rounded-2xl group-hover:bg-recipeGray-light group-hover:px-2'
             : 'hover:bg-recipeGray-light'
         }`}
-        onClick={onClick}
       >
         <Icon className='flex-shrink-0' />
         {label && (

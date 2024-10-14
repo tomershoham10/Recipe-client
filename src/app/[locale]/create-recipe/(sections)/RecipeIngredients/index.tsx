@@ -214,7 +214,7 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
                 (ingredient) => (
                   <span
                     key={ingredient.ingredientId}
-                    className='flex flex-row'
+                    className='flex flex-row gap-1'
                   >
                     <p
                       className='inline-block'
@@ -223,15 +223,17 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
                         direction: 'ltr',
                       }}
                     >
-                      {decimalToFraction(ingredient.quantity)}
-                    </p>{' '}
-                    {ingredient.unit}{' '}
-                    {
-                      sortedIngredientsList.find(
-                        (ing) => ing._id === ingredient.ingredientId
-                      )?.name
-                    }
-                    {ingredient.comment && <p>{`, ${ingredient.comment}`}</p>}
+                      {`${decimalToFraction(ingredient.quantity)}`}
+                    </p>
+                    <p>{ingredient.unit}</p>
+                    <span className='flex flex-row'>
+                      {
+                        sortedIngredientsList.find(
+                          (ing) => ing._id === ingredient.ingredientId
+                        )?.name
+                      }
+                      {ingredient.comment && <p>{`, ${ingredient.comment}`}</p>}
+                    </span>
                   </span>
                 )
               )}

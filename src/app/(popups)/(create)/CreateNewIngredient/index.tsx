@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useReducer, useState } from 'react';
+import { FormEvent, useCallback, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import pRetry from 'p-retry';
 import { TiPlus } from 'react-icons/ti';
@@ -50,40 +50,44 @@ const CreateNewIngredient: React.FC = () => {
     [ingredientsList]
   );
 
-  const submitIngredient = useCallback(async () => {
-    try {
-      const response = await pRetry(
-        () =>
-          ingredientName
-            ? createIngredient({
-                name: ingredientName,
-                categories: ingredientsList,
-                pluralName: pluralName || undefined,
-              })
-            : null,
-        {
-          retries: 5,
-          onFailedAttempt: (error) =>
-            console.error(
-              `submitIngredient Attempt ${error.attemptNumber} failed. Retrying...`
-            ),
+  const submitIngredient = useCallback(
+    async (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      try {
+        const response = await pRetry(
+          () =>
+            ingredientName
+              ? createIngredient({
+                  name: ingredientName,
+                  categories: ingredientsList,
+                  pluralName: pluralName || undefined,
+                })
+              : null,
+          {
+            retries: 5,
+            onFailedAttempt: (error) =>
+              console.error(
+                `submitIngredient Attempt ${error.attemptNumber} failed. Retrying...`
+              ),
+          }
+        );
+
+        console.log('submitIngredient response', response);
+
+        if (response === 200) {
+          alert('ingredient already existed!');
+        } else if (response === 201) {
+          alert('ingredient created successfully.');
+          resetState();
+        } else {
+          alert('error while creating the ingredient!');
         }
-      );
-
-      console.log('submitIngredient response', response);
-
-      if (response === 200) {
-        alert('ingredient already existed!');
-      } else if (response === 201) {
-        alert('ingredient created successfully.');
-        resetState();
-      } else {
-        alert('error while creating the ingredient!');
+      } catch (error) {
+        console.error('Error submitIngredient:', error);
       }
-    } catch (error) {
-      console.error('Error submitIngredient:', error);
-    }
-  }, [ingredientName, ingredientsList, pluralName]);
+    },
+    [ingredientName, ingredientsList, pluralName]
+  );
 
   const resetState = () => {
     setIngredientName(null);
@@ -99,14 +103,21 @@ const CreateNewIngredient: React.FC = () => {
       size={PopupSizes.SMALL}
       onClose={resetState}
     >
-      <div className='mt-12 flex w-full flex-col gap-6 px-2 py-4'>
+      <form
+        onSubmit={(e) => submitIngredient(e)}
+        className='mt-12 flex w-full flex-col gap-6 px-2 py-4'
+      >
         <section className='flex w-full flex-row gap-4'>
           <section>
-            <p className='col-span-1 flex-none text-lg font-bold'>
+            <label
+              htmlFor='ingredientName'
+              className='flex-none text-lg font-bold'
+            >
               {tIng('ingredientName')}
-            </p>
+            </label>
 
             <Input
+              id='ingredientName'
               type={InputTypes.TEXT}
               placeholder={tIng('ingredientName')}
               value={ingredientName || ''}
@@ -115,11 +126,12 @@ const CreateNewIngredient: React.FC = () => {
           </section>
 
           <section>
-            <p className='col-span-1 flex-none text-lg font-bold'>
+            <label htmlFor='pluralName' className='flex-none text-lg font-bold'>
               {tIng('pluralName')}
-            </p>
+            </label>
 
             <Input
+              id='pluralName'
               type={InputTypes.TEXT}
               placeholder={tIng('pluralName')}
               value={pluralName || ''}
@@ -128,11 +140,12 @@ const CreateNewIngredient: React.FC = () => {
           </section>
 
           <section>
-            <p className='col-span-1 flex-none text-lg font-bold'>
+            <label htmlFor='category' className='flex-none text-lg font-bold'>
               {tIng('addCategory')}
-            </p>
+            </label>
 
             <Dropdown
+              id='category'
               isSearchable={true}
               value={newIngredient}
               placeholder={'catagories'}
@@ -146,6 +159,7 @@ const CreateNewIngredient: React.FC = () => {
             />
           </section>
           <RoundButton
+            type='button'
             Icon={TiPlus}
             onClick={handleIngredientsList}
             className='mt-10 h-8 w-8 bg-recipeGray-light'
@@ -160,11 +174,12 @@ const CreateNewIngredient: React.FC = () => {
         </section>
 
         <Button
+          type='submit'
           label={tButtons('create')}
-          onClick={submitIngredient}
-          className='absolute bottom-6'
+          // onClick={submitIngredient}
+          className='absolute bottom-4'
         />
-      </div>
+      </form>
     </PopupHeader>
   );
 };

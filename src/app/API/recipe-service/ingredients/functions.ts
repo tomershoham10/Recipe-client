@@ -10,6 +10,7 @@ export enum Units {
     SPOONS = "כפיות",
     CUPS = "כוסות",
     PINCH = "קמצוץ",
+    BUNCH = "צרור"
 }
 
 export enum IngredientCategories {
@@ -20,12 +21,14 @@ export enum IngredientCategories {
     VEGETABLES = 'ירקות',
     FRUITS = 'פירות',
     DAIRY = 'חלבי',
+    CHEESE = 'גבינה',
     SEAFOOD = 'מאכלי ים',
     GRAINS = 'דגנים',
     SPICES = 'תבלינים',
     SAUCES = 'ממרחים',
     HERBS = 'עשבי תיבול',
     ALCOHOL = 'אלכוהול',
+    TOOLS = 'כלי עזר',
 }
 
 export const createIngredient = async (newIngredient: Partial<IngredientType>): Promise<number | null> => {

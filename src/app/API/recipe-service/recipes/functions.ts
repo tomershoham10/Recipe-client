@@ -19,6 +19,7 @@ export enum RecipeCategories {
     COCKTAIL = "קוקטייל",
     SOUP = "מרק",
     BAKING = "אפייה",
+    MEAT = 'בשרי',
 }
 
 export const getRecipeById = async (recipeId: string): Promise<RecipeType | null> => {
@@ -52,7 +53,6 @@ export const getRecipeById = async (recipeId: string): Promise<RecipeType | null
         return null;
     }
 }
-
 
 export const createRecipe = async (recipe: Partial<RecipeType>): Promise<RecipeType | null> => {
     try {

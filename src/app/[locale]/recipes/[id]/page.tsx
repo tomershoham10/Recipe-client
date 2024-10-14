@@ -6,14 +6,15 @@ import { BucketsNames } from '@/app/API/files-service/functions';
 import { decimalToFraction } from '@/app/utils/decimalToFraction';
 import { getRecipeById } from '@/app/API/recipe-service/recipes/functions';
 import { getAllIngredients } from '@/app/API/recipe-service/ingredients/functions';
-import { FaHourglassEnd, FaKitchenSet, FaRegClock } from 'react-icons/fa6';
+import { FaHourglassEnd, FaKitchenSet } from 'react-icons/fa6';
 import { SiLevelsdotfyi } from 'react-icons/si';
+import { LuChefHat } from 'react-icons/lu';
 
 // #region fetching data from server
 
 const fetchRecipe = async (id: string): Promise<RecipeType | null> => {
   try {
-    console.log('fetchRecipe', id);
+    // console.log('fetchRecipe', id);
     const response = await pRetry(() => getRecipeById(id), {
       retries: 5,
       onFailedAttempt: (error) =>
@@ -21,6 +22,7 @@ const fetchRecipe = async (id: string): Promise<RecipeType | null> => {
           `fetchRecipe Attempt ${error.attemptNumber} failed. Retrying...`
         ),
     });
+    console.log('fetchRecipe', response?.ingredientsSections[0]);
     return response;
   } catch (error) {
     throw new Error(`error getting recipe by id - ${error}`);
@@ -84,6 +86,8 @@ const Recipes = async ({ params }: { params: { id: string } }) => {
   if (!ingredientsList) {
     return <p>server error</p>;
   }
+
+  console.log(ingredientsList);
 
   const blob = await getFile(recipe._id, recipe.picture);
   const buffer = await blob.arrayBuffer();
@@ -185,37 +189,51 @@ const Recipes = async ({ params }: { params: { id: string } }) => {
     // </section>
     <section className='flex h-full w-full flex-row gap-3 overflow-hidden px-8 py-3'>
       <section className='flex h-full basis-2/5 flex-col justify-start gap-3'>
-        <div className='flex basis-1/3 flex-col items-center justify-start'>
+        <div className='flex flex-col items-center justify-start'>
           <section className='rounded-2xl bg-recipeGray-default p-5 text-black'>
             <h1 className='text-center text-5xl font-bold'>{recipe.name}</h1>
             <h2 className='text-center text-4xl'>{recipe.description}</h2>
           </section>
           <section className='mt-2 flex h-full w-full flex-row justify-between gap-3'>
-            <div className='flex h-full basis-1/3 flex-col items-center justify-center gap-2 rounded-2xl bg-recipeBrown-light p-5 text-2xl text-recipeGray-lightest'>
+            <div
+              className={`flex h-full flex-col items-center justify-center gap-2 rounded-2xl bg-recipeBrown-light p-5 text-2xl text-recipeGray-lightest ${recipe.source ? 'basis-1/4' : 'basis-1/3'}`}
+            >
               <section className='rounded-full border-2 p-2 text-lg'>
                 <SiLevelsdotfyi />
               </section>
-              <p className='font-semibold'>{recipe.difficultyLevel}</p>
+              <p className='overflow-hidden text-ellipsis whitespace-nowrap font-semibold'>
+                {recipe.difficultyLevel}
+              </p>
             </div>
-            <div className='flex h-full basis-1/3 flex-col items-center justify-center gap-2 rounded-2xl bg-recipeBrown-light p-5 text-2xl text-recipeGray-lightest'>
+            <div
+              className={`flex h-full flex-col items-center justify-center gap-2 rounded-2xl bg-recipeBrown-light p-5 text-2xl text-recipeGray-lightest ${recipe.source ? 'basis-1/4' : 'basis-1/3'}`}
+            >
               <section className='rounded-full border-2 p-2 text-lg'>
                 <FaKitchenSet />
               </section>
-              <p className='font-semibold'>{recipe.categories[0]}</p>
+              <p className='overflow-hidden text-ellipsis whitespace-nowrap font-semibold'>
+                {recipe.categories[0]}
+              </p>
             </div>
-            <div className='flex h-full basis-1/3 flex-col items-center justify-center gap-2 rounded-2xl bg-recipeBrown-light p-5 text-2xl text-recipeGray-lightest'>
+            <div
+              className={`flex h-full flex-col items-center justify-center gap-2 rounded-2xl bg-recipeBrown-light p-5 text-2xl text-recipeGray-lightest ${recipe.source ? 'basis-1/4' : 'basis-1/3'}`}
+            >
               <section className='rounded-full border-2 p-2 text-lg'>
                 <FaHourglassEnd />
               </section>
-              <p className='font-semibold'>2:30 שעות</p>
+              <p className='overflow-hidden text-ellipsis whitespace-nowrap font-semibold'>
+                2:30 שעות
+              </p>
             </div>
 
             {recipe.source && (
-              <div className='flex h-full flex-col items-center justify-center gap-2 rounded-2xl bg-recipeBrown-light p-5 text-2xl text-recipeGray-lightest'>
+              <div className='flex h-full basis-1/4 flex-col items-center justify-center gap-2 rounded-2xl bg-recipeBrown-light p-5 text-2xl text-recipeGray-lightest'>
                 <section className='rounded-full border-2 p-2 text-lg'>
-                  <FaHourglassEnd />
+                  <LuChefHat />
                 </section>
-                <p className='font-semibold'>{recipe.source}</p>
+                <p className='overflow-hidden text-ellipsis whitespace-nowrap font-semibold'>
+                  {recipe.source}
+                </p>
               </div>
             )}
           </section>
@@ -226,7 +244,7 @@ const Recipes = async ({ params }: { params: { id: string } }) => {
           </div>
         )}
       </section>
-      <section className='flex h-full basis-1/5 flex-col justify-start gap-3 text-recipeGray-lightest'>
+      <section className='flex h-full basis-1/5 flex-col justify-start gap-3 overflow-y-auto rounded-2xl text-recipeGray-lightest'>
         {recipe.ingredientsSections &&
           recipe.ingredientsSections.map((ingSection) => (
             <section
@@ -236,12 +254,12 @@ const Recipes = async ({ params }: { params: { id: string } }) => {
               <p className='text-3xl font-bold'>{ingSection.header}</p>
               <ul className='flex flex-col gap-1 text-2xl'>
                 {ingSection.quantifiedIngredients.map((quntIng) => (
-                  <li key={quntIng.index} className='flex flex-row gap-1'>
+                  <li key={quntIng.ingredientId}>
                     {ingredientsList &&
                       ingredientsList.find(
                         (ing) => ing._id === quntIng.ingredientId
                       ) && (
-                        <>
+                        <section className='flex flex-row flex-wrap gap-1'>
                           <p
                             className='inline-block'
                             style={{
@@ -258,8 +276,9 @@ const Recipes = async ({ params }: { params: { id: string } }) => {
                                 (ing) => ing._id === quntIng.ingredientId
                               )!.name
                             }
+                            {quntIng.comment && <>{`, ${quntIng.comment}`}</>}
                           </p>
-                        </>
+                        </section>
                       )}
                   </li>
                 ))}

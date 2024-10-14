@@ -19,6 +19,7 @@ enum RecipeCategories {
     COCKTAIL = "קוקטייל",
     SOUP = "מרק",
     BAKING = "אפייה",
+    MEAT = 'בשרי',
 }
 
 enum DifficultyLevels {
@@ -37,6 +38,7 @@ enum Units {
     SPOONS = "כפיות",
     CUPS = "כוסות",
     PINCH = "קמצוץ",
+    BUNCH = "צרור"
 }
 
 interface QuantifiedIngredient {
@@ -87,12 +89,14 @@ enum IngredientCategories {
     VEGETABLES = 'ירקות',
     FRUITS = 'פירות',
     DAIRY = 'חלבי',
+    CHEESE = 'גבינה',
     SEAFOOD = 'מאכלי ים',
     GRAINS = 'דגנים',
     SPICES = 'תבלינים',
     SAUCES = 'ממרחים',
     HERBS = 'עשבי תיבול',
     ALCOHOL = 'אלכוהול',
+    TOOLS = 'כלי עזר',
 }
 
 interface IngredientType {
@@ -168,6 +172,7 @@ enum TypesOfUser {
 // // RoundButton // //
 
 interface RoundButtonProps {
+    type?: "submit" | "reset" | "button";
     label?: string;
     Icon: IconType;
     className?: string;
@@ -183,6 +188,7 @@ enum DropdownSizes {
 }
 
 interface DropdownProps {
+    id?: string;
     isSearchable: boolean;
     placeholder: string;
     items: string[];
@@ -197,6 +203,7 @@ interface DropdownProps {
 // // Input // //
 
 interface InputProps {
+    id?: string;
     type: InputTypes;
     placeholder?: string;
     value: string | number | undefined;

@@ -10,18 +10,18 @@ export enum DropdownSizes {
   LARGE = 'large',
 }
 
-const Dropdown: React.FC<DropdownProps> = (props) => {
-  const {
-    isSearchable,
-    placeholder,
-    items,
-    value,
-    onChange,
-    className,
-    isFailed,
-    isDisabled,
-    size,
-  } = props;
+const Dropdown: React.FC<DropdownProps> = ({
+  id,
+  isSearchable,
+  placeholder,
+  items,
+  value,
+  onChange,
+  className,
+  isFailed,
+  isDisabled,
+  size,
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<string | undefined>(
     value?.toString() || ''
@@ -141,6 +141,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
         <div className='mx-2 flex h-full items-center justify-start text-sm md:text-base lg:text-lg'>
           {isSearchable && isOpen ? (
             <input
+              id={id}
               type='text'
               value={selectedValue}
               onChange={handleSearch}

@@ -73,7 +73,7 @@ const PopupHeader: React.FC<PopupHeaderProps> = (props) => {
             </button>
             <span>{header}</span>
           </header>
-          <section className='h-full px-3 pb-4'>{children}</section>
+          <section className='relative h-full px-3 pb-4'>{children}</section>
         </div>
       ) : null}
     </div>

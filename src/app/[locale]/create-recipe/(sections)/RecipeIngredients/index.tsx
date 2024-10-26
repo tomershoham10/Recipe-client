@@ -18,11 +18,6 @@ import { useFetchIngredients } from '@/app/utils/hooks/useFetchIngredients';
 import { PopupsTypes, usePopupStore } from '@/app/store/stores/usePopupStore';
 import CreateRecipeEditIngredient from '@/app/(popups)/(create)/(createRecipe)/EditIngrediet';
 
-/**
- * Functional component for the Recipe Ingredients Section.
- * @param {RecipeSectionsProps} props - The props for the component.
- * @returns JSX element representing the Recipe Ingredients Section.
- */
 const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
   const { createRecipeState, createRecipeDispatch } = props;
   const t = useTranslations('createRecipe');
@@ -50,18 +45,19 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
     (sectionIndex: number) => {
       const newIngredient =
         createRecipeState.newIngredientsBySection[sectionIndex];
+      if (newIngredient.ingredientId.length > 0) {
+        console.log('handleAddingIngredient', newIngredient);
 
-      console.log('handleAddingIngredient', newIngredient);
+        setUnitsDropdownValue(null);
 
-      setUnitsDropdownValue(null);
-
-      createRecipeDispatch({
-        type: RecipeActionsList.ADD_INGREDIENT_TO_SECTION,
-        payload: {
-          sectionIndex: sectionIndex,
-          ingredient: newIngredient,
-        },
-      });
+        createRecipeDispatch({
+          type: RecipeActionsList.ADD_INGREDIENT_TO_SECTION,
+          payload: {
+            sectionIndex: sectionIndex,
+            ingredient: newIngredient,
+          },
+        });
+      }
     },
     [createRecipeDispatch, createRecipeState.newIngredientsBySection]
   );
@@ -120,6 +116,7 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
               <p className='text-lg font-semibold opacity-60'>
                 ingredients list
               </p>
+
               <Dropdown
                 isSearchable={true}
                 placeholder={t('selectIngredient')}
@@ -156,7 +153,11 @@ const RecipeIngredientsSection: React.FC<RecipeSectionsProps> = (props) => {
               <p className='text-lg font-semibold opacity-60'>units list</p>
               <Dropdown
                 isSearchable={true}
-                value={unitsDropdownValue || undefined}
+                value={
+                  createRecipeState.newIngredientsBySection[
+                    ingredientSection.index
+                  ].unit
+                }
                 placeholder={t('units')}
                 items={
                   Object.values(Units).sort((a, b) => a.localeCompare(b)) || []

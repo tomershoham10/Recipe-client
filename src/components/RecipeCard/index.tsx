@@ -61,7 +61,7 @@ const RecipeCard: React.FC<RecipeCardProps> = (props) => {
   }, [getFile, recipe]);
   return (
     <div
-      className='relative h-[370px] w-[375px] cursor-pointer rounded-xl bg-recipeGray-default px-3 py-2 shadow-xl transition-all duration-200 ease-in-out hover:scale-[102.5%]'
+      className='relative h-[425px] w-[375px] cursor-pointer rounded-xl bg-recipeGray-default px-3 py-2 shadow-xl transition-all duration-200 ease-in-out hover:scale-[102.5%]'
       onClick={() => onClick(recipe._id)}
     >
       <button
@@ -72,13 +72,10 @@ const RecipeCard: React.FC<RecipeCardProps> = (props) => {
       </button>
 
       {recipe.picture && url && (
-        <Image
-          src={url}
-          alt='recipimage'
-          width={350}
-          height={350}
-          className='rounded-3xl py-2'
-        />
+        <section className='h-[235px] w-[350px] overflow-hidden rounded-2xl py-2'>
+          <Image src={url} alt='recipimage' width={350} height={350} 
+          className='rounded-2xl'/>
+        </section>
       )}
       <div className='mb-[3px] flex flex-col gap-[3px]'>
         <h2 className='text-xl font-bold'>{recipe.name}</h2>

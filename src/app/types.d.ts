@@ -38,7 +38,13 @@ enum Units {
     SPOONS = "כפיות",
     CUPS = "כוסות",
     PINCH = "קמצוץ",
-    BUNCH = "צרור"
+    BUNCH = "צרור",
+    HANDFUL = 'חופן',
+    SLICES = 'פרוסות',
+    PACKS = 'חבילות',
+    CONE = 'גביע',
+    FEW = 'מעט',
+    SCRAPING = 'גרידה'
 }
 
 interface QuantifiedIngredient {
@@ -93,11 +99,16 @@ enum IngredientCategories {
     SEAFOOD = 'מאכלי ים',
     GRAINS = 'דגנים',
     SPICES = 'תבלינים',
-    SAUCES = 'ממרחים',
+    SAUCES = 'רטבים',
     HERBS = 'עשבי תיבול',
     ALCOHOL = 'אלכוהול',
     TOOLS = 'כלי עזר',
-}
+    SPREADS = 'ממרחים',
+    SOFT_DRINKS = 'משקאות קלים',
+    ASAIAN = 'אסייתי',
+    NUTS = 'אגוזים',
+    BAKING = 'אפייה'
+  }
 
 interface IngredientType {
     _id: string;

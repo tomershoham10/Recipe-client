@@ -43,6 +43,6 @@ jobs:
       - name: Deploy to S3
         run: |
           # Package and deploy to S3
-          zip -r client-deploy-package.zip .next static public
-          aws s3 cp client-deploy-package.zip s3://<your-s3-bucket>/client-deploy-package.zip
-          aws cloudfront create-invalidation --distribution-id <your-cloudfront-distribution-id> --paths "/*"
+          zip -r client-deploy-package.zip .next
+          aws s3 cp client-deploy-package.zip s3://${{ secrets.recipes-client-deployment }}/client-deploy-package.zip
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"

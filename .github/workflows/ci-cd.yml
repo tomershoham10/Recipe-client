@@ -1,4 +1,4 @@
-name: CI/CD
+name: CI/CD Next.js Client
 
 on:
   push:
@@ -32,10 +32,13 @@ jobs:
       - name: Build application
         run: npm run build
 
+      - name: List contents of .next directory
+        run: ls -R .next
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
-          name: .next
+          name: next-build
           path: .next
 
   deploy:
@@ -49,7 +52,7 @@ jobs:
       - name: Download build artifact
         uses: actions/download-artifact@v3
         with:
-          name: .next
+          name: next-build
           path: .next
 
       - name: Configure AWS credentials

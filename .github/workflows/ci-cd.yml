@@ -1,4 +1,4 @@
-name: CI/CD Next.js Client
+name: CI/CD
 
 on:
   push:
@@ -42,6 +42,6 @@ jobs:
 
       - name: Deploy to S3
         run: |
-          zip -r client-deploy-package.zip .next
+          zip -r client-deploy-package.zip .next public
           aws s3 cp client-deploy-package.zip s3://${{ secrets.S3_CLIENT_DEPLOYMENT_BUCKET_NAME }}/client-deploy-package.zip
           aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"

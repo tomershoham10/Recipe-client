@@ -22,7 +22,7 @@ jobs:
           node-version: '18.17.0'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Lint code
         run: npm run lint
@@ -42,7 +42,6 @@ jobs:
 
       - name: Deploy to S3
         run: |
-          # Package and deploy to S3
           zip -r client-deploy-package.zip .next
-          aws s3 cp client-deploy-package.zip s3://${{ secrets.recipes-client-deployment }}/client-deploy-package.zip
+          aws s3 cp client-deploy-package.zip s3://${{ secrets.S3_CLIENT_DEPLOYMENT_BUCKET_NAME }}/client-deploy-package.zip
           aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"

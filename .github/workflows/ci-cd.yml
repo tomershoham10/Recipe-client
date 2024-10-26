@@ -34,6 +34,9 @@ jobs:
       - name: Build application
         run: npm run build
 
+      - name: Export static files
+        run: npm run export
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -42,7 +45,7 @@ jobs:
           aws-region: eu-north-1
 
       - name: Deploy to S3
-        run: aws s3 sync ./out s3://${{ secrets.S3_CLIENT_DEPLOYMENT_BUCKET_NAME }}
+        run: aws s3 sync ./.next s3://${{ secrets.S3_CLIENT_DEPLOYMENT_BUCKET_NAME }}
   
       - name: Invalidate CloudFront Cache
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"

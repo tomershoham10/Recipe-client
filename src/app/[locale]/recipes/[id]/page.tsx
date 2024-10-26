@@ -244,7 +244,7 @@ const Recipes = async ({ params }: { params: { id: string } }) => {
           </div>
         )}
       </section>
-      <section className='flex h-full basis-1/5 flex-col justify-start gap-3 overflow-y-auto rounded-2xl text-recipeGray-lightest'>
+      <section className='flex h-full basis-1/5 flex-col justify-start gap-3 hover:overflow-y-auto rounded-2xl text-recipeGray-lightest'>
         {recipe.ingredientsSections &&
           recipe.ingredientsSections.map((ingSection) => (
             <section
@@ -287,7 +287,7 @@ const Recipes = async ({ params }: { params: { id: string } }) => {
           ))}
       </section>
 
-      <section className='flex h-full basis-2/5 flex-col justify-start gap-3 overflow-y-auto rounded-2xl'>
+      <section className='flex h-full basis-2/5 flex-col justify-start gap-3 hover:overflow-y-auto rounded-2xl'>
         {recipe.stepsSections &&
           recipe.stepsSections.map((stepSection) => (
             <section

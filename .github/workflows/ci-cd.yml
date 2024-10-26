@@ -10,6 +10,7 @@ on:
 
 jobs:
   build-and-deploy:
+    name: Build and Deploy
     runs-on: ubuntu-latest
 
     steps:
@@ -41,7 +42,8 @@ jobs:
           aws-region: eu-north-1
 
       - name: Deploy to S3
-        run: |
-          zip -r client-deploy-package.zip .next public
-          aws s3 cp client-deploy-package.zip s3://${{ secrets.S3_CLIENT_DEPLOYMENT_BUCKET_NAME }}/client-deploy-package.zip
-          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+        run: aws s3 sync ./out s3://${{ secrets.S3_CLIENT_DEPLOYMENT_BUCKET_NAME }}
+  
+      - name: Invalidate CloudFront Cache
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+  

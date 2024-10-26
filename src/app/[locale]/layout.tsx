@@ -29,3 +29,11 @@ export default async function LocaleLayout({
     </>
   );
 }
+
+// export async function generateStaticParams() {
+//   return [
+//     { locale: 'he' },
+//     { locale: 'en' },
+//     // Add other locales if needed
+//   ];
+// }

@@ -64,20 +64,13 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          # Replace the following with your deployment script or commands
-          ssh ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
-            # Navigate to your code directory
-            cd /home/ubuntu/github_code_base
-            
-            # Pull the latest changes from the main branch
-            git pull origin main
-            
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
             # Stop and remove the current container
             docker stop nextjs-client || true && docker rm nextjs-client || true
-            
+      
             # Pull the latest image from ECR
             docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NAME }}:latest
-            
+      
             # Run the new container
             docker run -d -p 3000:3000 --name nextjs-client ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NAME }}:latest
           EOF

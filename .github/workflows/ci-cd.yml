@@ -65,7 +65,7 @@ jobs:
       - name: Deploy to EC2
         run: |
           # Replace the following with your deployment script or commands
-          ssh ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
+          ssh ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
             # Navigate to your code directory
             cd /home/ubuntu/github_code_base
             
